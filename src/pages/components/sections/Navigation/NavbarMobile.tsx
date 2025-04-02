@@ -23,7 +23,7 @@ const NavbarMobile: React.FC<NavbarMobileProps> = ({ open, setOpen }) => {
                             </h1>
                             <button
                                 onClick={() => setOpen(false)}
-                                className='px-2 bg-transparent'>
+                                className='px-2 py-1 transition-all rounded-lg hover:bg-blue-50 hover:text-blue-900'>
                                 <X className='h-5 w-5' />
                             </button>
                         </section>
