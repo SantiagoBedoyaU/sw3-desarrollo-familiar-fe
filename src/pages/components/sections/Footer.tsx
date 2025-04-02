@@ -1,7 +1,7 @@
 function Footer() {
     const year = new Date().getFullYear()
     return (
-        <footer className='mx-auto text-center text-green-950 py-1 bg-green-200 space-y-2'>
+        <footer className='mx-auto text-center text-blue-950 py-1 bg-blue-200 space-y-2'>
             <section className='flex md:flex-row gap-10  items-center justify-center mx-4'>
                 <section className='flex flex-col sm:flex-row md:flex-row gap-3 items-center my-1'>
                     <h3 className='font-medium'>Síguenos</h3>

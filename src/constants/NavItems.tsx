@@ -13,7 +13,7 @@ import NavItem from '../types/reactTypes/NavItem'
 const navItems: NavItem[] = [
     {
         title: 'Inicio',
-        href: '/inicio',
+        href: '/',
         icon: <Home className='h-5 w-5' />,
     },
     {
