@@ -53,9 +53,9 @@ const ArticleForm: React.FC<ArticleFormProps> = ({ article, mode }) => {
             setAuthors(article.authors)
             setSummary(article.summary)
             setThematicArea(article.thematicArea)
-            setThematicArea2(article.thematicArea2 ?? '')
             setKeywords(article.keywords)
             setFile(article.file)
+            setThematicArea2(article.thematicArea2 ?? '')
             setPracticeReportId(article.practiceReportId ?? '')
             setChangeableAuthors(article.changeableAuthors ?? [])
             setChangeableKeywords(article.changeableKeywords ?? [])
@@ -63,17 +63,7 @@ const ArticleForm: React.FC<ArticleFormProps> = ({ article, mode }) => {
             // Clear form when opening in add mode
             resetForm()
         }
-    }, [
-        article,
-        mode,
-        open,
-        setTitle,
-        setAuthors,
-        setChangeableAuthors,
-        setThematicArea,
-        setFormErrors,
-        onClose,
-    ])
+    }, [])
 
     const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0]
@@ -94,6 +84,11 @@ const ArticleForm: React.FC<ArticleFormProps> = ({ article, mode }) => {
         setYear(new Date().getFullYear().toString())
         setSummary('')
         setKeywords('')
+        setChangeableAuthors([])
+        setChangeableKeywords([])
+        setPracticeReportId('')
+        setPracticeReport('')
+        setFileError(false)
         setFile(null)
         setFormErrors({
             title: false,
@@ -136,7 +131,6 @@ const ArticleForm: React.FC<ArticleFormProps> = ({ article, mode }) => {
             authors: changeableAuthors.join(', '),
             year: year.trim(),
             thematicArea: thematicArea,
-            thematicArea2: thematicArea2,
             summary: summary.trim(),
             keywords: changeableKeywords.join(', '),
             file: file,
@@ -144,6 +138,10 @@ const ArticleForm: React.FC<ArticleFormProps> = ({ article, mode }) => {
 
         if (practiceReportId) {
             articleData.practiceReportId = practiceReportId
+        }
+
+        if (thematicArea2) {
+            articleData.thematicArea2 = thematicArea2
         }
 
         if (mode === 'add') {
@@ -301,9 +299,21 @@ const ArticleForm: React.FC<ArticleFormProps> = ({ article, mode }) => {
                                     label: 'Seleccione un eje principal',
                                     key: '',
                                 },
-                                { value: 'Eje 1', label: 'Eje 1', key: 'eje1' },
-                                { value: 'Eje 2', label: 'Eje 2', key: 'eje2' },
-                                { value: 'Eje 3', label: 'Eje 3', key: 'eje3' },
+                                {
+                                    value: 'Eje 1',
+                                    label: 'Eje 1',
+                                    key: 'eje1_principal',
+                                },
+                                {
+                                    value: 'Eje 2',
+                                    label: 'Eje 2',
+                                    key: 'eje2_principal',
+                                },
+                                {
+                                    value: 'Eje 3',
+                                    label: 'Eje 3',
+                                    key: 'eje3_principal',
+                                },
                             ]}
                         />
                     </section>
@@ -327,9 +337,21 @@ const ArticleForm: React.FC<ArticleFormProps> = ({ article, mode }) => {
                                     label: 'Seleccione un eje secundario Opcinal',
                                     key: '',
                                 },
-                                { value: 'Eje 1', label: 'Eje 1', key: 'eje1' },
-                                { value: 'Eje 2', label: 'Eje 2', key: 'eje2' },
-                                { value: 'Eje 3', label: 'Eje 3', key: 'eje3' },
+                                {
+                                    value: 'Eje 1',
+                                    label: 'Eje 1',
+                                    key: 'eje1_secundario',
+                                },
+                                {
+                                    value: 'Eje 2',
+                                    label: 'Eje 2',
+                                    key: 'eje2_secundario',
+                                },
+                                {
+                                    value: 'Eje 3',
+                                    label: 'Eje 3',
+                                    key: 'eje3_secundario',
+                                },
                             ]}
                         />
                     </section>

@@ -1,5 +1,5 @@
 import { X } from 'lucide-react'
-import { ReactNode } from 'react'
+import { ReactNode, useEffect } from 'react'
 
 interface DialogContentProps {
     children: ReactNode

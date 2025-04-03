@@ -1,53 +1,89 @@
-import { useState } from 'react'
-import { Search, Edit2, Trash2, Download, Plus } from 'lucide-react'
-import { Dialog } from '../components/common/dialog/Dialog'
-import { DialogTrigger } from '../components/common/dialog/DialogTrigger'
-import { DialogContent } from '../components/common/dialog/DialogContent'
-import { DialogHeader } from '../components/common/dialog/DialogHeader.'
-import { DialogTitle } from '../components/common/dialog/DialogTitle'
-import { DialogDescription } from '../components/common/dialog/DialogDescription'
+import { useEffect, useState } from 'react'
 import ArticleForm from './components/ArticleForm'
+import ArticleFilters from './components/ArticleFilters'
+import ArticlesTop from './components/ArticlesTop'
+import Article from '../../types/entities/Article'
+import ArticlesAllList from './components/ArticlesAllList'
 
 const Articles = () => {
     // Estado para los filtros de búsqueda
     const [searchFilters, setSearchFilters] = useState({
         title: '',
         author: '',
-        thematicAxis: '',
-        thematicAxis2: '',
+        thematicArea: '',
+        thematicArea2: '',
     })
 
+    const [countFilters, setCountFilters] = useState(0)
+
+    useEffect(() => {
+        manageCount()
+    }, [searchFilters, setSearchFilters])
+
     // Estado para los artículos
-    const [articles, setArticles] = useState([
+    const [articles, setArticles] = useState<Article[]>([
         {
             id: '1',
             title: 'Artículo de aceite enriquecido en niñas',
-            author: 'Naydú Núñez',
-            thematicAxis: 'Pediatría',
-            thematicAxis2: 'Pediatría',
+            authors: 'Naydú Núñez',
+            thematicArea: 'Pediatría',
+            thematicArea2: 'Pediatría',
+            keywords: 'aceite, enriquecido, niñas',
+            summary: 'Resumen del artículo',
+            file: new File([], 'file.pdf'),
+            year: '2023',
         },
         {
             id: '2',
             title: 'Artículo de aceite enriquecido en niñas',
-            author: 'Naydú Núñez',
-            thematicAxis: 'Nutrición',
-            thematicAxis2: 'Pediatría',
+            authors: 'Naydú Núñez, Juan Perez',
+            thematicArea: 'Nutrición',
+            thematicArea2: 'Pediatría',
+            keywords: 'aceite, enriquecido, niñas',
+            summary: 'Resumen del artículo',
+            file: new File([], 'file.pdf'),
+            year: '2023',
         },
         {
             id: '3',
             title: 'Artículo de aceite enriquecido en niñas',
-            author: 'Naydú Núñez',
-            thematicAxis: 'Pediatría',
-            thematicAxis2: 'Pediatría',
+            authors: 'Naydú Núñez',
+            thematicArea: 'Pediatría',
+            thematicArea2: 'Pediatría',
+            keywords: 'aceite, enriquecido, niñas',
+            summary: 'Resumen del artículo',
+            file: new File([], 'file.pdf'),
+            year: '2023',
         },
         {
             id: '4',
             title: 'Artículo de aceite enriquecido en niñas',
-            author: 'Naydú Núñez',
-            thematicAxis: 'Nutrición',
-            thematicAxis2: 'Pediatría',
+            authors: 'Naydú Núñez',
+            thematicArea: 'Nutrición',
+            thematicArea2: 'Pediatría',
+            keywords: 'aceite, enriquecido, niñas',
+            summary: 'Resumen del artículo',
+            file: new File([], 'file.pdf'),
+            year: '2023',
         },
     ])
+
+    const manageCount = () => {
+        let count = 0
+        if (searchFilters.title !== '') {
+            count++
+        }
+        if (searchFilters.author !== '') {
+            count++
+        }
+        if (searchFilters.thematicArea !== '') {
+            count++
+        }
+        if (searchFilters.thematicArea2 !== '') {
+            count++
+        }
+        setCountFilters(count)
+    }
 
     // Manejadores de eventos
     const handleFilterChange = (
@@ -94,129 +130,28 @@ const Articles = () => {
                     Filtrar artículos de investigación
                 </h2>
             </section>
-            {/* Filtros de búsqueda */}
-            <section className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mb-4'>
-                <div className='col-span-full flex flex-col sm:flex-row items-center justify-between gap-2'>
-                    <input
-                        type='text'
-                        name='title'
-                        placeholder='Título del artículo'
-                        value={searchFilters.title}
-                        onChange={handleFilterChange}
-                        className='w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500'
-                    />
-                    <input
-                        type='text'
-                        name='author'
-                        placeholder='Autor(es) (ej: Naydú Núñez, Juan Pérez)'
-                        value={searchFilters.author}
-                        onChange={handleFilterChange}
-                        className='w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500'
-                    />
-                </div>
-
-                <div className='relative'>
-                    <select
-                        name='thematicAxis'
-                        value={searchFilters.thematicAxis}
-                        onChange={handleFilterChange}
-                        className='w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 appearance-none'>
-                        <option value=''>Eje temático principal</option>
-                        {thematicOptions.map((option) => (
-                            <option key={option.value} value={option.value}>
-                                {option.label}
-                            </option>
-                        ))}
-                    </select>
-                    <div className='absolute top-3 right-0 flex items-center px-2 pointer-events-none'>
-                        <svg
-                            className='w-4 h-4 text-gray-400'
-                            fill='none'
-                            stroke='currentColor'
-                            viewBox='0 0 24 24'
-                            xmlns='http://www.w3.org/2000/svg'>
-                            <path
-                                strokeLinecap='round'
-                                strokeLinejoin='round'
-                                strokeWidth='2'
-                                d='M19 9l-7 7-7-7'></path>
-                        </svg>
-                    </div>
-                </div>
-                <div className='relative'>
-                    <select
-                        name='thematicAxis2'
-                        value={searchFilters.thematicAxis2}
-                        onChange={handleFilterChange}
-                        className='w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 appearance-none'>
-                        <option value=''>Eje temático secundario</option>
-                        {thematicOptions.map((option) => (
-                            <option key={option.value} value={option.value}>
-                                {option.label}
-                            </option>
-                        ))}
-                    </select>
-                    <div className='absolute top-3 right-0 flex items-center px-2 pointer-events-none'>
-                        <svg
-                            className='w-4 h-4 text-gray-400'
-                            fill='none'
-                            stroke='currentColor'
-                            viewBox='0 0 24 24'
-                            xmlns='http://www.w3.org/2000/svg'>
-                            <path
-                                strokeLinecap='round'
-                                strokeLinejoin='round'
-                                strokeWidth='2'
-                                d='M19 9l-7 7-7-7'></path>
-                        </svg>
-                    </div>
-                </div>
-                {/* Botón de búsqueda */}
-                <div className='mb-6 md:mb-2 sm:col-span-full md:col-span-1'>
-                    <button
-                        onClick={handleSearch}
-                        className='flex items-center justify-center w-full bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-md transition duration-300'>
-                        <Search size={16} className='inline-block mr-2' />
-                        <span>Buscar</span>
-                    </button>
-                </div>
-            </section>
-
-            {/* Lista de artículos */}
-            <div className='space-y-4'>
-                {articles.map((article) => (
-                    <div
-                        key={article.id}
-                        className='border border-blue-200 rounded-lg p-4 bg-blue-50'>
-                        <h3 className='font-bold text-blue-800'>{article.title}</h3>
-                        <div className='text-sm text-gray-600 md:mb-2 lg:mb-0'>
-                            <span>Autor: {article.author}</span>
-                            <span className='mx-2'>•</span>
-                            <span>Eje temático: {article.thematicAxis}</span>
-                        </div>
-                        <div className='flex flex-col sm:flex-row justify-end mt-2 space-x-2 space-y-0.5'>
-                            <button
-                                onClick={() => handleEdit(article.id)}
-                                className='flex w-full md:w-fit items-center bg-blue-500 hover:bg-blue-600 text-white py-1 px-3 rounded text-sm transition duration-300'>
-                                <Edit2 size={16} className='mr-1' />
-                                <span>Editar</span>
-                            </button>
-                            <button
-                                onClick={() => handleDelete(article.id)}
-                                className='flex w-full md:w-fit items-center bg-red-500 hover:bg-red-600 text-white py-1 px-3 rounded text-sm transition duration-300'>
-                                <Trash2 size={16} className='mr-1' />
-                                <span>Eliminar</span>
-                            </button>
-                            <button
-                                onClick={() => handleDownload(article.id)}
-                                className='flex w-full md:w-fit items-center border-gray-200 border-2 bg-white hover:bg-gray-300 text-gray-800 py-1 px-3 rounded text-sm transition duration-300'>
-                                <Download size={16} className='mr-1' />
-                                <span>Descargar</span>
-                            </button>
-                        </div>
-                    </div>
-                ))}
-            </div>
+            <ArticleFilters
+                handleFilterChange={handleFilterChange}
+                handleSearch={handleSearch}
+                thematicOptions={thematicOptions}
+                searchFilters={searchFilters}
+            />
+            {countFilters == 0 && (
+                <ArticlesTop
+                    articles={articles}
+                    handleEdit={handleEdit}
+                    handleDelete={handleDelete}
+                    handleDownload={handleDownload}
+                />
+            )}
+            {countFilters > 0 && (
+                <ArticlesAllList
+                    articles={articles}
+                    handleEdit={handleEdit}
+                    handleDelete={handleDelete}
+                    handleDownload={handleDownload}
+                />
+            )}
         </div>
     )
 }
