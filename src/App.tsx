@@ -7,7 +7,7 @@ import Footer from './pages/components/sections/Footer'
 import Register from './pages/components/auth/Register'
 import Login from './pages/components/auth/Login'
 import Home from './pages/home/Home'
-import PrivateRoute from './pages/components/auth/PrivateRoute'
+// import PrivateRoute from './pages/components/auth/PrivateRoute'
 
 function App() {
     const { checkAuth } = useAuthStore()
