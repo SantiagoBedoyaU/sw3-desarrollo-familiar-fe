@@ -1,10 +1,9 @@
 import {
-    BookOpen,
-    Briefcase,
+    // BookOpen,
     FileText,
     GraduationCap,
     Home,
-    Newspaper,
+    // Newspaper,
     PenTool,
     Search,
 } from 'lucide-react'
@@ -18,8 +17,8 @@ const navItems: NavItem[] = [
     },
     {
         title: 'Nuestras prácticas',
-        href: '/nuestras-practicas',
-        icon: <Briefcase className='h-5 w-5' />,
+        href: '/informes-practicas',
+        icon: <FileText className='h-5 w-5' />,
     },
     {
         title: 'Caja de herramientas',
@@ -28,7 +27,7 @@ const navItems: NavItem[] = [
     },
     {
         title: 'Investigación',
-        href: '/investigacion',
+        href: '/articulos',
         icon: <Search className='h-5 w-5' />,
     },
     {
@@ -36,21 +35,16 @@ const navItems: NavItem[] = [
         href: '/formacion-docente',
         icon: <GraduationCap className='h-5 w-5' />,
     },
-    {
-        title: 'Informes de prácticas',
-        href: '/informes-practicas',
-        icon: <FileText className='h-5 w-5' />,
-    },
-    {
-        title: 'Artículos',
-        href: '/articulos',
-        icon: <Newspaper className='h-5 w-5' />,
-    },
-    {
-        title: 'Material educativo',
-        href: '/material-educativo',
-        icon: <BookOpen className='h-5 w-5' />,
-    },
+    // {
+    //     title: 'Artículos',
+    //     href: '/articulos',
+    //     icon: <Newspaper className='h-5 w-5' />,
+    // },
+    // {
+    //     title: 'Material educativo',
+    //     href: '/material-educativo',
+    //     icon: <BookOpen className='h-5 w-5' />,
+    // },
 ]
 
 export default navItems

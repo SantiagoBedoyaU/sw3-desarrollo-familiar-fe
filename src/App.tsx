@@ -7,7 +7,9 @@ import Footer from './pages/components/sections/Footer'
 import Register from './pages/components/auth/Register'
 import Login from './pages/components/auth/Login'
 import Home from './pages/home/Home'
-import PrivateRoute from './pages/components/auth/PrivateRoute'
+import Articles from './pages/articles/Articles'
+import NotFound from './pages/components/common/NotFound'
+// import PrivateRoute from './pages/components/auth/PrivateRoute'
 
 function App() {
     const { checkAuth } = useAuthStore()
@@ -30,6 +32,8 @@ function App() {
                                     path='/informes-practicas'
                                     element={<PrivateRoute element={<Informes de Practicas></Informes>}/>}
                                 /> */}
+                                <Route path='/articulos' element={<Articles />} />
+                                <Route path='*' element={<NotFound />} />
                             </Routes>
                         </section>
                         <section className='bg-blue-200 h-10'>
