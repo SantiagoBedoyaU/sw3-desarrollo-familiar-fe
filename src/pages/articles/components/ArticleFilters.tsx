@@ -1,7 +1,7 @@
 import { Search } from 'lucide-react'
+import { thematicOptions } from '../../../constants/cts'
 
 interface ArticleFiltersProps {
-    thematicOptions: Array<{ label: string; value: string }>
     searchFilters: {
         title: string
         author: string
@@ -12,9 +12,13 @@ interface ArticleFiltersProps {
     handleSearch: () => void
 }
 
+const formattedThematicOptions = thematicOptions.map((option: string) => ({
+    label: option,
+    value: option,
+}))
+
 function ArticleFilters(props: Readonly<ArticleFiltersProps>) {
-    const { thematicOptions, searchFilters, handleFilterChange, handleSearch } =
-        props
+    const { searchFilters, handleFilterChange, handleSearch } = props
     return (
         <section>
             {/* Filtros de búsqueda */}
@@ -45,10 +49,10 @@ function ArticleFilters(props: Readonly<ArticleFiltersProps>) {
                         onChange={handleFilterChange}
                         className='w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 appearance-none'>
                         <option value=''>Eje temático principal</option>
-                        {thematicOptions.map(
+                        {formattedThematicOptions.map(
                             (option: { label: string; value: string }) => (
                                 <option
-                                    key={option.value + 'primary'}
+                                    key={option.value + 'thematicArea'}
                                     value={option.value}>
                                     {option.label}
                                 </option>
@@ -77,7 +81,7 @@ function ArticleFilters(props: Readonly<ArticleFiltersProps>) {
                         onChange={handleFilterChange}
                         className='w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 appearance-none'>
                         <option value=''>Eje temático secundario</option>
-                        {thematicOptions.map(
+                        {formattedThematicOptions.map(
                             (option: { label: string; value: string }) => (
                                 <option
                                     key={option.value + 'secondary'}

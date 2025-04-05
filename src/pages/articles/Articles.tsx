@@ -114,14 +114,6 @@ const Articles = () => {
         console.log('Descargando artículo:', id)
     }
 
-    // Lista de ejes temáticos
-    const thematicOptions = [
-        { value: '', label: 'Seleccione' },
-        { value: 'Pediatría', label: 'Pediatría' },
-        { value: 'Nutrición', label: 'Nutrición' },
-        { value: 'Salud Pública', label: 'Salud Pública' },
-    ]
-
     return (
         <div className='max-w-4xl mx-auto p-6 bg-white shadow-lg rounded-lg'>
             <section className='md:relative md:flex md:items-center md:justify-between mb-4'>
@@ -133,7 +125,6 @@ const Articles = () => {
             <ArticleFilters
                 handleFilterChange={handleFilterChange}
                 handleSearch={handleSearch}
-                thematicOptions={thematicOptions}
                 searchFilters={searchFilters}
             />
             {countFilters == 0 && (

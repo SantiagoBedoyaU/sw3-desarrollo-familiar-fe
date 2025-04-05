@@ -4,6 +4,7 @@ interface SelectProps {
     value: string
     onChange: (e: React.ChangeEvent<HTMLSelectElement>) => void
     error: boolean
+    optionDefaultText?: string
     errorString?: string
     className?: string
     requierd: boolean
@@ -16,6 +17,7 @@ function Select({
     value,
     requierd,
     onChange,
+    optionDefaultText,
     error,
     errorString,
     className,
@@ -34,6 +36,7 @@ function Select({
                     className +
                     (error ? ' bg-red-500 border-red-500 hover:border-red-600' : ' ')
                 }>
+                {optionDefaultText && <option value=''>{optionDefaultText}</option>}
                 {options.map((option) => (
                     <option key={option.key} value={option.value}>
                         {option.label}

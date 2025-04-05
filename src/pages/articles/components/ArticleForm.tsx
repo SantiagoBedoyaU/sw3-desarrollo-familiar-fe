@@ -11,7 +11,18 @@ import Input from '../../components/common/Input'
 import Label from '../../components/common/Label'
 import Select from '../../components/common/Select'
 import TextArea from '../../components/common/TextArea'
+import { thematicOptions } from '../../../constants/cts'
 // import { useArticles } from '@/context/ArticleContext'
+const primaryThematicOptions = thematicOptions.map((option: string) => ({
+    label: option,
+    value: option,
+    key: option + 'primary_area',
+}))
+const secondaryThematicOptions = thematicOptions.map((option: string) => ({
+    label: option,
+    value: option,
+    key: option + 'secondary_area',
+}))
 interface ArticleFormProps {
     article?: Article
     mode: 'add' | 'edit'
@@ -212,8 +223,8 @@ const ArticleForm: React.FC<ArticleFormProps> = ({ article, mode }) => {
                             value={year}
                             type='number'
                             pattern='\d{4}'
-                            min={1900}
-                            max={2200}
+                            min={1950}
+                            max={new Date().getFullYear() + 1}
                             requierd={false}
                             onChange={(e) => setYear(e.target.value)}
                         />
@@ -222,11 +233,15 @@ const ArticleForm: React.FC<ArticleFormProps> = ({ article, mode }) => {
                     <section className='md:flex md:items-center md:justify-between md:space-x-4'>
                         <Label
                             htmlFor='authors'
-                            error={formErrors.authors}
+                            error={
+                                formErrors.authors && changeableAuthors.length === 0
+                            }
                             text='Autor(es)*'
                         />
                         <Input
-                            error={formErrors.authors}
+                            error={
+                                formErrors.authors && changeableAuthors.length === 0
+                            }
                             errorString='Al menos un autor es requerido'
                             placeholder='Ingrese autores separados por comas'
                             id='authors'
@@ -288,33 +303,13 @@ const ArticleForm: React.FC<ArticleFormProps> = ({ article, mode }) => {
                         <Select
                             error={formErrors.thematicArea}
                             errorString='El eje temático es requerido'
+                            optionDefaultText='Seleccione un eje principal'
                             id='thematicArea'
                             name='thematicArea'
                             value={thematicArea}
                             onChange={(e) => setThematicArea(e.target.value)}
                             requierd={true}
-                            options={[
-                                {
-                                    value: '',
-                                    label: 'Seleccione un eje principal',
-                                    key: '',
-                                },
-                                {
-                                    value: 'Eje 1',
-                                    label: 'Eje 1',
-                                    key: 'eje1_principal',
-                                },
-                                {
-                                    value: 'Eje 2',
-                                    label: 'Eje 2',
-                                    key: 'eje2_principal',
-                                },
-                                {
-                                    value: 'Eje 3',
-                                    label: 'Eje 3',
-                                    key: 'eje3_principal',
-                                },
-                            ]}
+                            options={primaryThematicOptions}
                         />
                     </section>
 
@@ -326,44 +321,30 @@ const ArticleForm: React.FC<ArticleFormProps> = ({ article, mode }) => {
                         />
                         <Select
                             error={false}
+                            optionDefaultText='Seleccione un eje secundario'
                             id='thematicArea2'
                             name='thematicArea2'
                             value={thematicArea2}
                             onChange={(e) => setThematicArea2(e.target.value)}
                             requierd={false}
-                            options={[
-                                {
-                                    value: '',
-                                    label: 'Seleccione un eje secundario Opcinal',
-                                    key: '',
-                                },
-                                {
-                                    value: 'Eje 1',
-                                    label: 'Eje 1',
-                                    key: 'eje1_secundario',
-                                },
-                                {
-                                    value: 'Eje 2',
-                                    label: 'Eje 2',
-                                    key: 'eje2_secundario',
-                                },
-                                {
-                                    value: 'Eje 3',
-                                    label: 'Eje 3',
-                                    key: 'eje3_secundario',
-                                },
-                            ]}
+                            options={secondaryThematicOptions}
                         />
                     </section>
 
                     <section className='md:flex md:items-center md:justify-between md:space-x-4'>
                         <Label
                             htmlFor='keywords'
-                            error={formErrors.keywords}
+                            error={
+                                formErrors.keywords &&
+                                changeableKeywords.length === 0
+                            }
                             text='Palabras clave*'
                         />
                         <Input
-                            error={formErrors.keywords}
+                            error={
+                                formErrors.keywords &&
+                                changeableKeywords.length === 0
+                            }
                             errorString='Las palabras clave son requeridas'
                             placeholder='Ingrese palabras clave separadas por comas'
                             id='keywords'
