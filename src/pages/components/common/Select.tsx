@@ -7,7 +7,7 @@ interface SelectProps {
     optionDefaultText?: string
     errorString?: string
     className?: string
-    requierd: boolean
+    required: boolean
     options: Array<{ value: string; label: string; key: string }>
 }
 
