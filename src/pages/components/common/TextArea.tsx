@@ -24,7 +24,7 @@ function TextArea(
         errorString,
         name,
         value,
-        requierd,
+        required,
         placeholder,
         className,
         defaultValue,
@@ -46,8 +46,9 @@ function TextArea(
                 onChange={onChange}
                 aria-invalid={error ? 'true' : 'false'}
                 aria-errormessage={error ? `${id}-error` : undefined}
-                aria-required={requierd ? 'true' : 'false'}
+                aria-required={required ? 'true' : 'false'}
                 placeholder={placeholder}
+                required={required}
                 className={`p-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 ${className}`}
                 defaultValue={defaultValue}
                 disabled={disabled}

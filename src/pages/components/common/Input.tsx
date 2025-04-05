@@ -30,7 +30,7 @@ function Input({
     name,
     value,
     type,
-    requierd,
+    required,
     placeholder,
     className,
     defaultValue,
@@ -56,8 +56,8 @@ function Input({
                 type={type}
                 aria-invalid={error ? 'true' : 'false'}
                 aria-errormessage={error ? `${id}-error` : undefined}
-                aria-required={requierd ? 'true' : 'false'}
-                required={requierd}
+                aria-required={required ? 'true' : 'false'}
+                required={required}
                 placeholder={placeholder}
                 className={
                     'p-1 block border w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-1 focus:outline-none focus:ring-indigo-500 sm:text-sm ' +

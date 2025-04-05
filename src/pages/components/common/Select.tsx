@@ -15,7 +15,7 @@ function Select({
     id,
     name,
     value,
-    requierd,
+    required,
     onChange,
     optionDefaultText,
     error,
@@ -30,7 +30,7 @@ function Select({
                 name={name}
                 value={value}
                 onChange={onChange}
-                required={requierd}
+                required={required}
                 className={
                     'p-1 block border w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-1 focus:outline-none focus:ring-indigo-500 sm:text-sm ' +
                     className +
