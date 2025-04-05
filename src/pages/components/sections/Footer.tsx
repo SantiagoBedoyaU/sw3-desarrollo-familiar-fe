@@ -1,5 +1,5 @@
 function Footer() {
-  const year = new Date().getFullYear();
+  const year = new Date().getFullYear()
   return (
     <footer className="mx-auto text-center text-blue-950 py-1 bg-blue-200 space-y-2">
       <section className="flex md:flex-row gap-10  items-center justify-center mx-4">
@@ -43,7 +43,7 @@ function Footer() {
           <a
             onClick={() =>
               window.open(
-                "https://www.youtube.com/channel/UCkI2eh9zYd2hKBYyFY0X1wQ",
+                'https://www.youtube.com/channel/UCkI2eh9zYd2hKBYyFY0X1wQ',
               )
             }
             href="www.youtube.com/channel/UCkI2eh9zYd2hKBYyFY0X1wQ"
@@ -74,7 +74,7 @@ function Footer() {
         <p>Manizales, Caldas, Colombia</p>
       </section>
     </footer>
-  );
+  )
 }
 
-export default Footer;
+export default Footer

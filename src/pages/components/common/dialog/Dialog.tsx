@@ -1,15 +1,15 @@
-import React, { Dispatch, SetStateAction, ReactElement } from "react";
+import React, { Dispatch, SetStateAction, ReactElement } from 'react'
 
 interface DialogChildProps {
-  open: boolean;
-  setOpen: Dispatch<SetStateAction<boolean>>;
+  open: boolean
+  setOpen: Dispatch<SetStateAction<boolean>>
 }
 
 interface DialogProps {
-  open: boolean;
-  setOpen: Dispatch<SetStateAction<boolean>>;
-  className?: string;
-  children: ReactElement<DialogChildProps> | ReactElement<DialogChildProps>[];
+  open: boolean
+  setOpen: Dispatch<SetStateAction<boolean>>
+  className?: string
+  children: ReactElement<DialogChildProps> | ReactElement<DialogChildProps>[]
 }
 
 export const Dialog = ({ children, className, open, setOpen }: DialogProps) => {
@@ -17,10 +17,10 @@ export const Dialog = ({ children, className, open, setOpen }: DialogProps) => {
     <section className={className}>
       {React.Children.map(children, (child) => {
         if (React.isValidElement(child)) {
-          return React.cloneElement(child, { open, setOpen });
+          return React.cloneElement(child, { open, setOpen })
         }
-        return child;
+        return child
       })}
     </section>
-  );
-};
+  )
+}

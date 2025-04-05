@@ -1,24 +1,24 @@
-import { create } from "zustand";
+import { create } from 'zustand'
 
 interface AuthStore {
-  isAuthenticated: boolean;
-  checkAuth: () => void;
-  logout: () => void;
+  isAuthenticated: boolean
+  checkAuth: () => void
+  logout: () => void
 }
 
 const useAuthStore = create<AuthStore>((set) => ({
   isAuthenticated: false,
 
   checkAuth: () => {
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem('token')
     if (token) {
-      set({ isAuthenticated: true });
+      set({ isAuthenticated: true })
     }
   },
 
   login: () => {
-    set({ isAuthenticated: true });
-    const token = localStorage.getItem("token");
+    set({ isAuthenticated: true })
+    const token = localStorage.getItem('token')
     if (token) {
       // useAuthStore.getState().checkPurchasedCourses(token)
     }
@@ -28,9 +28,9 @@ const useAuthStore = create<AuthStore>((set) => ({
     set({
       isAuthenticated: false,
       // hasPurchasedCourses: false,
-    });
-    localStorage.removeItem("token");
+    })
+    localStorage.removeItem('token')
   },
-}));
+}))
 
-export default useAuthStore;
+export default useAuthStore

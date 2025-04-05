@@ -6,33 +6,33 @@ import {
   // Newspaper,
   PenTool,
   Search,
-} from "lucide-react";
-import NavItem from "../types/reactTypes/NavItem";
+} from 'lucide-react'
+import NavItem from '../types/reactTypes/NavItem'
 
 const navItems: NavItem[] = [
   {
-    title: "Inicio",
-    href: "/",
+    title: 'Inicio',
+    href: '/',
     icon: <Home className="h-5 w-5" />,
   },
   {
-    title: "Nuestras prácticas",
-    href: "/informes-practicas",
+    title: 'Nuestras prácticas',
+    href: '/informes-practicas',
     icon: <FileText className="h-5 w-5" />,
   },
   {
-    title: "Caja de herramientas",
-    href: "/caja-de-herramientas",
+    title: 'Caja de herramientas',
+    href: '/caja-de-herramientas',
     icon: <PenTool className="h-5 w-5" />,
   },
   {
-    title: "Investigación",
-    href: "/articulos",
+    title: 'Investigación',
+    href: '/articulos',
     icon: <Search className="h-5 w-5" />,
   },
   {
-    title: "Formación docente",
-    href: "/formacion-docente",
+    title: 'Formación docente',
+    href: '/formacion-docente',
     icon: <GraduationCap className="h-5 w-5" />,
   },
   // {
@@ -45,6 +45,6 @@ const navItems: NavItem[] = [
   //     href: '/material-educativo',
   //     icon: <BookOpen className='h-5 w-5' />,
   // },
-];
+]
 
-export default navItems;
+export default navItems

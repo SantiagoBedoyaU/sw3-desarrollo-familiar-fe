@@ -11,7 +11,7 @@ function NotFound() {
           </p>
           <p className="mb-4 text-lg font-light text-gray-500 dark:text-gray-400">
             Lo sentimos, no encontramos esa página. Encontrarás mucho que
-            explorar en la página de inicio.{" "}
+            explorar en la página de inicio.{' '}
           </p>
           <a
             href="/"
@@ -22,7 +22,7 @@ function NotFound() {
         </section>
       </section>
     </section>
-  );
+  )
 }
 
-export default NotFound;
+export default NotFound

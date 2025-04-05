@@ -1,26 +1,26 @@
 interface InputProps {
-  id: string;
-  error: boolean;
-  errorString?: string;
-  name: string;
-  value: string;
-  type: string;
-  required: boolean;
-  placeholder?: string;
-  className?: string;
-  defaultValue?: string;
-  disabled?: boolean;
-  readOnly?: boolean;
-  autoFocus?: boolean;
-  autoComplete?: string;
-  maxLength?: number;
-  minLength?: number;
-  pattern?: string;
-  size?: number;
-  step?: number;
-  min?: number;
-  max?: number;
-  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  id: string
+  error: boolean
+  errorString?: string
+  name: string
+  value: string
+  type: string
+  required: boolean
+  placeholder?: string
+  className?: string
+  defaultValue?: string
+  disabled?: boolean
+  readOnly?: boolean
+  autoFocus?: boolean
+  autoComplete?: string
+  maxLength?: number
+  minLength?: number
+  pattern?: string
+  size?: number
+  step?: number
+  min?: number
+  max?: number
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void
 }
 
 function Input({
@@ -54,15 +54,15 @@ function Input({
         name={name}
         value={value}
         type={type}
-        aria-invalid={error ? "true" : "false"}
+        aria-invalid={error ? 'true' : 'false'}
         aria-errormessage={error ? `${id}-error` : undefined}
-        aria-required={required ? "true" : "false"}
+        aria-required={required ? 'true' : 'false'}
         required={required}
         placeholder={placeholder}
         className={
-          "p-1 block border w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-1 focus:outline-none focus:ring-indigo-500 sm:text-sm " +
+          'p-1 block border w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-1 focus:outline-none focus:ring-indigo-500 sm:text-sm ' +
           className +
-          (error ? " border-red-500 hover:border-red-600" : "")
+          (error ? ' border-red-500 hover:border-red-600' : '')
         }
         defaultValue={defaultValue}
         disabled={disabled}
@@ -84,7 +84,7 @@ function Input({
         </section>
       )}
     </section>
-  );
+  )
 }
 
-export default Input;
+export default Input

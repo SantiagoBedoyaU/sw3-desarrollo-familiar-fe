@@ -1,24 +1,24 @@
-import { Search } from "lucide-react";
-import { thematicOptions } from "../../../constants/cts";
+import { Search } from 'lucide-react'
+import { thematicOptions } from '../../../constants/cts'
 
 interface ArticleFiltersProps {
   searchFilters: {
-    title: string;
-    author: string;
-    thematicArea: string;
-    thematicArea2: string;
-  };
-  handleFilterChange: (filters: any) => void;
-  handleSearch: () => void;
+    title: string
+    author: string
+    thematicArea: string
+    thematicArea2: string
+  }
+  handleFilterChange: (filters: any) => void
+  handleSearch: () => void
 }
 
 const formattedThematicOptions = thematicOptions.map((option: string) => ({
   label: option,
   value: option,
-}));
+}))
 
 function ArticleFilters(props: Readonly<ArticleFiltersProps>) {
-  const { searchFilters, handleFilterChange, handleSearch } = props;
+  const { searchFilters, handleFilterChange, handleSearch } = props
   return (
     <section>
       {/* Filtros de búsqueda */}
@@ -53,7 +53,7 @@ function ArticleFilters(props: Readonly<ArticleFiltersProps>) {
             {formattedThematicOptions.map(
               (option: { label: string; value: string }) => (
                 <option
-                  key={option.value + "thematicArea"}
+                  key={option.value + 'thematicArea'}
                   value={option.value}
                 >
                   {option.label}
@@ -88,7 +88,7 @@ function ArticleFilters(props: Readonly<ArticleFiltersProps>) {
             <option value="">Eje temático secundario</option>
             {formattedThematicOptions.map(
               (option: { label: string; value: string }) => (
-                <option key={option.value + "secondary"} value={option.value}>
+                <option key={option.value + 'secondary'} value={option.value}>
                   {option.label}
                 </option>
               ),
@@ -123,7 +123,7 @@ function ArticleFilters(props: Readonly<ArticleFiltersProps>) {
         </div>
       </section>
     </section>
-  );
+  )
 }
 
-export default ArticleFilters;
+export default ArticleFilters

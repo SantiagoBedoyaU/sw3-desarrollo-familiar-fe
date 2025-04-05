@@ -1,11 +1,11 @@
-import { CircleUserRound, LogIn, LogOut } from "lucide-react";
-import useAuthStore from "../../../stores/useAuthStore";
-import Nav from "./Navigation/Nav";
-import { useState } from "react";
+import { CircleUserRound, LogIn, LogOut } from 'lucide-react'
+import useAuthStore from '../../../stores/useAuthStore'
+import Nav from './Navigation/Nav'
+import { useState } from 'react'
 
 function Header() {
-  const { isAuthenticated, logout } = useAuthStore();
-  const [open, setOpen] = useState(false);
+  const { isAuthenticated, logout } = useAuthStore()
+  const [open, setOpen] = useState(false)
 
   return (
     <section className="flex max-w-screen bg-blue-300 justify-between items-center px-2 md:px-4 py-0.5">
@@ -62,7 +62,7 @@ function Header() {
         )}
       </section>
     </section>
-  );
+  )
 }
 
-export default Header;
+export default Header

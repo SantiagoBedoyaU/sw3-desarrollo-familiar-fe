@@ -1,11 +1,11 @@
-import { X } from "lucide-react";
-import { ReactNode } from "react";
+import { X } from 'lucide-react'
+import { ReactNode } from 'react'
 
 interface DialogContentProps {
-  children: ReactNode;
-  open: boolean;
-  setOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  className?: string;
+  children: ReactNode
+  open: boolean
+  setOpen: React.Dispatch<React.SetStateAction<boolean>>
+  className?: string
 }
 
 export const DialogContent = ({
@@ -14,7 +14,7 @@ export const DialogContent = ({
   setOpen,
   className,
 }: DialogContentProps) => {
-  if (!open) return null;
+  if (!open) return null
   return (
     <section
       className={`fixed inset-0 z-50 h-screen w-screen flex items-center justify-center ${className}`}
@@ -33,5 +33,5 @@ export const DialogContent = ({
         onClick={() => setOpen(false)}
       />
     </section>
-  );
-};
+  )
+}

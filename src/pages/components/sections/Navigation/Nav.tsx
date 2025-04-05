@@ -1,14 +1,14 @@
-import { Menu, X } from "lucide-react";
-import NavbarMobile from "./NavbarMobile";
+import { Menu, X } from 'lucide-react'
+import NavbarMobile from './NavbarMobile'
 
 interface NavProps {
-  readonly open: boolean;
-  setOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  readonly open: boolean
+  setOpen: React.Dispatch<React.SetStateAction<boolean>>
 }
 
 function Nav({ open, setOpen }: Readonly<NavProps>) {
   return (
-    <section className={open ? " min-h-8 relative inset-0 z-50 " : ""}>
+    <section className={open ? ' min-h-8 relative inset-0 z-50 ' : ''}>
       {open && <NavbarMobile open={open} setOpen={setOpen}></NavbarMobile>}
       {!open ? (
         <Menu
@@ -22,7 +22,7 @@ function Nav({ open, setOpen }: Readonly<NavProps>) {
         />
       )}
     </section>
-  );
+  )
 }
 
-export default Nav;
+export default Nav

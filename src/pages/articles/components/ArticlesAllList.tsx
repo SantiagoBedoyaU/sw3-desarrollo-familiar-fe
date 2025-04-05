@@ -1,15 +1,15 @@
-import Article from "../../../types/entities/Article";
-import ArticlesList from "./ArticlesList";
+import Article from '../../../types/entities/Article'
+import ArticlesList from './ArticlesList'
 
 interface ArticlesAllListProps {
-  articles: Array<Article>;
-  handleEdit: (id: string) => void;
-  handleDelete: (id: string) => void;
-  handleDownload: (id: string) => void;
+  articles: Array<Article>
+  handleEdit: (id: string) => void
+  handleDelete: (id: string) => void
+  handleDownload: (id: string) => void
 }
 
 function ArticlesAllList(props: Readonly<ArticlesAllListProps>) {
-  const { articles, handleEdit, handleDelete, handleDownload } = props;
+  const { articles, handleEdit, handleDelete, handleDownload } = props
   return (
     <section>
       {/* Lista de artículos */}
@@ -22,7 +22,7 @@ function ArticlesAllList(props: Readonly<ArticlesAllListProps>) {
         />
       </div>
     </section>
-  );
+  )
 }
 
-export default ArticlesAllList;
+export default ArticlesAllList

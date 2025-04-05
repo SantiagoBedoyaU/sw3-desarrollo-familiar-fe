@@ -1,8 +1,8 @@
 interface LabelProps {
-  readonly htmlFor: string;
-  readonly text: string;
-  readonly className?: string;
-  readonly error: boolean;
+  readonly htmlFor: string
+  readonly text: string
+  readonly className?: string
+  readonly error: boolean
 }
 
 function Label({ htmlFor, error, text, className }: LabelProps) {
@@ -10,16 +10,16 @@ function Label({ htmlFor, error, text, className }: LabelProps) {
     <label
       htmlFor={htmlFor}
       className={
-        "block text-md font-medium text-gray-700 w-fit md:max-w-1/4 bg-green-400" +
+        'block text-md font-medium text-gray-700 w-fit md:max-w-1/4 bg-green-400' +
         className +
         (error
-          ? " text-red-500 hover:text-red-600 dark:text-red-400 dark:hover:text-red-300"
-          : " ")
+          ? ' text-red-500 hover:text-red-600 dark:text-red-400 dark:hover:text-red-300'
+          : ' ')
       }
     >
       {text}
     </label>
-  );
+  )
 }
 
-export default Label;
+export default Label

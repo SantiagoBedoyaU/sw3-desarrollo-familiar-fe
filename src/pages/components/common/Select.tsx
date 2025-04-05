@@ -1,14 +1,14 @@
 interface SelectProps {
-  id: string;
-  name: string;
-  value: string;
-  onChange: (e: React.ChangeEvent<HTMLSelectElement>) => void;
-  error: boolean;
-  optionDefaultText?: string;
-  errorString?: string;
-  className?: string;
-  required: boolean;
-  options: Array<{ value: string; label: string; key: string }>;
+  id: string
+  name: string
+  value: string
+  onChange: (e: React.ChangeEvent<HTMLSelectElement>) => void
+  error: boolean
+  optionDefaultText?: string
+  errorString?: string
+  className?: string
+  required: boolean
+  options: Array<{ value: string; label: string; key: string }>
 }
 
 function Select({
@@ -32,9 +32,9 @@ function Select({
         onChange={onChange}
         required={required}
         className={
-          "p-1 block border w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-1 focus:outline-none focus:ring-indigo-500 sm:text-sm " +
+          'p-1 block border w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-1 focus:outline-none focus:ring-indigo-500 sm:text-sm ' +
           className +
-          (error ? " bg-red-500 border-red-500 hover:border-red-600" : " ")
+          (error ? ' bg-red-500 border-red-500 hover:border-red-600' : ' ')
         }
       >
         {optionDefaultText && <option value="">{optionDefaultText}</option>}
@@ -50,7 +50,7 @@ function Select({
         </p>
       )}
     </section>
-  );
+  )
 }
 
-export default Select;
+export default Select

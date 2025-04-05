@@ -1,15 +1,15 @@
-import { Download, Edit2, Trash2 } from "lucide-react";
-import Article from "../../../types/entities/Article";
+import { Download, Edit2, Trash2 } from 'lucide-react'
+import Article from '../../../types/entities/Article'
 
 interface ArticlesListProps {
-  articles: Array<Article>;
-  handleEdit: (id: string) => void;
-  handleDelete: (id: string) => void;
-  handleDownload: (id: string) => void;
+  articles: Array<Article>
+  handleEdit: (id: string) => void
+  handleDelete: (id: string) => void
+  handleDownload: (id: string) => void
 }
 
 function ArticlesList(props: Readonly<ArticlesListProps>) {
-  const { articles, handleEdit, handleDelete, handleDownload } = props;
+  const { articles, handleEdit, handleDelete, handleDownload } = props
 
   return articles.map((article: Article) => (
     <div
@@ -21,7 +21,7 @@ function ArticlesList(props: Readonly<ArticlesListProps>) {
         <span>
           <span>Autor(es):</span>
           <ul className="list-disc ml-4">
-            {article.authors.split(",").map((author, index) => (
+            {article.authors.split(',').map((author, index) => (
               <li
                 key={author + article.title + article.id + index}
                 className="list-disc ml-4"
@@ -58,7 +58,7 @@ function ArticlesList(props: Readonly<ArticlesListProps>) {
         </button>
       </div>
     </div>
-  ));
+  ))
 }
 
-export default ArticlesList;
+export default ArticlesList

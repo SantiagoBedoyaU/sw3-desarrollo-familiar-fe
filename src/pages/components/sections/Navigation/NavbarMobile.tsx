@@ -1,16 +1,16 @@
-import { X, LogOut, CircleUserRound, LogIn } from "lucide-react";
-import { NavLink, useLocation } from "react-router";
-import navItems from "../../../../constants/NavItems";
-import useAuthStore from "../../../../stores/useAuthStore";
+import { X, LogOut, CircleUserRound, LogIn } from 'lucide-react'
+import { NavLink, useLocation } from 'react-router'
+import navItems from '../../../../constants/NavItems'
+import useAuthStore from '../../../../stores/useAuthStore'
 
 interface NavbarMobileProps {
-  open: boolean;
-  setOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  open: boolean
+  setOpen: React.Dispatch<React.SetStateAction<boolean>>
 }
 
 const NavbarMobile: React.FC<NavbarMobileProps> = ({ open, setOpen }) => {
-  const location = useLocation().pathname;
-  const { isAuthenticated, logout } = useAuthStore();
+  const location = useLocation().pathname
+  const { isAuthenticated, logout } = useAuthStore()
 
   return (
     <section className="flex-1">
@@ -37,10 +37,10 @@ const NavbarMobile: React.FC<NavbarMobileProps> = ({ open, setOpen }) => {
                 >
                   <p
                     className={
-                      "flex items-center gap-3 rounded-lg px-3 py-2 text-gray-600 transition-all hover:text-emerald-900" +
+                      'flex items-center gap-3 rounded-lg px-3 py-2 text-gray-600 transition-all hover:text-emerald-900' +
                       (location === item.href
-                        ? "bg-blue-300 text-blue-900 font-semibold"
-                        : "")
+                        ? 'bg-blue-300 text-blue-900 font-semibold'
+                        : '')
                     }
                   >
                     {item.icon}
@@ -61,8 +61,8 @@ const NavbarMobile: React.FC<NavbarMobileProps> = ({ open, setOpen }) => {
                   </a>
                   <button
                     onClick={() => {
-                      setOpen(false);
-                      logout();
+                      setOpen(false)
+                      logout()
                     }}
                     className="w-full gap-2 flex items-center p-2 border rounded-lg hover:bg-blue-600 hover:border-blue-800 hover:text-white"
                   >
@@ -99,7 +99,7 @@ const NavbarMobile: React.FC<NavbarMobileProps> = ({ open, setOpen }) => {
         </section>
       )}
     </section>
-  );
-};
+  )
+}
 
-export default NavbarMobile;
+export default NavbarMobile

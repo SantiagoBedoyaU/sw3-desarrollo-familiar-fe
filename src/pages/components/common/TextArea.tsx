@@ -1,20 +1,20 @@
 interface TextAreaProps {
-  id: string;
-  error: boolean;
-  errorString?: string;
-  name: string;
-  value: string;
-  required: boolean;
-  placeholder?: string;
-  className?: string;
-  defaultValue?: string;
-  disabled?: boolean;
-  readOnly?: boolean;
-  autoFocus?: boolean;
-  autoComplete?: string;
-  maxLength?: number;
-  minLength?: number;
-  onChange?: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
+  id: string
+  error: boolean
+  errorString?: string
+  name: string
+  value: string
+  required: boolean
+  placeholder?: string
+  className?: string
+  defaultValue?: string
+  disabled?: boolean
+  readOnly?: boolean
+  autoFocus?: boolean
+  autoComplete?: string
+  maxLength?: number
+  minLength?: number
+  onChange?: (e: React.ChangeEvent<HTMLTextAreaElement>) => void
 }
 
 function TextArea(
@@ -44,9 +44,9 @@ function TextArea(
         name={name}
         value={value}
         onChange={onChange}
-        aria-invalid={error ? "true" : "false"}
+        aria-invalid={error ? 'true' : 'false'}
         aria-errormessage={error ? `${id}-error` : undefined}
-        aria-required={required ? "true" : "false"}
+        aria-required={required ? 'true' : 'false'}
         placeholder={placeholder}
         required={required}
         className={`p-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 ${className}`}
@@ -69,7 +69,7 @@ function TextArea(
         </span>
       )}
     </section>
-  );
+  )
 }
 
-export default TextArea;
+export default TextArea
