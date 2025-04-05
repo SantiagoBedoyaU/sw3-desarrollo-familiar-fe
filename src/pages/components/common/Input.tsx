@@ -61,7 +61,7 @@ function Input({
         placeholder={placeholder}
         className={
           'p-1 block border w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-1 focus:outline-none focus:ring-indigo-500 sm:text-sm ' +
-          className +
+          (className ?? ' ') +
           (error ? ' border-red-500 hover:border-red-600' : '')
         }
         defaultValue={defaultValue}

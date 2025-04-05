@@ -13,7 +13,7 @@ import NotFound from './pages/components/common/NotFound'
 
 function App() {
   const { checkAuth } = useAuthStore()
-  let location = window.location.pathname
+  const location = window.location.pathname
 
   useEffect(() => {
     checkAuth()

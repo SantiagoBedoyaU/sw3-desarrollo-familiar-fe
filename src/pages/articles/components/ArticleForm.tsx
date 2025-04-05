@@ -38,10 +38,10 @@ const ArticleForm: React.FC<ArticleFormProps> = ({ article, mode }) => {
   const [file, setFile] = useState<File | null>(null)
   const [fileError, setFileError] = useState(false) // Estado para errores del archivo
   const [changeableKeywords, setChangeableKeywords] = useState(
-    article?.changeableKeywords || article?.keywords.split(', ') || [],
+    article?.changeableKeywords ?? article?.keywords.split(', ') ?? [],
   )
   const [changeableAuthors, setChangeableAuthors] = useState(
-    article?.changeableAuthors || article?.authors.split(', ') || [],
+    article?.changeableAuthors ?? article?.authors.split(', ') ?? [],
   )
   const [thematicArea, setThematicArea] = useState('')
   const [thematicArea2, setThematicArea2] = useState('')
@@ -249,6 +249,7 @@ const ArticleForm: React.FC<ArticleFormProps> = ({ article, mode }) => {
               onChange={(e) => setAuthors(e.target.value)}
             />
             <button
+              type="button"
               className="btn-outline inline-flex gap-2 items-center w-full md:w-fit justify-center py-2 px-4 my-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-50 bg-black hover:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
               onClick={(e) => {
                 e.preventDefault()
@@ -269,6 +270,7 @@ const ArticleForm: React.FC<ArticleFormProps> = ({ article, mode }) => {
           <section className="flex flex-wrap gap-2 items-center justify-evenly">
             {changeableAuthors.map((author) => (
               <button
+                type="button"
                 key={author + 'added_author'}
                 className="w-1/3 md:w-fit group flex items-center justify-between bg-gray-200 text-gray-800 hover:text-gray-950  hover:border hover:border-gray-800 hover:bg-gray-400 text-sm font-semibold px-2 py-0.5 rounded dark:bg-gray-700 dark:text-gray-300"
                 onClick={() => {
@@ -342,6 +344,7 @@ const ArticleForm: React.FC<ArticleFormProps> = ({ article, mode }) => {
               onChange={(e) => setKeywords(e.target.value)}
             />
             <button
+              type="button"
               className="btn-outline inline-flex gap-2 items-center w-full md:w-fit justify-center py-2 px-4 my-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-50 bg-black hover:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
               onClick={(e) => {
                 e.preventDefault()
@@ -366,6 +369,7 @@ const ArticleForm: React.FC<ArticleFormProps> = ({ article, mode }) => {
           <section className="flex flex-wrap gap-2 items-center justify-evenly">
             {changeableKeywords.map((keyword) => (
               <button
+                type="button"
                 key={keyword + 'added_keyword'}
                 className="w-1/3 md:w-fit group flex items-center justify-between bg-gray-200 text-gray-800 hover:text-gray-950  hover:border hover:border-gray-800 hover:bg-gray-400 text-sm font-semibold px-2 py-0.5 rounded dark:bg-gray-700 dark:text-gray-300"
                 onClick={() => {

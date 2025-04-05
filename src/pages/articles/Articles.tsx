@@ -127,7 +127,7 @@ const Articles = () => {
         handleSearch={handleSearch}
         searchFilters={searchFilters}
       />
-      {countFilters == 0 && (
+      {countFilters === 0 && (
         <ArticlesTop
           articles={articles}
           handleEdit={handleEdit}

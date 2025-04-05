@@ -35,6 +35,7 @@ function Header() {
               <span>Perfil</span>
             </a>
             <button
+              type="button"
               onClick={logout}
               className="w-fit justify-start gap-3 flex items-center px-2 py-1 rounded-lg hover:bg-blue-600 hover:border-blue-800 hover:text-white"
             >

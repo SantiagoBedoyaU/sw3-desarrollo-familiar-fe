@@ -22,6 +22,9 @@ const NavbarMobile: React.FC<NavbarMobileProps> = ({ open, setOpen }) => {
                 <a href="/">Escuelas Familiares</a>
               </h1>
               <button
+                type="button"
+                aria-label="Close"
+                title="Close"
                 onClick={() => setOpen(false)}
                 className="px-2 py-1 transition-all rounded-lg hover:bg-blue-50 hover:text-blue-900"
               >
@@ -60,6 +63,7 @@ const NavbarMobile: React.FC<NavbarMobileProps> = ({ open, setOpen }) => {
                     <span>Perfil</span>
                   </a>
                   <button
+                    type="button"
                     onClick={() => {
                       setOpen(false)
                       logout()
@@ -92,6 +96,9 @@ const NavbarMobile: React.FC<NavbarMobileProps> = ({ open, setOpen }) => {
           </section>
 
           <button
+            type="button"
+            aria-label="Close"
+            title="Close"
             // backdrop-filter backdrop-blur-xl
             className="flex-1 bg-black opacity-50 "
             onClick={() => setOpen(false)}
