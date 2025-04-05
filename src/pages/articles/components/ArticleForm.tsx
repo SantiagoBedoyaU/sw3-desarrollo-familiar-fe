@@ -155,6 +155,7 @@ const ArticleForm: React.FC<ArticleFormProps> = ({ article, mode }) => {
       articleData.thematicArea2 = thematicArea2
     }
 
+    // @typescript-eslint/no-unnecessary-condition
     if (mode === 'add') {
       // addArticle(articleData)
     } else if (mode === 'edit' && article) {
