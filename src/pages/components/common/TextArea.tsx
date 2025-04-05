@@ -4,7 +4,7 @@ interface TextAreaProps {
     errorString?: string
     name: string
     value: string
-    requierd: boolean
+    required: boolean
     placeholder?: string
     className?: string
     defaultValue?: string
