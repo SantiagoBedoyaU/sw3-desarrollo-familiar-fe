@@ -24,7 +24,12 @@ function ArticlesList(props: Readonly<ArticlesListProps>) {
               {article.authors.split(',').map((author, index) => {
                 return (
                   <li
-                    key={author + article.title + article.id + index.toString()}
+                    key={
+                      (author ?? '') +
+                      (article.title ?? '') +
+                      (article.id ?? '') +
+                      index.toString()
+                    }
                     className="list-disc ml-4"
                   >
                     {author.trim()}

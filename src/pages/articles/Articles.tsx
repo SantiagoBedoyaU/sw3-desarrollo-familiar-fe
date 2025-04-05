@@ -15,10 +15,26 @@ const Articles = () => {
   })
 
   const [countFilters, setCountFilters] = useState(0)
+  const manageCount = () => {
+    let count = 0
+    if (searchFilters.title !== '') {
+      count++
+    }
+    if (searchFilters.author !== '') {
+      count++
+    }
+    if (searchFilters.thematicArea !== '') {
+      count++
+    }
+    if (searchFilters.thematicArea2 !== '') {
+      count++
+    }
+    setCountFilters(count)
+  }
 
   useEffect(() => {
     manageCount()
-  }, [searchFilters, setSearchFilters])
+  }, [searchFilters, setSearchFilters, manageCount])
 
   // Estado para los artículos
   const [articles, setArticles] = useState<Article[]>([
@@ -67,23 +83,6 @@ const Articles = () => {
       year: '2023',
     },
   ])
-
-  const manageCount = () => {
-    let count = 0
-    if (searchFilters.title !== '') {
-      count++
-    }
-    if (searchFilters.author !== '') {
-      count++
-    }
-    if (searchFilters.thematicArea !== '') {
-      count++
-    }
-    if (searchFilters.thematicArea2 !== '') {
-      count++
-    }
-    setCountFilters(count)
-  }
 
   // Manejadores de eventos
   const handleFilterChange = (
