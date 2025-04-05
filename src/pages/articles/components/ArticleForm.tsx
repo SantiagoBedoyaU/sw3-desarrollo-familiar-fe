@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { Dialog } from '../../components/common/dialog/Dialog'
 import { DialogContent } from '../../components/common/dialog/DialogContent'
-import { DialogHeader } from '../../components/common/dialog/DialogHeader.'
+import { DialogHeader } from '../../components/common/dialog/DialogHeader'
 import { DialogTitle } from '../../components/common/dialog/DialogTitle'
 import Article from '../../../types/entities/Article'
 import { DialogTrigger } from '../../components/common/dialog/DialogTrigger'
@@ -210,7 +210,7 @@ const ArticleForm: React.FC<ArticleFormProps> = ({ article, mode }) => {
                             minLength={3}
                             value={title}
                             type='text'
-                            requierd={false}
+                            required={false}
                             onChange={(e) => setTitle(e.target.value)}
                         />
                     </section>
@@ -228,7 +228,7 @@ const ArticleForm: React.FC<ArticleFormProps> = ({ article, mode }) => {
                             pattern='\d{4}'
                             min={1950}
                             max={new Date().getFullYear() + 1}
-                            requierd={false}
+                            required={false}
                             onChange={(e) => setYear(e.target.value)}
                         />
                     </section>
@@ -251,7 +251,7 @@ const ArticleForm: React.FC<ArticleFormProps> = ({ article, mode }) => {
                             name='authors'
                             value={authors}
                             type='text'
-                            requierd={false}
+                            required={false}
                             onChange={(e) => setAuthors(e.target.value)}
                         />
                         <button
@@ -311,7 +311,7 @@ const ArticleForm: React.FC<ArticleFormProps> = ({ article, mode }) => {
                             name='thematicArea'
                             value={thematicArea}
                             onChange={(e) => setThematicArea(e.target.value)}
-                            requierd={true}
+                            required={true}
                             options={primaryThematicOptions}
                         />
                     </section>
@@ -329,7 +329,7 @@ const ArticleForm: React.FC<ArticleFormProps> = ({ article, mode }) => {
                             name='thematicArea2'
                             value={thematicArea2}
                             onChange={(e) => setThematicArea2(e.target.value)}
-                            requierd={false}
+                            required={false}
                             options={secondaryThematicOptions}
                         />
                     </section>
@@ -354,7 +354,7 @@ const ArticleForm: React.FC<ArticleFormProps> = ({ article, mode }) => {
                             name='keywords'
                             value={keywords}
                             type='text'
-                            requierd={false}
+                            required={false}
                             onChange={(e) => setKeywords(e.target.value)}
                         />
                         <button
@@ -415,7 +415,7 @@ const ArticleForm: React.FC<ArticleFormProps> = ({ article, mode }) => {
                             id='summary'
                             name='summary'
                             value={summary}
-                            requierd={true}
+                            required={true}
                             onChange={(e) => setSummary(e.target.value)}
                         />
                     </section>
@@ -456,7 +456,7 @@ const ArticleForm: React.FC<ArticleFormProps> = ({ article, mode }) => {
                             name='practiceReport'
                             value={practiceReport}
                             onChange={(e) => setPracticeReport(e.target.value)}
-                            requierd={false}
+                            required={false}
                             options={[
                                 {
                                     value: '',
