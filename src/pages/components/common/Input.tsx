@@ -5,7 +5,7 @@ interface InputProps {
     name: string
     value: string
     type: string
-    requierd: boolean
+    required: boolean
     placeholder?: string
     className?: string
     defaultValue?: string
