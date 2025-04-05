@@ -12,12 +12,12 @@ function Nav({ open, setOpen }: Readonly<NavProps>) {
             {open && <NavbarMobile open={open} setOpen={setOpen}></NavbarMobile>}
             {!open ? (
                 <Menu
-                    className='h-6 w-6 absolute top-3 md:top-1.5 right-3 p-0.5 hover:bg-green-100 rounded-lg'
+                    className='h-6 w-6 absolute top-3 md:top-1.5 right-3 p-0.5 hover:bg-blue-100 rounded-lg'
                     onClick={() => setOpen(true)}
                 />
             ) : (
                 <X
-                    className='h-6 w-6 fixed top-3 md:top-1.5 right-3 p-0.5 hover:bg-green-100 rounded-lg'
+                    className='h-6 w-6 fixed top-3 md:top-1.5 right-3 p-0.5 hover:bg-blue-100 rounded-lg'
                     onClick={() => setOpen(false)}
                 />
             )}
