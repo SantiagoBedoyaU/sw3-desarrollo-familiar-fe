@@ -165,7 +165,10 @@ const ArticleForm: React.FC<ArticleFormProps> = ({ article, mode }) => {
     }
 
     return (
-        <Dialog className='relative md:absolute md:right-0 mb-3'>
+        <Dialog
+            open={open}
+            setOpen={onClose}
+            className='relative md:absolute md:right-0 mb-3'>
             <DialogTrigger setOpen={onClose} className='w-full'>
                 <section className='flex w-full md:w-fit items-center justify-center gap-2 p-2 border rounded-lg text-white bg-blue-500 border-gray-50 hover:bg-gray-600 hover:border-gray-800'>
                     <Plus className='md:mr-2 h-4 w-4' />

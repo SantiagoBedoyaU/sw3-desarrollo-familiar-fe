@@ -6,13 +6,13 @@ interface DialogChildProps {
 }
 
 interface DialogProps {
+    open: boolean
+    setOpen: Dispatch<SetStateAction<boolean>>
     className?: string
     children: ReactElement<DialogChildProps> | ReactElement<DialogChildProps>[]
 }
 
-export const Dialog = ({ children, className }: DialogProps) => {
-    const [open, setOpen] = useState(false)
-
+export const Dialog = ({ children, className, open, setOpen }: DialogProps) => {
     return (
         <section className={className}>
             {React.Children.map(children, (child) => {
