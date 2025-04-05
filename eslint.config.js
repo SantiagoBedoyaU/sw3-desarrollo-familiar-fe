@@ -49,6 +49,7 @@ export default tseslint.config(
       'arrow-spacing': ['error', { before: true, after: true }],
       'prefer-const': 'error',
       'no-var': 'error',
+      '@typescript-eslint/no-confusing-void-expression': 'off',
     },
   },
 )

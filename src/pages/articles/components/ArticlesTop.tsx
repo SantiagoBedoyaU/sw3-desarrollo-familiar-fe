@@ -2,7 +2,7 @@ import Article from '../../../types/entities/Article'
 import ArticlesList from './ArticlesList'
 
 interface ArticlesTopProps {
-  articles: Array<Article>
+  articles: Article[]
   handleEdit: (id: string) => void
   handleDelete: (id: string) => void
   handleDownload: (id: string) => void

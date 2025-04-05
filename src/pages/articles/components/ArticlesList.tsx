@@ -26,8 +26,8 @@ function ArticlesList(props: Readonly<ArticlesListProps>) {
                   <li
                     key={
                       (author ?? '') +
-                      (article.title ?? '') +
-                      (article.id ?? '') +
+                      article.title +
+                      article.id +
                       index.toString()
                     }
                     className="list-disc ml-4"
