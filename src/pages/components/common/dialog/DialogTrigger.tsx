@@ -12,7 +12,7 @@ export const DialogTrigger = ({
     className,
 }: DialogTriggerProps) => {
     return (
-        <button className={className} onClick={() => setOpen(true)}>
+        <button type='button' className={className} onClick={() => setOpen(true)}>
             {children}
         </button>
     )
