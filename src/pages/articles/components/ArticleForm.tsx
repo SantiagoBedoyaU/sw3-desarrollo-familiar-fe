@@ -158,7 +158,7 @@ const ArticleForm: React.FC<ArticleFormProps> = ({ article, mode }) => {
     // @typescript-eslint/no-unnecessary-condition
     if (mode === 'add') {
       // addArticle(articleData)
-    } else if (mode === 'edit' && article) {
+    } else if (article) {
       // editArticle(article.id, articleData)
     }
 
