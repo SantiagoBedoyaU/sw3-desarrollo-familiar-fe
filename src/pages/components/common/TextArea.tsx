@@ -49,7 +49,7 @@ function TextArea(
         aria-required={required ? 'true' : 'false'}
         placeholder={placeholder}
         required={required}
-        className={`p-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 ${className}`}
+        className={`p-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 ${className ?? ''}`}
         defaultValue={defaultValue}
         disabled={disabled}
         readOnly={readOnly}

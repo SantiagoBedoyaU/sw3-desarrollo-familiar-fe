@@ -17,7 +17,7 @@ export const DialogContent = ({
   if (!open) return null
   return (
     <section
-      className={`fixed inset-0 z-50 h-screen w-screen flex items-center justify-center ${className}`}
+      className={`fixed inset-0 z-50 h-screen w-screen flex items-center justify-center ${className ?? ''}`}
     >
       <section className="relative bg-white py-3 px-6 rounded shadow-lg w-full max-w-fit m-auto ">
         <section className="overflow-y-auto max-h-screen">{children}</section>
