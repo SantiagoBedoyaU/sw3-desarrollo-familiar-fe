@@ -1,6 +1,3 @@
-function DialogFooter() {
+function DialogFooter() {}
 
-    
-}
-
-export default DialogFooter
+export default DialogFooter;
