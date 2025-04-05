@@ -41,7 +41,7 @@ export default tseslint.config(
       'no-unused-vars': 'warn',
       'no-console': 'off',
       eqeqeq: 'error',
-      curly: 'error',
+      curly: 'off',
       semi: ['error', 'never'],
       quotes: ['error', 'single'],
       indent: ['error', 2],
