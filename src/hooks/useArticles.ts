@@ -23,7 +23,7 @@ export const useArticles = () => {
 
   useEffect(() => {
     // Si ya tenemos datos en caché, los usamos inmediatamente
-    if (articlesCache) {
+    if (articlesCache.length > 0) {
       setArticles(articlesCache)
       setLoading(false)
       return
@@ -48,7 +48,7 @@ export const useArticles = () => {
 
     // Si no hay caché ni carga en progreso, iniciamos la carga
     const fetchArticles = async () => {
-      if (isLoading || articlesCache) return
+      if (isLoading || articlesCache.length === 0) return
 
       try {
         isLoading = true
