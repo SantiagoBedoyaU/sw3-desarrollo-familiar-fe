@@ -6,7 +6,6 @@ import tseslint from 'typescript-eslint'
 import reactX from 'eslint-plugin-react-x'
 import reactDom from 'eslint-plugin-react-dom'
 
-
 export default tseslint.config(
   { ignores: ['dist', 'public'] },
   {
@@ -21,7 +20,7 @@ export default tseslint.config(
       ecmaVersion: 2024,
       globals: globals.browser,
       parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],  // Asegúrate de tener estos archivos de configuración
+        project: ['./tsconfig.node.json', './tsconfig.app.json'], // Asegúrate de tener estos archivos de configuración
         tsconfigRootDir: import.meta.dirname,
       },
     },
@@ -39,17 +38,21 @@ export default tseslint.config(
         'warn',
         { allowConstantExport: true },
       ],
-      "no-unused-vars": "warn",
-      "no-console": "off",
-      "eqeqeq": "error",
-      "curly": "error",
-      "semi": ["error", "always"],
-      "quotes": ["error", "double"],
-      "indent": ["error", 2],
-      "no-trailing-spaces": "error",
-      "arrow-spacing": ["error", { "before": true, "after": true }],
-      "prefer-const": "error",
-      "no-var": "error"
+      'no-unused-vars': 'warn',
+      'no-console': 'off',
+      eqeqeq: 'error',
+      curly: 'off',
+      semi: ['error', 'never'],
+      quotes: ['error', 'single'],
+      indent: ['error', 2],
+      'no-trailing-spaces': 'error',
+      'arrow-spacing': ['error', { before: true, after: true }],
+      'prefer-const': 'error',
+      'no-var': 'error',
+      '@typescript-eslint/no-confusing-void-expression': 'off',
+      '@typescript-eslint/explicit-function-return-type': 'off',
+      '@typescript-eslint/no-unsafe-return': 'off',
+      '@typescript-eslint/no-inferrable-types': 'off',
     },
   },
 )
