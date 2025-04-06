@@ -33,7 +33,7 @@ export const useArticlesTop = () => {
     if (isLoading) {
       // Nos suscribimos a actualizaciones
       const updateState = () => {
-        setArticles((articlesCache ?? []).slice(0, 5)) // Tomar solo los primeros 5 artículos
+        setArticles(articlesCache?.slice(0, 5) || []) // Usar operador `||` sin redundancia
         setLoading(isLoading)
         setError(loadError)
       }
@@ -48,7 +48,7 @@ export const useArticlesTop = () => {
 
     // Si no hay caché ni carga en progreso, iniciamos la carga
     const fetchArticles = async () => {
-      if (isLoading ?? articlesCache) return
+      if (isLoading || articlesCache) return
 
       try {
         isLoading = true
@@ -79,7 +79,7 @@ export const useArticlesTop = () => {
       }
     }
 
-    fetchArticles()
+    void fetchArticles() // Marcar la promesa como intencionalmente no esperada
   }, [])
 
   // Función para forzar actualización (limpia la caché)
@@ -118,7 +118,7 @@ export const useArticlesTop = () => {
       }
     }
 
-    fetchArticles()
+    void fetchArticles() // Marcar la promesa como intencionalmente no esperada
   }
 
   return { articles, loading, error, refreshArticles }

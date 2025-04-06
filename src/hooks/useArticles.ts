@@ -33,7 +33,7 @@ export const useArticles = () => {
     if (isLoading) {
       // Nos suscribimos a actualizaciones
       const updateState = () => {
-        setArticles(articlesCache ?? [])
+        setArticles(articlesCache || [])
         setLoading(isLoading)
         setError(loadError)
       }
@@ -48,7 +48,7 @@ export const useArticles = () => {
 
     // Si no hay caché ni carga en progreso, iniciamos la carga
     const fetchArticles = async () => {
-      if (isLoading ?? articlesCache) return
+      if (isLoading || articlesCache) return
 
       try {
         isLoading = true
@@ -78,7 +78,7 @@ export const useArticles = () => {
       }
     }
 
-    fetchArticles()
+    void fetchArticles()
   }, [])
 
   // Función para forzar actualización (limpia la caché)
@@ -118,7 +118,7 @@ export const useArticles = () => {
       }
     }
 
-    fetchArticles()
+    void fetchArticles()
   }
 
   const deleteArticle = async (id: string) => {

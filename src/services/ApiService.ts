@@ -26,7 +26,7 @@ export class ApiService<T> {
       const axiosError = error as AxiosError
 
       if (axiosError.response) {
-        const status = axiosError.response.status
+        const status = axiosError.response.status.toString() // Convertir a cadena
         const statusText = axiosError.response.statusText
 
         // Intentar extraer mensaje de error del cuerpo de la respuesta
