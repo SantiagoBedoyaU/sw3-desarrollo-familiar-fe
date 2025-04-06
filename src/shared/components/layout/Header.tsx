@@ -24,6 +24,7 @@ function Header() {
 
         {/* Mobile menu button */}
         <button
+          type="button"
           className="md:hidden"
           onClick={() => setOpen(true)}
           aria-label="Open Menu"
@@ -48,6 +49,7 @@ function Header() {
                 Perfil
               </a>
               <button
+                type="button"
                 onClick={logout}
                 className="flex items-center gap-1 hover:underline"
               >

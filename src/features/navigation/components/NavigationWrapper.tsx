@@ -1,13 +1,12 @@
 import MobileNav from './MobileNav'
 import DesktopNav from './DesktopNav'
 
-const NavigationWrapper = ({
-  open,
-  setOpen,
-}: {
+interface NavigationWrapperProps {
   open?: boolean
-  setOpen?: any
-}) => {
+  setOpen?: React.Dispatch<React.SetStateAction<boolean>>
+}
+
+const NavigationWrapper = ({ open, setOpen }: NavigationWrapperProps) => {
   return (
     <>
       {/* Mobile */}

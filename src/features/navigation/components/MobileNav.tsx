@@ -1,15 +1,14 @@
 import { X, LogOut, CircleUserRound, LogIn } from 'lucide-react'
-// import { NavLink, useLocation } from 'react-router-dom'
 import { NavLink } from 'react-router-dom'
 import { navItems } from '../constants/NavItems'
 import useAuthStore from '../../../app/stores/useAuthStore'
+
 interface NavbarMobileProps {
   open: boolean
   setOpen: React.Dispatch<React.SetStateAction<boolean>>
 }
 
 const NavbarMobile: React.FC<NavbarMobileProps> = ({ open, setOpen }) => {
-  //  const location = useLocation().pathname
   const { isAuthenticated, logout } = useAuthStore()
 
   if (!open) return null
@@ -20,6 +19,7 @@ const NavbarMobile: React.FC<NavbarMobileProps> = ({ open, setOpen }) => {
       <div className="flex items-center justify-between px-4 h-14 bg-[#5395c1] text-white border-b border-blue-100">
         <h1 className="text-sm font-bold">Escuelas Familiares</h1>
         <button
+          type="button"
           aria-label="Cerrar"
           onClick={() => setOpen(false)}
           className="hover:text-gray-300"
@@ -61,6 +61,7 @@ const NavbarMobile: React.FC<NavbarMobileProps> = ({ open, setOpen }) => {
               Perfil
             </a>
             <button
+              type="button"
               onClick={() => {
                 logout()
                 setOpen(false)

@@ -14,7 +14,7 @@ interface ArticleFiltersProps {
   handleSearch: () => void
 }
 
-const formattedThematicOptions = thematicOptions.map((option) => ({
+const formattedThematicOptions = thematicOptions.map((option: string) => ({
   label: option,
   value: option,
 }))
@@ -48,7 +48,7 @@ function ArticleFilters({
         </div>
 
         {/* Selects */}
-        {['thematicArea', 'thematicArea2'].map((name) => (
+        {(['thematicArea', 'thematicArea2'] as const).map((name) => (
           <div key={name} className="relative">
             <select
               name={name}
