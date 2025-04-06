@@ -4,15 +4,17 @@ import { useArticles } from '../../../hooks/useArticles'
 
 interface ArticlesListProps {
   articles: Article[]
+  setArticles: (articles: Article[]) => void
+  type: string
 }
 
 function ArticlesList(props: Readonly<ArticlesListProps>) {
-  const { articles } = props
+  const { articles, type, setArticles } = props
   const { deleteArticle, editArticle, downloadArticle } = useArticles()
 
   return articles.map((article: Article) => (
     <div
-      key={article.id}
+      key={article.id + article.title + type}
       className="border border-blue-200 rounded-lg p-4 bg-blue-50"
     >
       <h3 className="font-bold text-blue-800">{article.title}</h3>
@@ -46,7 +48,9 @@ function ArticlesList(props: Readonly<ArticlesListProps>) {
           type="button"
           onClick={() => {
             if (article.id) {
+              const id = article.id
               void deleteArticle(article.id)
+              setArticles(articles.filter((article) => article.id !== id))
             }
           }}
           className="flex w-full md:w-fit items-center bg-red-500 hover:bg-red-600 text-white py-1 px-3 rounded text-sm transition duration-300"

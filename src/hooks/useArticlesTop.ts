@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import Article from '../types/entities/Article'
 import { ArticleService } from '../services/ArticlesService'
 import mockArticle from '../types/mocks/ArticleMock'
+import Swal from 'sweetalert2'
 
 // Caché global a nivel de módulo (persiste entre renders)
 let articlesCache: Article[] | null = null
@@ -57,7 +58,15 @@ export const useArticlesTop = () => {
         // Simulación o llamada real a API
         await new Promise((resolve) => setTimeout(resolve, 1000))
         const articulosDisponibles: Article[] = mockarticle
-        await articleService.getTopArticles()
+        // await articleService.getTopArticles().catch(() => {
+        //   Swal.fire({
+        //     title: 'Error',
+        //     text: 'Ocurrió un error al obtener los artículos del top.',
+        //     icon: 'error',
+        //     confirmButtonText: 'Cerrar',
+        //     confirmButtonColor: '#4B5563',
+        //   })
+        // })
         // Actualizar la caché global
         articlesCache = articulosDisponibles
         loadError = null
@@ -96,7 +105,16 @@ export const useArticlesTop = () => {
 
         // Simulación o llamada real a API
         await new Promise((resolve) => setTimeout(resolve, 1000))
-        const articulosDisponibles: Article[] = mockarticle // await articleService.getAll();
+        const articulosDisponibles: Article[] = mockarticle
+        // await articleService.getTopArticles().catch(() => {
+        //   Swal.fire({
+        //     title: 'Error',
+        //     text: 'Ocurrió un error al obtener los artículos del top.',
+        //     icon: 'error',
+        //     confirmButtonText: 'Cerrar',
+        //     confirmButtonColor: '#4B5563',
+        //   })
+        // })
         // Actualizar caché global
         articlesCache = articulosDisponibles
         loadError = null
@@ -121,5 +139,5 @@ export const useArticlesTop = () => {
     void fetchArticles() // Marcar la promesa como intencionalmente no esperada
   }
 
-  return { articles, loading, error, refreshArticles }
+  return { articles, setArticles, loading, error, refreshArticles }
 }

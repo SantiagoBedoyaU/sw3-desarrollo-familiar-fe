@@ -26,6 +26,3 @@ jobs:
 
       - name: Execute formatter
         run: npm run check-format
-
-      - name: Run Prettier
-        run: npx prettier --check --write .

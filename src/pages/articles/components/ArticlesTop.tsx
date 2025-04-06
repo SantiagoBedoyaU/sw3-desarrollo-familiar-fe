@@ -2,9 +2,11 @@ import { useArticlesTop } from '../../../hooks/useArticlesTop'
 import ArticlesList from './ArticlesList'
 
 function ArticlesTop() {
-  const { articles } = useArticlesTop()
+  const { articles, setArticles } = useArticlesTop()
 
-  return <ArticlesList articles={articles} />
+  return (
+    <ArticlesList articles={articles} setArticles={setArticles} type="top" />
+  )
 }
 
 export default ArticlesTop

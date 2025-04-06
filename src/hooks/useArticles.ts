@@ -1,14 +1,14 @@
 import { useState, useEffect } from 'react'
 import Article from '../types/entities/Article'
-import { ArticleService } from '../services/ArticlesService'
+// import { articleService } from '../services/ArticlesService'
 import mockArticle from '../types/mocks/ArticleMock'
+// import Swal from 'sweetalert2'
 
 // Caché global a nivel de módulo (persiste entre renders)
-let articlesCache: Article[] = []
+let articlesCache: Article[] | null = null
 let isLoading = false
 let loadError: Error | null = null
 let listeners: (() => void)[] = []
-const articleService = new ArticleService()
 const mockarticle = mockArticle
 
 // Función para notificar a todos los suscriptores
@@ -23,7 +23,7 @@ export const useArticles = () => {
 
   useEffect(() => {
     // Si ya tenemos datos en caché, los usamos inmediatamente
-    if (articlesCache.length > 0) {
+    if (articlesCache) {
       setArticles(articlesCache)
       setLoading(false)
       return
@@ -33,7 +33,7 @@ export const useArticles = () => {
     if (isLoading) {
       // Nos suscribimos a actualizaciones
       const updateState = () => {
-        setArticles(articlesCache)
+        setArticles(articlesCache ?? [])
         setLoading(isLoading)
         setError(loadError)
       }
@@ -48,7 +48,7 @@ export const useArticles = () => {
 
     // Si no hay caché ni carga en progreso, iniciamos la carga
     const fetchArticles = async () => {
-      if (isLoading || articlesCache.length === 0) return
+      if (isLoading || articlesCache) return
 
       try {
         isLoading = true
@@ -56,7 +56,16 @@ export const useArticles = () => {
 
         // Simulación o llamada real a API
         await new Promise((resolve) => setTimeout(resolve, 1000))
-        const articulosDisponibles: Article[] = mockarticle //await articleService.getAll()
+        const articulosDisponibles: Article[] = mockarticle //
+        // await articleService.getAll().catch(() => {
+        //   Swal.fire({
+        //     title: 'Error',
+        //     text: 'Ocurrió un error al obtener los artículos.',
+        //     icon: 'error',
+        //     confirmButtonText: 'Cerrar',
+        //     confirmButtonColor: '#4B5563',
+        //   })
+        // })
         // Actualizar la caché global
         articlesCache = articulosDisponibles
         loadError = null
@@ -96,6 +105,15 @@ export const useArticles = () => {
         // Simulación o llamada real a API
         await new Promise((resolve) => setTimeout(resolve, 1000))
         const articulosDisponibles = mockarticle
+        // await articleService.getAll().catch(() => {
+        //   Swal.fire({
+        //     title: 'Error',
+        //     text: 'Ocurrió un error al obtener los artículos.',
+        //     icon: 'error',
+        //     confirmButtonText: 'Cerrar',
+        //     confirmButtonColor: '#4B5563',
+        //   })
+        // })
 
         // Actualizar caché global
         articlesCache = articulosDisponibles
@@ -121,32 +139,85 @@ export const useArticles = () => {
     void fetchArticles()
   }
 
-  const deleteArticle = async (id: string) => {
-    await articleService.delete(id)
-    setArticles((prevArticles) =>
-      prevArticles.filter((article) => article.id !== id),
-    )
+  const addArticle = async (article: Omit<Article, 'id'>) => {
+    // await articleService
+    //   .create(article)
+    //   .then(() => {
+    //     Swal.fire({
+    //       title: 'Éxito',
+    //       text: 'El artículo ha sido agregado exitosamente.',
+    //       icon: 'success',
+    //       confirmButtonText: 'Aceptar',
+    //     })
+    //   })
+    //   .catch(() => {
+    //     Swal.fire({
+    //       title: 'Error',
+    //       text: 'Ocurrió un error al agregar el artículo.',
+    //       icon: 'error',
+    //       confirmButtonText: 'Cerrar',
+    //       confirmButtonColor: '#4B5563',
+    //     })
+    //   })
+    setArticles((prevArticles) => [...prevArticles, article])
+    // // Apply any existing filters to the updated list
+    // applyFilters([...articles, newArticle], searchTerm, selectedThematicArea)
+  }
 
+  const deleteArticle = async (id: string) => {
+    // await articleService
+    //   .delete(id)
+    //   .then(() => {
+    //     Swal.fire({
+    //       title: 'Éxito',
+    //       text: 'El artículo ha sido eliminado exitosamente.',
+    //       icon: 'success',
+    //       confirmButtonText: 'Aceptar',
+    //     })
+    //   })
+    //   .catch(() => {
+    //     Swal.fire({
+    //       title: 'Error',
+    //       text: 'Ocurrió un error al eliminar el artículo.',
+    //       icon: 'error',
+    //       confirmButtonText: 'Cerrar',
+    //       confirmButtonColor: '#4B5563',
+    //     })
+    //   })
+    const prevarticles = articles.filter((article) => article.id !== id)
+    articlesCache = prevarticles
+    setArticles(prevarticles)
+    console.log('====================================')
+    console.log(articles)
+    console.log('====================================')
     // // Apply any existing filters to the updated list
     // applyFilters(
     //   articles.filter((article) => article.id !== id),
     //   searchTerm,
     //   selectedThematicArea,
     // )
-
-    // toast({
-    //   title: 'Artículo eliminado',
-    //   description: 'El artículo ha sido eliminado exitosamente.',
-    // })
   }
 
-  const editArticle = (id: string, updatedArticle: Article) => {
-    setArticles((prevArticles) =>
-      prevArticles.map((article) =>
-        article.id === id ? { ...updatedArticle, id } : article,
-      ),
-    )
-
+  const editArticle = async (id: string, updatedArticle: Article) => {
+    // await articleService
+    //   .update(id, updatedArticle)
+    //   .then(() => {
+    //     Swal.fire({
+    //       title: 'Éxito',
+    //       text: 'El artículo ha sido actualizado exitosamente.',
+    //       icon: 'success',
+    //       confirmButtonText: 'Aceptar',
+    //     })
+    //   })
+    //   .catch(() => {
+    //     Swal.fire({
+    //       title: 'Error',
+    //       text: 'Ocurrió un error al actualizar el artículo.',
+    //       icon: 'error',
+    //       confirmButtonText: 'Cerrar',
+    //       confirmButtonColor: '#4B5563',
+    //     })
+    //   })
     // // Apply any existing filters to the updated list
     // applyFilters(
     //   articles.map((article) =>
@@ -157,11 +228,6 @@ export const useArticles = () => {
     //   searchTerm,
     //   selectedThematicArea,
     // )
-
-    // toast({
-    //   title: 'Artículo actualizado',
-    //   description: 'El artículo ha sido actualizado exitosamente.',
-    // })
   }
 
   const downloadArticle = async (id: string) => {
@@ -187,11 +253,13 @@ export const useArticles = () => {
 
   return {
     articles,
+    setArticles,
     loading,
     error,
     refreshArticles,
     downloadArticle,
     deleteArticle,
     editArticle,
+    addArticle,
   }
 }

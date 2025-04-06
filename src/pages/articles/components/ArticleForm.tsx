@@ -13,7 +13,8 @@ import Select from '../../components/common/Select'
 import TextArea from '../../components/common/TextArea'
 import { thematicOptions } from '../../../constants/cts'
 import Swal from 'sweetalert2'
-// import { useArticles } from '@/context/ArticleContext'
+import { useArticles } from '../../../hooks/useArticles'
+
 const primaryThematicOptions = thematicOptions.map((option: string) => ({
   label: option,
   value: option,
@@ -29,7 +30,7 @@ interface ArticleFormProps {
   mode: 'add' | 'edit'
 }
 const ArticleForm: React.FC<ArticleFormProps> = ({ article, mode }) => {
-  // const { addArticle, editArticle } = useArticles()
+  const { addArticle, editArticle } = useArticles()
   const [open, onClose] = useState(false)
   const [title, setTitle] = useState('')
   const [year, setYear] = useState(new Date().getFullYear().toString())
@@ -157,16 +158,25 @@ const ArticleForm: React.FC<ArticleFormProps> = ({ article, mode }) => {
     }
 
     if (mode === 'add') {
-      // addArticle(articleData)
-      onClose(false)
-      void Swal.fire({
-        icon: 'success',
-        title: 'Articulo registrado',
-        text: 'El artículo ha sido registrado exitosamente.',
-        confirmButtonText: 'Aceptar',
+      void addArticle(articleData).then(() => {
+        onClose(false)
+        Swal.fire({
+          title: 'Artículo agregado',
+          text: 'El artículo ha sido agregado exitosamente.',
+          icon: 'success',
+          confirmButtonText: 'Aceptar',
+        })
       })
-    } else if (article) {
-      // editArticle(article.id, articleData)
+    } else if (article?.id) {
+      void editArticle(article.id, articleData).then(() => {
+        onClose(false)
+        Swal.fire({
+          title: 'Artículo editado',
+          text: 'El artículo ha sido editado exitosamente.',
+          icon: 'success',
+          confirmButtonText: 'Aceptar',
+        })
+      })
     }
 
     resetForm()
