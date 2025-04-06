@@ -1,24 +1,14 @@
-import Article from '../../../types/entities/Article'
+import { useArticles } from '../../../hooks/useArticles'
 import ArticlesList from './ArticlesList'
 
-interface ArticlesAllListProps {
-  articles: Article[]
-  handleEdit: (id: string) => void
-  handleDelete: (id: string) => void
-  handleDownload: (id: string) => void
-}
-
-function ArticlesAllList(props: Readonly<ArticlesAllListProps>) {
-  const { articles, handleEdit, handleDelete, handleDownload } = props
+function ArticlesAllList() {
+  const { articles} = useArticles()
   return (
     <section>
       {/* Lista de artículos */}
       <div className="space-y-4">
         <ArticlesList
           articles={articles}
-          handleEdit={handleEdit}
-          handleDelete={handleDelete}
-          handleDownload={handleDownload}
         />
       </div>
     </section>

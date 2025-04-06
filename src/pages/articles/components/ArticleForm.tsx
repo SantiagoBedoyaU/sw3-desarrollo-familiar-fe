@@ -12,6 +12,7 @@ import Label from '../../components/common/Label'
 import Select from '../../components/common/Select'
 import TextArea from '../../components/common/TextArea'
 import { thematicOptions } from '../../../constants/cts'
+import Swal from 'sweetalert2'
 // import { useArticles } from '@/context/ArticleContext'
 const primaryThematicOptions = thematicOptions.map((option: string) => ({
   label: option,
@@ -155,9 +156,17 @@ const ArticleForm: React.FC<ArticleFormProps> = ({ article, mode }) => {
       articleData.thematicArea2 = thematicArea2
     }
 
-    // @typescript-eslint/no-unnecessary-condition
     if (mode === 'add') {
       // addArticle(articleData)
+      onClose(false)
+      Swal.fire({
+        icon: 'success',
+        title: 'Articulo registrado',
+        text: 'El artículo ha sido registrado exitosamente.',
+        confirmButtonText: 'Aceptar',
+      })
+
+      
     } else if (article) {
       // editArticle(article.id, articleData)
     }

@@ -1,24 +1,10 @@
-import Article from '../../../types/entities/Article'
+import { useArticlesTop } from '../../../hooks/useArticlesTop'
 import ArticlesList from './ArticlesList'
 
-interface ArticlesTopProps {
-  articles: Article[]
-  handleEdit: (id: string) => void
-  handleDelete: (id: string) => void
-  handleDownload: (id: string) => void
-}
+function ArticlesTop() {
+  const { articles } = useArticlesTop()
 
-function ArticlesTop(props: Readonly<ArticlesTopProps>) {
-  const { articles, handleEdit, handleDelete, handleDownload } = props
-
-  return (
-    <ArticlesList
-      articles={articles}
-      handleEdit={handleEdit}
-      handleDelete={handleDelete}
-      handleDownload={handleDownload}
-    />
-  )
+  return <ArticlesList articles={articles} />
 }
 
 export default ArticlesTop

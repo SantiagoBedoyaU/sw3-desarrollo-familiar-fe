@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react'
 import ArticleForm from './components/ArticleForm'
 import ArticleFilters from './components/ArticleFilters'
 import ArticlesTop from './components/ArticlesTop'
-import Article from '../../types/entities/Article'
 import ArticlesAllList from './components/ArticlesAllList'
 
 const Articles = () => {
@@ -36,54 +35,6 @@ const Articles = () => {
     manageCount()
   }, [searchFilters, setSearchFilters, manageCount])
 
-  // Estado para los artículos
-  const [articles, setArticles] = useState<Article[]>([
-    {
-      id: '1',
-      title: 'Artículo de aceite enriquecido en niñas',
-      authors: 'Naydú Núñez',
-      thematicArea: 'Pediatría',
-      thematicArea2: 'Pediatría',
-      keywords: 'aceite, enriquecido, niñas',
-      summary: 'Resumen del artículo',
-      file: new File([], 'file.pdf'),
-      year: '2023',
-    },
-    {
-      id: '2',
-      title: 'Artículo de aceite enriquecido en niñas',
-      authors: 'Naydú Núñez, Juan Perez',
-      thematicArea: 'Nutrición',
-      thematicArea2: 'Pediatría',
-      keywords: 'aceite, enriquecido, niñas',
-      summary: 'Resumen del artículo',
-      file: new File([], 'file.pdf'),
-      year: '2023',
-    },
-    {
-      id: '3',
-      title: 'Artículo de aceite enriquecido en niñas',
-      authors: 'Naydú Núñez',
-      thematicArea: 'Pediatría',
-      thematicArea2: 'Pediatría',
-      keywords: 'aceite, enriquecido, niñas',
-      summary: 'Resumen del artículo',
-      file: new File([], 'file.pdf'),
-      year: '2023',
-    },
-    {
-      id: '4',
-      title: 'Artículo de aceite enriquecido en niñas',
-      authors: 'Naydú Núñez',
-      thematicArea: 'Nutrición',
-      thematicArea2: 'Pediatría',
-      keywords: 'aceite, enriquecido, niñas',
-      summary: 'Resumen del artículo',
-      file: new File([], 'file.pdf'),
-      year: '2023',
-    },
-  ])
-
   // Manejadores de eventos
   const handleFilterChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
@@ -100,19 +51,6 @@ const Articles = () => {
     console.log('Buscando con filtros:', searchFilters)
   }
 
-  const handleEdit = (id: string) => {
-    console.log('Editando artículo:', id)
-  }
-
-  const handleDelete = (id: string) => {
-    console.log('Eliminando artículo:', id)
-    setArticles(articles.filter((article) => article.id !== id))
-  }
-
-  const handleDownload = (id: string) => {
-    console.log('Descargando artículo:', id)
-  }
-
   return (
     <div className="max-w-4xl mx-auto p-6 bg-white shadow-lg rounded-lg">
       <section className="md:relative md:flex md:items-center md:justify-between mb-4">
@@ -126,22 +64,8 @@ const Articles = () => {
         handleSearch={handleSearch}
         searchFilters={searchFilters}
       />
-      {countFilters === 0 && (
-        <ArticlesTop
-          articles={articles}
-          handleEdit={handleEdit}
-          handleDelete={handleDelete}
-          handleDownload={handleDownload}
-        />
-      )}
-      {countFilters > 0 && (
-        <ArticlesAllList
-          articles={articles}
-          handleEdit={handleEdit}
-          handleDelete={handleDelete}
-          handleDownload={handleDownload}
-        />
-      )}
+      {countFilters === 0 && <ArticlesTop />}
+      {countFilters > 0 && <ArticlesAllList />}
     </div>
   )
 }
