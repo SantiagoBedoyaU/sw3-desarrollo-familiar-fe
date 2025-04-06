@@ -44,9 +44,9 @@ function ArticlesList(props: Readonly<ArticlesListProps>) {
         </button>
         <button
           type="button"
-          onClick={async () => {
+          onClick={() => {
             if (article.id) {
-              await deleteArticle(article.id) // Manejar la promesa con `await`
+              void deleteArticle(article.id)
             }
           }}
           className="flex w-full md:w-fit items-center bg-red-500 hover:bg-red-600 text-white py-1 px-3 rounded text-sm transition duration-300"
@@ -56,7 +56,11 @@ function ArticlesList(props: Readonly<ArticlesListProps>) {
         </button>
         <button
           type="button"
-          onClick={() => article.id && downloadArticle(article.id)}
+          onClick={() => {
+            if (article.id) {
+              void downloadArticle(article.id)
+            }
+          }}
           className="flex w-full md:w-fit items-center border-gray-200 border-2 bg-white hover:bg-gray-300 text-gray-800 py-1 px-3 rounded text-sm transition duration-300"
         >
           <Download size={16} className="mr-1" />

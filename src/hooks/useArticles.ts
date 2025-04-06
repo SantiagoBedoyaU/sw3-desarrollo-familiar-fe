@@ -102,7 +102,7 @@ export const useArticles = () => {
         loadError = null
 
         // Actualizar estado local
-        setArticles(articlesCache ?? mockarticle)
+        setArticles(articlesCache)
         setError(null)
       } catch (err) {
         console.error('Error refreshing articles:', err)
@@ -169,15 +169,14 @@ export const useArticles = () => {
     if (!article) {
       throw new Error('Artículo no encontrado')
     }
-
-    if (!article.file) {
-      throw new Error('El artículo no tiene un archivo asociado')
-    }
-
+    // Simulación de descarga de archivo
+    // const file = await articleService.download(id)
+    const file = new Blob([article.file], { type: article.file.type })
+    await new Promise((resolve) => setTimeout(resolve, 1000)) // Simulación de espera
     const url = URL.createObjectURL(article.file)
     const link = document.createElement('a')
     link.href = url
-    link.download = article.title ?? 'archivo' // Usa el título del artículo como nombre del archivo
+    link.download = article.title // Nombre del archivo a descargar
     link.target = '_blank' // Abre el archivo en una nueva pestaña
     document.body.appendChild(link)
     link.click()

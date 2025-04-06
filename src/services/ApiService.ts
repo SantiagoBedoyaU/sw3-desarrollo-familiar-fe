@@ -9,14 +9,14 @@ const defaultConfig: AxiosRequestConfig = Config.defaultConfig
 
 // Clase base para servicios API
 export class ApiService<T> {
-  private readonly endpoint: string
+  private readonly endpoint // Eliminada la anotación redundante `: string`
 
   constructor(endpoint: string) {
     this.endpoint = endpoint
   }
 
   // Método para obtener la URL completa
-  protected getUrl(path: string = '') {
+  protected getUrl(path: string = ''): string {
     return `${API_BASE_URL}${this.endpoint}${path ? '/' + path : ''}`
   }
 
@@ -113,9 +113,7 @@ export class ApiService<T> {
 
   async delete(id: string): Promise<void> {
     try {
-      await this.handleResponse<void>(
-        axios.delete(this.getUrl(id), defaultConfig),
-      )
+      await this.handleResponse(axios.delete(this.getUrl(id), defaultConfig)) // Eliminado el uso incorrecto de `void`
     } catch (error) {
       this.handleError(error, `Error deleting ${this.endpoint} with id ${id}`)
     }

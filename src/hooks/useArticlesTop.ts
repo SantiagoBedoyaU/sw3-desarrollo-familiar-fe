@@ -33,7 +33,7 @@ export const useArticlesTop = () => {
     if (isLoading) {
       // Nos suscribimos a actualizaciones
       const updateState = () => {
-        setArticles(articlesCache?.slice(0, 5) || []) // Usar operador `||` sin redundancia
+        setArticles(articlesCache?.slice(0, 5) ?? [])
         setLoading(isLoading)
         setError(loadError)
       }

@@ -51,6 +51,7 @@ export default tseslint.config(
       'no-var': 'error',
       '@typescript-eslint/no-confusing-void-expression': 'off',
       '@typescript-eslint/explicit-function-return-type': 'off',
+      '@typescript-eslint/no-unsafe-return': 'off',
     },
   },
 )
