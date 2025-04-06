@@ -4,6 +4,7 @@ interface AuthStore {
   isAuthenticated: boolean
   checkAuth: () => void
   logout: () => void
+  login: () => void
 }
 
 const useAuthStore = create<AuthStore>((set) => ({

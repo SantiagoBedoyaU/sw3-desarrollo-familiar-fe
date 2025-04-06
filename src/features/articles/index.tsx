@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useCallback } from 'react'
 import ArticleForm from './components/ArticleForm'
 import ArticleFilters from './components/ArticleFilters'
 import ArticlesTop from './components/ArticlesTop'
@@ -14,26 +14,20 @@ const Articles = () => {
   })
 
   const [countFilters, setCountFilters] = useState(0)
-  const manageCount = () => {
+
+  // Memoiza manageCount para evitar warning en useEffect
+  const manageCount = useCallback(() => {
     let count = 0
-    if (searchFilters.title !== '') {
-      count++
-    }
-    if (searchFilters.author !== '') {
-      count++
-    }
-    if (searchFilters.thematicArea !== '') {
-      count++
-    }
-    if (searchFilters.thematicArea2 !== '') {
-      count++
-    }
+    if (searchFilters.title !== '') count++
+    if (searchFilters.author !== '') count++
+    if (searchFilters.thematicArea !== '') count++
+    if (searchFilters.thematicArea2 !== '') count++
     setCountFilters(count)
-  }
+  }, [searchFilters])
 
   useEffect(() => {
     manageCount()
-  }, [searchFilters, setSearchFilters, manageCount])
+  }, [manageCount])
 
   // Manejadores de eventos
   const handleFilterChange = (
@@ -47,7 +41,6 @@ const Articles = () => {
   }
 
   const handleSearch = () => {
-    // Aquí iría la lógica de búsqueda real
     console.log('Buscando con filtros:', searchFilters)
   }
 
@@ -59,11 +52,13 @@ const Articles = () => {
           Filtrar artículos de investigación
         </h2>
       </section>
+
       <ArticleFilters
         handleFilterChange={handleFilterChange}
         handleSearch={handleSearch}
         searchFilters={searchFilters}
       />
+
       {countFilters === 0 && <ArticlesTop />}
       {countFilters > 0 && <ArticlesAllList />}
     </div>
