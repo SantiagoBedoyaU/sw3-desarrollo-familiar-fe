@@ -1,4 +1,4 @@
-import { useArticlesTop } from '../../../hooks/useArticlesTop'
+import { useArticlesTop } from '../../../shared/hooks/useArticlesTop'
 import ArticlesList from './ArticlesList'
 
 function ArticlesTop() {

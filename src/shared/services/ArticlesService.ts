@@ -1,7 +1,7 @@
 import axios from 'axios'
 import Article from '../types/entities/Article'
 import { ApiService } from './ApiService'
-import Config from '../config/Config'
+import Config from '@/app/config/Config'
 
 export class ArticleService extends ApiService<Article> {
   constructor() {

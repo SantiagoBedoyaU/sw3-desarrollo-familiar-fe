@@ -1,5 +1,5 @@
 import { Search } from 'lucide-react'
-import { thematicOptions } from '../../../constants/cts'
+import { thematicOptions } from '../../../shared/constants/cts'
 
 interface ArticleFiltersProps {
   searchFilters: {

@@ -1,5 +1,5 @@
 import axios, { AxiosRequestConfig, AxiosError, AxiosResponse } from 'axios'
-import Config from '../config/Config'
+import Config from '@/app/config/Config'
 
 // Base URL para todas las peticiones
 const API_BASE_URL = Config.LOGIC_URL
