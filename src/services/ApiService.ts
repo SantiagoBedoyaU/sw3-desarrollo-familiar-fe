@@ -16,12 +16,12 @@ export class ApiService<T> {
   }
 
   // Método para obtener la URL completa
-  protected getUrl(path: string = ''): string {
+  protected getUrl(path: string = '') {
     return `${API_BASE_URL}${this.endpoint}${path ? '/' + path : ''}`
   }
 
   // Método genérico para manejar errores con mensajes contextualizados
-  protected handleError(error: any, errorMessage: string): never {
+  protected handleError(error: unknown, errorMessage: string): never {
     if (axios.isAxiosError(error)) {
       const axiosError = error as AxiosError
 
@@ -30,9 +30,12 @@ export class ApiService<T> {
         const statusText = axiosError.response.statusText
 
         // Intentar extraer mensaje de error del cuerpo de la respuesta
-        if (axiosError.response.data) {
-          const errorData = axiosError.response.data as any
-          if (errorData.message) {
+        if (
+          axiosError.response.data &&
+          typeof axiosError.response.data === 'object'
+        ) {
+          const errorData = axiosError.response.data as Record<string, unknown>
+          if (typeof errorData.message === 'string') {
             console.error(`${errorMessage}: ${errorData.message}`)
             throw new Error(`${errorMessage}: ${errorData.message}`)
           }

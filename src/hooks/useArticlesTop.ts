@@ -7,7 +7,7 @@ import mockArticle from '../types/mocks/ArticleMock'
 let articlesCache: Article[] | null = null
 let isLoading = false
 let loadError: Error | null = null
-let listeners: Function[] = []
+let listeners: (() => void)[] = []
 const articleService = new ArticleService()
 const mockarticle = mockArticle
 
@@ -33,7 +33,7 @@ export const useArticlesTop = () => {
     if (isLoading) {
       // Nos suscribimos a actualizaciones
       const updateState = () => {
-        setArticles((articlesCache || []).slice(0, 5)) // Tomar solo los primeros 5 artículos
+        setArticles((articlesCache ?? []).slice(0, 5)) // Tomar solo los primeros 5 artículos
         setLoading(isLoading)
         setError(loadError)
       }
@@ -48,7 +48,7 @@ export const useArticlesTop = () => {
 
     // Si no hay caché ni carga en progreso, iniciamos la carga
     const fetchArticles = async () => {
-      if (isLoading || articlesCache) return
+      if (isLoading ?? articlesCache) return
 
       try {
         isLoading = true

@@ -75,7 +75,7 @@ const ArticleForm: React.FC<ArticleFormProps> = ({ article, mode }) => {
       // Clear form when opening in add mode
       resetForm()
     }
-  }, [])
+  }, [article, mode])
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0]
@@ -159,14 +159,14 @@ const ArticleForm: React.FC<ArticleFormProps> = ({ article, mode }) => {
     if (mode === 'add') {
       // addArticle(articleData)
       onClose(false)
-      Swal.fire({
+      void Swal.fire({
         icon: 'success',
         title: 'Articulo registrado',
         text: 'El artículo ha sido registrado exitosamente.',
         confirmButtonText: 'Aceptar',
       })
 
-      
+
     } else if (article) {
       // editArticle(article.id, articleData)
     }
