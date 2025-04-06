@@ -19,8 +19,8 @@ function ArticlesList({ articles }: Readonly<ArticlesListProps>) {
         <div>
           <span>Autor(es):</span>
           <ul className="list-disc ml-4">
-            {article.authors.split(',').map((author: string) => (
-              <li key={`${article.id}-${author.trim()}`}>{author.trim()}</li>
+            {article.authors.split(',').map((author: string, index: number) => (
+              <li key={`${String(article.id)}-${index}`}>{author.trim()}</li>
             ))}
           </ul>
         </div>
