@@ -4,7 +4,7 @@ import { ArticleService } from '../services/ArticlesService'
 import mockArticle from '../types/mocks/ArticleMock'
 
 // Caché global a nivel de módulo (persiste entre renders)
-let articlesCache: Article[] | null = null
+let articlesCache: Article[] = []
 let isLoading = false
 let loadError: Error | null = null
 let listeners: (() => void)[] = []
@@ -33,7 +33,7 @@ export const useArticles = () => {
     if (isLoading) {
       // Nos suscribimos a actualizaciones
       const updateState = () => {
-        setArticles(articlesCache || [])
+        setArticles(articlesCache)
         setLoading(isLoading)
         setError(loadError)
       }
@@ -83,7 +83,7 @@ export const useArticles = () => {
 
   // Función para forzar actualización (limpia la caché)
   const refreshArticles = () => {
-    articlesCache = null
+    articlesCache = []
     isLoading = false
     loadError = null
 
@@ -171,7 +171,8 @@ export const useArticles = () => {
     }
     // Simulación de descarga de archivo
     // const file = await articleService.download(id)
-    const file = new Blob([article.file], { type: article.file.type })
+    const file = new File([], 'file.pdf')
+    article.file = file
     await new Promise((resolve) => setTimeout(resolve, 1000)) // Simulación de espera
     const url = URL.createObjectURL(article.file)
     const link = document.createElement('a')

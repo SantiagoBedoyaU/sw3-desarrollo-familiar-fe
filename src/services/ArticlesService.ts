@@ -9,7 +9,7 @@ export class ArticleService extends ApiService<Article> {
   }
 
   // Métodos específicos para articulos
-  async getTopArticles(): Promise<Article[] > {
+  async getTopArticles(): Promise<Article[]> {
     try {
       const response = await axios.get(this.getUrl('top'), Config.defaultConfig)
       return response.data

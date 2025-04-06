@@ -165,8 +165,6 @@ const ArticleForm: React.FC<ArticleFormProps> = ({ article, mode }) => {
         text: 'El artículo ha sido registrado exitosamente.',
         confirmButtonText: 'Aceptar',
       })
-
-
     } else if (article) {
       // editArticle(article.id, articleData)
     }

@@ -8,7 +8,9 @@ interface ArticleFiltersProps {
     thematicArea: string
     thematicArea2: string
   }
-  handleFilterChange: (filters: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => void
+  handleFilterChange: (
+    filters: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
+  ) => void
   handleSearch: () => void
 }
 
