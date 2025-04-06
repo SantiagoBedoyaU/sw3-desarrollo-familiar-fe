@@ -1,5 +1,5 @@
 import { NavLink } from 'react-router-dom'
-import { navItems } from '@/features/navigation/constants/navItems'
+import { navItems } from '../constants/NavItems'
 
 const DesktopNav = () => {
   return (

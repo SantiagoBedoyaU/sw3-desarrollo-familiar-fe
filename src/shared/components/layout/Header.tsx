@@ -1,6 +1,6 @@
 import { CircleUserRound, LogIn, LogOut, Menu } from 'lucide-react'
-import useAuthStore from '@/app/stores/useAuthStore'
-import NavigationWrapper from '@/features/navigation/components/NavigationWrapper'
+import useAuthStore from '../../../app/stores/useAuthStore'
+import NavigationWrapper from '../../../features/navigation/components/NavigationWrapper'
 import { useState } from 'react'
 
 function Header() {

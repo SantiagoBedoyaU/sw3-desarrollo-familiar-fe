@@ -1,15 +1,15 @@
 import { X, LogOut, CircleUserRound, LogIn } from 'lucide-react'
-import { NavLink, useLocation } from 'react-router-dom'
-import { navItems } from '@/features/navigation/constants/navItems'
-import useAuthStore from '@/app/stores/useAuthStore'
-
+// import { NavLink, useLocation } from 'react-router-dom'
+import { NavLink } from 'react-router-dom'
+import { navItems } from '../constants/NavItems'
+import useAuthStore from '../../../app/stores/useAuthStore'
 interface NavbarMobileProps {
   open: boolean
   setOpen: React.Dispatch<React.SetStateAction<boolean>>
 }
 
 const NavbarMobile: React.FC<NavbarMobileProps> = ({ open, setOpen }) => {
-  const location = useLocation().pathname
+  //  const location = useLocation().pathname
   const { isAuthenticated, logout } = useAuthStore()
 
   if (!open) return null

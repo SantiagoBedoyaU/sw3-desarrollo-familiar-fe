@@ -1,10 +1,10 @@
 import { Routes, Route } from 'react-router-dom'
 
-import Home from '@/features/home'
-import Articles from '@/features/articles'
-import Register from '@/features/auth/pages/Register'
-import Login from '@/features/auth/pages/Login'
-import NotFound from '@/shared/components/layout/NotFound'
+import Home from '../../features/home'
+import Articles from '../../features/articles'
+import Register from '../../features/auth/pages/Register'
+import Login from '../../features/auth/pages/Login'
+import NotFound from '../../shared/components/layout/NotFound'
 // import PrivateRoute from '@/shared/components/PrivateRoute'
 // import PracticeReports from '@/features/practiceReports'
 

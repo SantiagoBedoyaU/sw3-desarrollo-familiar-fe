@@ -1,4 +1,4 @@
-import { useArticles } from '@/shared/hooks/useArticles'
+import { useArticles } from '../../../shared/hooks/useArticles'
 import ArticlesList from './ArticlesList'
 
 function ArticlesAllList() {

@@ -1,6 +1,6 @@
 import { Download, Edit2, Trash2 } from 'lucide-react'
-import Article from '@/shared/types/entities/Article'
-import { useArticles } from '@/shared/hooks/useArticles'
+import Article from '../../../shared/types/entities/Article'
+import { useArticles } from '../../../shared/hooks/useArticles'
 
 interface ArticlesListProps {
   articles: Article[]

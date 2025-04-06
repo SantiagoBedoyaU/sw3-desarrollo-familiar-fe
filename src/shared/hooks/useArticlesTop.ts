@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
-import { ArticleService } from '@/shared/services/ArticlesService'
-import Article from '@/shared/types/entities/Article'
-import mockArticle from '@/shared/types/mocks/ArticleMock'
+import { ArticleService } from '../services/ArticlesService'
+import Article from '../types/entities/Article'
+import mockArticle from '../types/mocks/ArticleMock'
 
 let articlesCache: Article[] | null = null
 let isLoading = false

@@ -1,9 +1,9 @@
 import { useEffect } from 'react'
 import { BrowserRouter } from 'react-router-dom'
-import useAuthStore from '@/app/stores/useAuthStore'
-import AppRoutes from '@/app/routes'
-import Header from '@/shared/components/layout/Header'
-import Footer from '@/shared/components/layout/Footer'
+import useAuthStore from '../app/stores/useAuthStore'
+import AppRoutes from './routes'
+import Header from '../shared/components/layout/Header'
+import Footer from '../shared/components/layout/Footer'
 
 function App() {
   const { checkAuth } = useAuthStore()
