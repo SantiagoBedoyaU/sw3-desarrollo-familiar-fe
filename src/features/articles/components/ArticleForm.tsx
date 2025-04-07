@@ -13,7 +13,7 @@ import Select from '../../../shared/components/common/Select'
 import TextArea from '../../../shared/components/common/TextArea'
 import { thematicOptions } from '../../../shared/constants/cts'
 import Swal from 'sweetalert2'
-import { useArticles } from '../../../hooks/useArticles'
+import { useArticles } from '../../../shared/hooks/useArticles'
 
 const primaryThematicOptions = thematicOptions.map((option: string) => ({
   label: option,
