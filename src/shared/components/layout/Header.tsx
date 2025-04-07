@@ -12,11 +12,7 @@ function Header() {
       <section className="flex justify-between items-center px-4 py-2">
         {/* Logo */}
         <a href="/" className="flex items-center gap-2">
-          <img
-            src="./src/assets/logo.jpg"
-            alt="logo"
-            className="h-10 w-10 rounded-full"
-          />
+          <img src="/icon.jpg" alt="logo" className="h-10 w-10 rounded-full" />
           <span className="text-lg font-semibold hidden md:inline">
             Escuelas Familiares
           </span>
