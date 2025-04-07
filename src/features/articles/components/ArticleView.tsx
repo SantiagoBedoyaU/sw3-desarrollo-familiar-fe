@@ -31,7 +31,7 @@ const ArticleView: React.FC<ArticleViewProps> = ({ article }) => {
       <DialogContent
         open={open}
         setOpen={onClose}
-        className="sm:max-w-md m-auto h-screen"
+        className="max-w-md sm:max-w-xl md:max-w-2xl m-auto h-screen"
       >
         <DialogHeader>
           <div className="flex justify-between items-center">

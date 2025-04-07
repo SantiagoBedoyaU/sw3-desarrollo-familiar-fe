@@ -1,4 +1,4 @@
-import { Download, Edit2, Eye, Trash2 } from 'lucide-react'
+import { Download, Edit2, Trash2 } from 'lucide-react'
 import Article from '../../../shared/types/entities/Article'
 import { useArticles } from '../../../shared/hooks/useArticles'
 import ArticleView from './ArticleView'
