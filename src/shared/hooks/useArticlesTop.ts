@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import Article from '../types/entities/Article'
 import mockArticle from '../types/mocks/ArticleMock'
+import Swal from 'sweetalert2'
 
 // Caché global a nivel de módulo (persiste entre renders)
 let articlesCache: Article[] | null = null
@@ -64,6 +65,15 @@ export const useArticlesTop = () => {
         //     confirmButtonColor: '#4B5563',
         //   })
         // })
+        if (articulosDisponibles.length === 0) {
+          Swal.fire({
+            title: 'Sin artículos disponibles',
+            text: 'No hay artículos disponibles en este momento.',
+            icon: 'info',
+            confirmButtonText: 'Cerrar',
+            confirmButtonColor: '#4B5563',
+          })
+        }
         // Actualizar la caché global
         articlesCache = articulosDisponibles
         loadError = null
@@ -112,6 +122,15 @@ export const useArticlesTop = () => {
         //     confirmButtonColor: '#4B5563',
         //   })
         // })
+        if (articulosDisponibles.length === 0) {
+          Swal.fire({
+            title: 'Sin artículos disponibles',
+            text: 'No hay artículos disponibles en este momento.',
+            icon: 'info',
+            confirmButtonText: 'Cerrar',
+            confirmButtonColor: '#4B5563',
+          })
+        }
         // Actualizar caché global
         articlesCache = articulosDisponibles
         loadError = null

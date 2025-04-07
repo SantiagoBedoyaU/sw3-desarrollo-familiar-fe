@@ -28,7 +28,7 @@ function ArticleFilters({
     <section>
       <section className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mb-4">
         {/* Inputs de texto */}
-        <div className="col-span-full flex flex-col sm:flex-row items-center justify-between gap-2">
+        <section className="col-span-full flex flex-col sm:flex-row items-center justify-between gap-2">
           <input
             type="text"
             name="title"
@@ -45,11 +45,11 @@ function ArticleFilters({
             onChange={handleFilterChange}
             className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
-        </div>
+        </section>
 
         {/* Selects */}
         {(['thematicArea', 'thematicArea2'] as const).map((name) => (
-          <div key={name} className="relative">
+          <section key={name} className="relative">
             <select
               name={name}
               value={searchFilters[name as keyof typeof searchFilters]}
@@ -67,7 +67,7 @@ function ArticleFilters({
                 </option>
               ))}
             </select>
-            <div className="absolute top-3 right-0 flex items-center px-2 pointer-events-none">
+            <section className="absolute top-3 right-0 flex items-center px-2 pointer-events-none">
               <svg
                 className="w-4 h-4 text-gray-400"
                 fill="none"
@@ -81,12 +81,12 @@ function ArticleFilters({
                   d="M19 9l-7 7-7-7"
                 />
               </svg>
-            </div>
-          </div>
+            </section>
+          </section>
         ))}
 
         {/* Botón */}
-        <div className="mb-6 md:mb-2 sm:col-span-full md:col-span-1">
+        <section className="mb-6 md:mb-2 sm:col-span-full md:col-span-1">
           <button
             type="button"
             onClick={handleSearch}
@@ -95,7 +95,7 @@ function ArticleFilters({
             <Search size={16} className="inline-block mr-2" />
             <span>Buscar</span>
           </button>
-        </div>
+        </section>
       </section>
     </section>
   )

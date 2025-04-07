@@ -5,7 +5,7 @@ function ArticlesTop() {
   const { articles, setArticles } = useArticlesTop()
 
   return (
-    <ArticlesList articles={articles} setArticles={setArticles} type="top" />
+    <ArticlesList articles={articles} setArticles={setArticles} />
   )
 }
 

@@ -197,7 +197,7 @@ const ArticleForm: React.FC<ArticleFormProps> = ({ article, mode }) => {
       <DialogContent
         open={open}
         setOpen={onClose}
-        className="sm:max-w-[600px] m-auto h-screen"
+        className="sm:max-w-md m-auto h-screen"
       >
         <DialogHeader>
           <DialogTitle>
