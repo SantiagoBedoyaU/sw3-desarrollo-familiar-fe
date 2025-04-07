@@ -8,6 +8,10 @@
     "target": "ES2024",
     "module": "ESNext",
     "jsx": "react-jsx",
-    "strict": true
+    "strict": true,
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["src/*"]
+    }
   }
 }
