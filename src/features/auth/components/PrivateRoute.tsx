@@ -15,7 +15,7 @@ function PrivateRoute({ element, requiredRoles }: PrivateRouteProps) {
   // Verificamos el token y opcionalmente obtenemos el usuario
   const token = localStorage.getItem('token')
   const userString = localStorage.getItem('user')
-  const user: User | null = userString ? JSON.parse(userString) : null
+  const user: User | null = userString ? (JSON.parse(userString) as User) : null
 
   useEffect(() => {
     // Verificamos si no hay token
