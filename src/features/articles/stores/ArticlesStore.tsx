@@ -149,21 +149,17 @@ export const useArticleStore = create<ArticleState>((set, get) => ({
 
   addArticle: async (article: Omit<ArticleCreate, '_id'>) => {
 
-    const newArticle = await articleService
-      .create(article)
-    if (newArticle) {
-      set((state) => ({
-        articles: [
-          ...state.articles,
-          {
-            ...newArticle,
-            keywords: newArticle.keywords,
-            authors: newArticle.authors
-          },
-        ],
-      }))
-    }
-
+    const newArticle = await articleService.create(article)
+    set((state) => ({
+      articles: [
+        ...state.articles,
+        {
+          ...newArticle,
+          keywords: newArticle.keywords,
+          authors: newArticle.authors
+        },
+      ],
+    }))
   },
 
   deleteArticle: async (_id: string) => {
