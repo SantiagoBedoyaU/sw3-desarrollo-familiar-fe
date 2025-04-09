@@ -43,7 +43,7 @@ export const useArticleStore = create<ArticleState>((set, get) => ({
       set({ isLoading: true })
 
       const responseArticles: ResponseEntity<Article> | null =
-        await articleService.getAll().catch((error) => {
+        await articleService.getAll().catch((error: unknown) => {
           void Swal.fire({
             title: 'Error',
             text: 'Ocurrió un error al obtener los artículos.',
@@ -90,18 +90,19 @@ export const useArticleStore = create<ArticleState>((set, get) => ({
     try {
       set({ isLoading: true })
 
-      const responseArticles = await articleService.getAll().catch((error) => {
-        void Swal.fire({
-          title: 'Error',
-          text: 'Ocurrió un error al obtener los artículos.',
-          icon: 'error',
-          confirmButtonText: 'Cerrar',
-          confirmButtonColor: '#4B5563',
+      const responseArticles = await articleService
+        .getAll()
+        .catch((error: unknown) => {
+          void Swal.fire({
+            title: 'Error',
+            text: 'Ocurrió un error al obtener los artículos.',
+            icon: 'error',
+            confirmButtonText: 'Cerrar',
+            confirmButtonColor: '#4B5563',
+          })
+          console.error(error)
+          return null
         })
-        console.error(error)
-
-        return null
-      })
 
       if (!responseArticles) {
         throw new Error('No se encontraron artículos disponibles')
@@ -136,18 +137,20 @@ export const useArticleStore = create<ArticleState>((set, get) => ({
 
   addArticle: async (article: Omit<Article, '_id'>) => {
     try {
-      const newArticle = await articleService.create(article).catch((error) => {
-        void Swal.fire({
-          title: 'Error',
-          text: 'Ocurrió un error al agregar el artículo.',
-          icon: 'error',
-          confirmButtonText: 'Cerrar',
-          confirmButtonColor: '#4B5563',
-        })
-        console.error(error)
+      const newArticle = await articleService
+        .create(article)
+        .catch((error: unknown) => {
+          void Swal.fire({
+            title: 'Error',
+            text: 'Ocurrió un error al agregar el artículo.',
+            icon: 'error',
+            confirmButtonText: 'Cerrar',
+            confirmButtonColor: '#4B5563',
+          })
+          console.error(error)
 
-        return null
-      })
+          return null
+        })
 
       if (newArticle) {
         set((state) => ({
@@ -162,7 +165,7 @@ export const useArticleStore = create<ArticleState>((set, get) => ({
   deleteArticle: async (_id: string) => {
     try {
       // Uncomment this when you're ready to use the actual service
-      // await articleService.delete(_id).catch((error) => {
+      // await articleService.delete(_id).catch((error: unknown) => {
       //   void Swal.fire({
       //     title: 'Error',
       //     text: 'Ocurrió un error al eliminar el artículo.',
@@ -190,7 +193,7 @@ export const useArticleStore = create<ArticleState>((set, get) => ({
   editArticle: async (_id: string, updatedArticle: Article) => {
     try {
       // Uncomment this when you're ready to use the actual service
-      // const updated = await articleService.update(_id, updatedArticle).catch((error) => {
+      // const updated = await articleService.update(_id, updatedArticle).catch((error: unknown) => {
       //   void Swal.fire({
       //     title: 'Error',
       //     text: 'Ocurrió un error al actualizar el artículo.',
@@ -269,8 +272,8 @@ export const useArticleStore = create<ArticleState>((set, get) => ({
       // const articulosTop = await articleService.getTopArticles().catch(() => {...})
 
       const responseArticles: ResponseEntity<Article> | null =
-        await articleService.getTopArticles().catch(async (error) => {
-          await Swal.fire({
+        await articleService.getTopArticles().catch((error: unknown) => {
+          void Swal.fire({
             title: 'Error',
             text: 'Ocurrió un error al obtener los artículos.',
             icon: 'error',
@@ -319,8 +322,8 @@ export const useArticleStore = create<ArticleState>((set, get) => ({
       // In your actual implementation, replace this with your API call
       const responseArticles = await articleService
         .getTopArticles()
-        .catch(async (error) => {
-          await Swal.fire({
+        .catch((error: unknown) => {
+          void Swal.fire({
             title: 'Error',
             text: 'Ocurrió un error al obtener los artículos.',
             icon: 'error',
