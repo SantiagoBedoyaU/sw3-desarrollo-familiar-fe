@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Eye, EyeOff, UserPlus } from 'lucide-react'
+import { Eye, EyeOff } from 'lucide-react'
 import Swal from 'sweetalert2'
 import Label from '../../../shared/components/common/Label'
 import Input from '../../../shared/components/common/Input'
