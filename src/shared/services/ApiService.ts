@@ -1,5 +1,6 @@
 import axios, { AxiosRequestConfig, AxiosError, AxiosResponse } from 'axios'
 import Config from '../../app/config/Config'
+import { ResponseEntity } from '../types/reactTypes/ResponseEntity'
 
 // Base URL para todas las peticiones
 const API_BASE_URL = Config.LOGIC_URL
@@ -71,9 +72,9 @@ export class ApiService<T> {
   }
 
   // Métodos CRUD genéricos
-  async getAll(): Promise<T[]> {
+  async getAll(): Promise<ResponseEntity<T>> {
     try {
-      return await this.handleResponse<T[]>(
+      return await this.handleResponse<ResponseEntity<T>>(
         axios.get(this.getUrl(), defaultConfig),
       )
     } catch (error) {

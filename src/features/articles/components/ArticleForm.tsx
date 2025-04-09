@@ -13,7 +13,7 @@ import Select from '../../../shared/components/common/Select'
 import TextArea from '../../../shared/components/common/TextArea'
 import { thematicOptions } from '../../../shared/constants/cts'
 import Swal from 'sweetalert2'
-import { useArticles } from '../../../shared/hooks/useArticles'
+import { useArticleStore } from '../stores/ArticlesStore'
 
 const primaryThematicOptions = thematicOptions.map((option: string) => ({
   label: option,
@@ -30,20 +30,20 @@ interface ArticleFormProps {
   mode: 'add' | 'edit'
 }
 const ArticleForm: React.FC<ArticleFormProps> = ({ article, mode }) => {
-  const { addArticle, editArticle } = useArticles()
+  const { addArticle, editArticle } = useArticleStore()
   const [open, onClose] = useState(false)
   const [title, setTitle] = useState('')
   const [year, setYear] = useState(new Date().getFullYear().toString())
-  const [authors, setAuthors] = useState('')
+  const [authors, setAuthors] = useState<string[]>([])
   const [summary, setSummary] = useState('')
-  const [keywords, setKeywords] = useState('')
+  const [keywords, setKeywords] = useState<string[]>()
   const [file, setFile] = useState<File | null>(null)
   const [fileError, setFileError] = useState(false) // Estado para errores del archivo
   const [changeableKeywords, setChangeableKeywords] = useState(
-    article?.changeableKeywords ?? article?.keywords.split(', ') ?? [],
+    article?.changeableKeywords ?? [],
   )
   const [changeableAuthors, setChangeableAuthors] = useState(
-    article?.changeableAuthors ?? article?.authors.split(', ') ?? [],
+    article?.changeableAuthors ?? [],
   )
   const [primaryThematicAxis, setThematicArea] = useState('')
   const [secondaryThematicAxis, setThematicArea2] = useState('')
@@ -67,7 +67,7 @@ const ArticleForm: React.FC<ArticleFormProps> = ({ article, mode }) => {
       setSummary(article.summary)
       setThematicArea(article.primaryThematicAxis)
       setKeywords(article.keywords)
-      setFile(article.file)
+      // setFile(article?.file ?? null)
       setThematicArea2(article.secondaryThematicAxis ?? '')
       setPracticeReportId(article.practiceReportId ?? '')
       setChangeableAuthors(article.changeableAuthors ?? [])
@@ -91,12 +91,12 @@ const ArticleForm: React.FC<ArticleFormProps> = ({ article, mode }) => {
 
   const resetForm = () => {
     setTitle('')
-    setAuthors('')
+    setAuthors([])
     setThematicArea('')
     setThematicArea2('')
     setYear(new Date().getFullYear().toString())
     setSummary('')
-    setKeywords('')
+    setKeywords([])
     setChangeableAuthors([])
     setChangeableKeywords([])
     setPracticeReportId('')
@@ -141,11 +141,11 @@ const ArticleForm: React.FC<ArticleFormProps> = ({ article, mode }) => {
 
     const articleData: Article = {
       title: title.trim(),
-      authors: changeableAuthors.join(', '),
+      authors: changeableAuthors,
       year: year.trim(),
       primaryThematicAxis: primaryThematicAxis,
       summary: summary.trim(),
-      keywords: changeableKeywords.join(', '),
+      keywords: changeableKeywords,
       file: file,
     }
 
@@ -261,10 +261,14 @@ const ArticleForm: React.FC<ArticleFormProps> = ({ article, mode }) => {
               placeholder="Ingrese autores separados por comas"
               id="authors"
               name="authors"
-              value={authors}
+              value={authors.join(', ') ?? ''}
               type="text"
               required={false}
-              onChange={(e) => setAuthors(e.target.value)}
+              onChange={(e) =>
+                setAuthors(
+                  e.target.value.split(',').map((author) => author.trim()),
+                )
+              }
             />
             <button
               type="button"
@@ -272,13 +276,12 @@ const ArticleForm: React.FC<ArticleFormProps> = ({ article, mode }) => {
               onClick={(e) => {
                 e.preventDefault()
                 if (!authors) return
-                const allAuthors = authors.split(',')
-                const uniqueAuthors = allAuthors.filter(
+                const uniqueAuthors = authors.filter(
                   (author) =>
                     !changeableAuthors.includes(author) && author.trim() !== '',
                 )
                 setChangeableAuthors([...changeableAuthors, ...uniqueAuthors])
-                setAuthors('')
+                setAuthors([])
               }}
             >
               <Plus size={16} />
@@ -297,7 +300,7 @@ const ArticleForm: React.FC<ArticleFormProps> = ({ article, mode }) => {
                   )
                 }}
               >
-                <span className="text-gray-800 group-hover:text-gray-800 group-hover:text-md">
+                <span className="text-gray-800 group-hover:text-gray-950 group-hover:text-md">
                   {author.trim() === '' ? 'Autor sin nombre' : author}
                 </span>
                 <span className="ml-2 text-red-500 group-hover:text-red-700 group-hover:text-xl">
@@ -356,10 +359,14 @@ const ArticleForm: React.FC<ArticleFormProps> = ({ article, mode }) => {
               placeholder="Ingrese palabras clave separadas por comas"
               id="keywords"
               name="keywords"
-              value={keywords}
+              value={keywords?.join(', ') ?? ''}
               type="text"
               required={false}
-              onChange={(e) => setKeywords(e.target.value)}
+              onChange={(e) =>
+                setKeywords(
+                  e.target.value.split(',').map((keyword) => keyword.trim()),
+                )
+              }
             />
             <button
               type="button"
@@ -367,8 +374,7 @@ const ArticleForm: React.FC<ArticleFormProps> = ({ article, mode }) => {
               onClick={(e) => {
                 e.preventDefault()
                 if (!keywords) return
-                const allKeywords = keywords.split(',')
-                const uniqueKeywords = allKeywords.filter(
+                const uniqueKeywords = keywords.filter(
                   (keyword) =>
                     !changeableKeywords.includes(keyword) &&
                     keyword.trim() !== '',
@@ -377,7 +383,7 @@ const ArticleForm: React.FC<ArticleFormProps> = ({ article, mode }) => {
                   ...changeableKeywords,
                   ...uniqueKeywords,
                 ])
-                setKeywords('')
+                setKeywords([])
               }}
             >
               <Plus size={16} />

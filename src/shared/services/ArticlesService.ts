@@ -2,13 +2,14 @@ import axios from 'axios'
 import Article from '../types/entities/Article'
 import { ApiService } from './ApiService'
 import Config from '../../app/config/Config'
+import { ResponseEntity } from '../types/reactTypes/ResponseEntity'
 export class ArticleService extends ApiService<Article> {
   constructor() {
-    super('research-article')
+    super('research-articles')
   }
 
   // Métodos específicos para articulos
-  async getTopArticles(): Promise<Article[]> {
+  async getTopArticles(): Promise<ResponseEntity<Article>> {
     try {
       const response = await axios.get(this.getUrl('top'), Config.defaultConfig)
       return response.data

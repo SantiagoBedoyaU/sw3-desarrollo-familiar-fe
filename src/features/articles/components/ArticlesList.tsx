@@ -1,18 +1,17 @@
 import { Download, Edit2, Trash2 } from 'lucide-react'
 import Article from '../../../shared/types/entities/Article'
-import { useArticles } from '../../../shared/hooks/useArticles'
 import ArticleView from './ArticleView'
 import { Modal } from '../../../shared/components/common/modal/Modal'
 import { useState } from 'react'
+import { useArticleStore } from '../stores/ArticlesStore'
 
 interface ArticlesListProps {
   articles: Article[]
-  setArticles: (articles: Article[]) => void
 }
 
-function ArticlesList({ articles, setArticles }: Readonly<ArticlesListProps>) {
+function ArticlesList({ articles }: Readonly<ArticlesListProps>) {
   const [isDeleteConfirmOpen, setIsDeleteConfirmOpen] = useState(false)
-  const { deleteArticle, editArticle, downloadArticle } = useArticles()
+  const { deleteArticle, editArticle, downloadArticle } = useArticleStore()
 
   return articles.map((article) => (
     <section
@@ -37,20 +36,22 @@ function ArticlesList({ articles, setArticles }: Readonly<ArticlesListProps>) {
       </section>
       <section className=" w-full md:w-fit  sm:col-span-1 text-sm text-center text-gray-600 flex flex-col items-center gap-2 md:gap-4">
         <span className="underline font-medium w-full ">
-          Autor{article.authors.split(',').length > 1 ? 'es' : ''}
+          Autor{article.authors.length > 1 ? 'es' : ''}
         </span>
         <ul className="w-fit flex flex-wrap flex-row justify-center items-center list-disc gap-1 md:gap-2 max-h-72 overflow-auto md:pl-1">
-          {article.authors.split(',').map((author: string) => {
-            const trimmed = author.trim()
-            return (
-              <li
-                key={`${article._id}-${trimmed}`}
-                className="w-fit ml-5 md:ml-4 text-sm text-gray-600 "
-              >
-                {trimmed}
-              </li>
-            )
-          })}
+          {Array.isArray(article.authors) &&
+            article.authors.length > 1 &&
+            article.authors.map((author: string) => {
+              const trimmed = author.trim()
+              return (
+                <li
+                  key={`${article._id}-${trimmed}`}
+                  className="w-fit ml-5 md:ml-4 text-sm text-gray-600 "
+                >
+                  {trimmed}
+                </li>
+              )
+            })}
         </ul>
       </section>
 
@@ -124,9 +125,7 @@ function ArticlesList({ articles, setArticles }: Readonly<ArticlesListProps>) {
             type="button"
             onClick={() => {
               if (article._id) {
-                const id = article._id
                 void deleteArticle(article._id)
-                setArticles(articles.filter((article) => article._id !== id))
                 setIsDeleteConfirmOpen(false)
               }
             }}
