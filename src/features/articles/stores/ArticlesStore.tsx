@@ -3,7 +3,7 @@ import Swal from 'sweetalert2'
 import Article from '../../../shared/types/entities/Article'
 import { articleService } from '../../../shared/services/ArticlesService'
 import { ResponseEntity } from '../../../shared/types/reactTypes/ResponseEntity'
-import mockArticle from '../../../shared/types/mocks/ArticleMock'
+// import mockArticle from '../../../shared/types/mocks/ArticleMock'
 
 interface ArticleState {
   // State
@@ -51,6 +51,7 @@ export const useArticleStore = create<ArticleState>((set, get) => ({
             confirmButtonText: 'Cerrar',
             confirmButtonColor: '#4B5563',
           })
+          console.error(error)
           return null
         })
 
@@ -97,6 +98,8 @@ export const useArticleStore = create<ArticleState>((set, get) => ({
           confirmButtonText: 'Cerrar',
           confirmButtonColor: '#4B5563',
         })
+        console.error(error)
+
         return null
       })
 
@@ -141,6 +144,8 @@ export const useArticleStore = create<ArticleState>((set, get) => ({
           confirmButtonText: 'Cerrar',
           confirmButtonColor: '#4B5563',
         })
+        console.error(error)
+
         return null
       })
 
@@ -264,14 +269,15 @@ export const useArticleStore = create<ArticleState>((set, get) => ({
       // const articulosTop = await articleService.getTopArticles().catch(() => {...})
 
       const responseArticles: ResponseEntity<Article> | null =
-        await articleService.getTopArticles().catch((error) => {
-          void Swal.fire({
+        await articleService.getTopArticles().catch(async (error) => {
+          await Swal.fire({
             title: 'Error',
             text: 'Ocurrió un error al obtener los artículos.',
             icon: 'error',
             confirmButtonText: 'Cerrar',
             confirmButtonColor: '#4B5563',
           })
+          console.error(error)
           return null
         })
 
@@ -313,14 +319,15 @@ export const useArticleStore = create<ArticleState>((set, get) => ({
       // In your actual implementation, replace this with your API call
       const responseArticles = await articleService
         .getTopArticles()
-        .catch((error) => {
-          void Swal.fire({
+        .catch(async (error) => {
+          await Swal.fire({
             title: 'Error',
             text: 'Ocurrió un error al obtener los artículos.',
             icon: 'error',
             confirmButtonText: 'Cerrar',
             confirmButtonColor: '#4B5563',
           })
+          console.error(error)
           return null
         })
 
