@@ -1,6 +1,6 @@
 import Article from '../entities/Article'
 
-const mockArticle: Article[] = [
+const ArticleMock: Article[] = [
   {
     _id: '1',
     title: 'Artículo de aceite enriquecido en niñas',
@@ -51,4 +51,4 @@ const mockArticle: Article[] = [
   },
 ]
 
-export default mockArticle
+export default ArticleMock

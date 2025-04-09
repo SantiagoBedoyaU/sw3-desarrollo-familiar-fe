@@ -1,14 +1,16 @@
 import { create } from 'zustand'
 import Swal from 'sweetalert2'
-import Article from '../../../shared/types/entities/Article'
+import Article, { ArticleCreate } from '../../../shared/types/entities/Article'
 import { articleService } from '../../../shared/services/ArticlesService'
 import { ResponseEntity } from '../../../shared/types/reactTypes/ResponseEntity'
-// import mockArticle from '../../../shared/types/mocks/ArticleMock'
+import ArticleMock from '../../../shared/types/mocks/ArticleMock'
 
 interface ArticleState {
   // State
+  filteredArticles: Article[]
   articles: Article[]
   topArticles: Article[]
+  isLoadingFilters: boolean
   isLoading: boolean
   isLoadingTop: boolean
   error: Error | null
@@ -17,19 +19,29 @@ interface ArticleState {
   // Actions for regular articles
   fetchArticles: () => Promise<void>
   refreshArticles: () => Promise<void>
-  addArticle: (article: Omit<Article, '_id'>) => Promise<void>
+  addArticle: (article: Omit<ArticleCreate, '_id'>) => Promise<void>
   deleteArticle: (_id: string) => Promise<void>
   editArticle: (_id: string, updatedArticle: Article) => Promise<void>
   downloadArticle: (_id: string) => Promise<void>
+  filterArticles: (searchFilters: {
+    title: string
+    authors: string
+    keywords: string
+    primaryThematicAxis: string
+    secondaryThematicAxis: string
+  }) => void
+  clearFilters: () => void
 
   // Actions for top articles
   fetchTopArticles: () => Promise<void>
   refreshTopArticles: () => Promise<void>
 }
 export const useArticleStore = create<ArticleState>((set, get) => ({
+  filteredArticles: [],
   articles: [],
   topArticles: [],
   isLoading: false,
+  isLoadingFilters: false,
   isLoadingTop: false,
   error: null,
   errorTop: null,
@@ -135,7 +147,7 @@ export const useArticleStore = create<ArticleState>((set, get) => ({
     }
   },
 
-  addArticle: async (article: Omit<Article, '_id'>) => {
+  addArticle: async (article: Omit<ArticleCreate, '_id'>) => {
     try {
       const newArticle = await articleService
         .create(article)
@@ -154,7 +166,14 @@ export const useArticleStore = create<ArticleState>((set, get) => ({
 
       if (newArticle) {
         set((state) => ({
-          articles: [...state.articles, newArticle],
+          articles: [
+            ...state.articles,
+            {
+              ...newArticle,
+              keywords: newArticle.keywords?.split(',') ?? [],
+              authors: newArticle.authors?.split(',') ?? [],
+            },
+          ],
         }))
       }
     } catch (error) {
@@ -269,20 +288,26 @@ export const useArticleStore = create<ArticleState>((set, get) => ({
       set({ isLoadingTop: true })
 
       // In your actual implementation, replace this with your API call
-      // const articulosTop = await articleService.getTopArticles().catch(() => {...})
 
-      const responseArticles: ResponseEntity<Article> | null =
-        await articleService.getTopArticles().catch((error: unknown) => {
-          void Swal.fire({
-            title: 'Error',
-            text: 'Ocurrió un error al obtener los artículos.',
-            icon: 'error',
-            confirmButtonText: 'Cerrar',
-            confirmButtonColor: '#4B5563',
-          })
-          console.error(error)
-          return null
-        })
+      const responseArticles: ResponseEntity<Article> = {
+        data: ArticleMock,
+        currentPage: 0,
+        totalPages: 0,
+        totalItems: 0,
+      }
+
+      // const responseArticles: ResponseEntity<Article> | null =
+      //   await articleService.getTopArticles().catch((error: unknown) => {
+      //     void Swal.fire({
+      //       title: 'Error',
+      //       text: 'Ocurrió un error al obtener los artículos.',
+      //       icon: 'error',
+      //       confirmButtonText: 'Cerrar',
+      //       confirmButtonColor: '#4B5563',
+      //     })
+      //     console.error(error)
+      //     return null
+      //   })
 
       if (!responseArticles) {
         throw new Error('No se encontraron artículos disponibles')
@@ -320,19 +345,26 @@ export const useArticleStore = create<ArticleState>((set, get) => ({
       set({ isLoadingTop: true })
 
       // In your actual implementation, replace this with your API call
-      const responseArticles = await articleService
-        .getTopArticles()
-        .catch((error: unknown) => {
-          void Swal.fire({
-            title: 'Error',
-            text: 'Ocurrió un error al obtener los artículos.',
-            icon: 'error',
-            confirmButtonText: 'Cerrar',
-            confirmButtonColor: '#4B5563',
-          })
-          console.error(error)
-          return null
-        })
+      // const responseArticles = await articleService
+      //   .getTopArticles()
+      //   .catch((error: unknown) => {
+      //     void Swal.fire({
+      //       title: 'Error',
+      //       text: 'Ocurrió un error al obtener los artículos.',
+      //       icon: 'error',
+      //       confirmButtonText: 'Cerrar',
+      //       confirmButtonColor: '#4B5563',
+      //     })
+      //     console.error(error)
+      //     return null
+      //   })
+
+      const responseArticles: ResponseEntity<Article> = {
+        data: ArticleMock,
+        currentPage: 0,
+        totalPages: 0,
+        totalItems: 0,
+      }
 
       if (!responseArticles) {
         throw new Error('No se encontraron artículos disponibles')
@@ -363,5 +395,41 @@ export const useArticleStore = create<ArticleState>((set, get) => ({
           : new Error('Error desconocido al obtener artículos del top')
       set({ errorTop, isLoadingTop: false })
     }
+  },
+
+  filterArticles: (searchFilters) => {
+    const params = new URLSearchParams()
+    Object.entries(searchFilters).forEach(([key, value]) => {
+      if (value) {
+        params.append(key, value)
+      }
+    })
+    const queryString = params.toString()
+
+    set({ isLoadingFilters: true })
+    articleService.getFilters(queryString).then((response) => {
+      if (!response) {
+        throw new Error('No se encontraron artículos disponibles')
+      }
+      const articles = response.data
+      set({ filteredArticles: articles })
+      if (articles.length === 0) {
+        void Swal.fire({
+          title: 'Sin artículos disponibles',
+          text: 'No hay artículos disponibles en este momento.',
+          icon: 'info',
+          confirmButtonText: 'Cerrar',
+          confirmButtonColor: '#4B5563',
+        })
+      }
+      set({ isLoadingFilters: false })
+    }).catch((error) => {
+      console.error('Error filtering articles:', error)
+      set({ error, isLoadingFilters: false })
+    })
+  },
+
+  clearFilters() {
+    set({ filteredArticles: [] })
   },
 }))

@@ -3,7 +3,7 @@ import { Dialog } from '../../../shared/components/common/dialog/Dialog'
 import { DialogContent } from '../../../shared/components/common/dialog/DialogContent'
 import { DialogHeader } from '../../../shared/components/common/dialog/DialogHeader'
 import { DialogTitle } from '../../../shared/components/common/dialog/DialogTitle'
-import Article from '../../../shared/types/entities/Article'
+import Article, { ArticleCreate } from '../../../shared/types/entities/Article'
 import { DialogTrigger } from '../../../shared/components/common/dialog/DialogTrigger'
 import { Plus } from 'lucide-react'
 import { DialogDescription } from '../../../shared/components/common/dialog/DialogDescription'
@@ -36,7 +36,7 @@ const ArticleForm: React.FC<ArticleFormProps> = ({ article, mode }) => {
   const [year, setYear] = useState(new Date().getFullYear().toString())
   const [authors, setAuthors] = useState<string[]>([])
   const [summary, setSummary] = useState('')
-  const [keywords, setKeywords] = useState<string[]>()
+  const [keywords, setKeywords] = useState<string[]>([])
   const [file, setFile] = useState<File | null>(null)
   const [fileError, setFileError] = useState(false) // Estado para errores del archivo
   const [changeableKeywords, setChangeableKeywords] = useState(
@@ -45,8 +45,8 @@ const ArticleForm: React.FC<ArticleFormProps> = ({ article, mode }) => {
   const [changeableAuthors, setChangeableAuthors] = useState(
     article?.changeableAuthors ?? [],
   )
-  const [primaryThematicAxis, setThematicArea] = useState('')
-  const [secondaryThematicAxis, setThematicArea2] = useState('')
+  const [primaryThematicAxis, setPrimaryThematicAxis] = useState('')
+  const [secondaryThematicAxis, setSecondaryThematicAxis] = useState('')
   const [practiceReportId, setPracticeReportId] = useState('')
   const [practiceReport, setPracticeReport] = useState('')
   const [formErrors, setFormErrors] = useState({
@@ -65,10 +65,10 @@ const ArticleForm: React.FC<ArticleFormProps> = ({ article, mode }) => {
       setYear(article.year)
       setAuthors(article.authors)
       setSummary(article.summary)
-      setThematicArea(article.primaryThematicAxis)
+      setPrimaryThematicAxis(article.primaryThematicAxis)
       setKeywords(article.keywords)
       // setFile(article?.file ?? null)
-      setThematicArea2(article.secondaryThematicAxis ?? '')
+      setSecondaryThematicAxis(article.secondaryThematicAxis ?? '')
       setPracticeReportId(article.practiceReportId ?? '')
       setChangeableAuthors(article.changeableAuthors ?? [])
       setChangeableKeywords(article.changeableKeywords ?? [])
@@ -92,8 +92,8 @@ const ArticleForm: React.FC<ArticleFormProps> = ({ article, mode }) => {
   const resetForm = () => {
     setTitle('')
     setAuthors([])
-    setThematicArea('')
-    setThematicArea2('')
+    setPrimaryThematicAxis('')
+    setSecondaryThematicAxis('')
     setYear(new Date().getFullYear().toString())
     setSummary('')
     setKeywords([])
@@ -146,7 +146,6 @@ const ArticleForm: React.FC<ArticleFormProps> = ({ article, mode }) => {
       primaryThematicAxis: primaryThematicAxis,
       summary: summary.trim(),
       keywords: changeableKeywords,
-      file: file,
     }
 
     if (practiceReportId) {
@@ -158,7 +157,17 @@ const ArticleForm: React.FC<ArticleFormProps> = ({ article, mode }) => {
     }
 
     if (mode === 'add') {
-      void addArticle(articleData).then(() => {
+
+      console.log(file);
+
+      void addArticle(
+        {
+          ...articleData,
+          file: file,
+          authors: articleData.authors.join(','),
+          keywords: articleData.keywords.join(',')
+        }
+      ).then(() => {
         onClose(false)
         void Swal.fire({
           title: 'Artículo agregado',
@@ -322,7 +331,7 @@ const ArticleForm: React.FC<ArticleFormProps> = ({ article, mode }) => {
               id="primaryThematicAxis"
               name="primaryThematicAxis"
               value={primaryThematicAxis}
-              onChange={(e) => setThematicArea(e.target.value)}
+              onChange={(e) => setPrimaryThematicAxis(e.target.value)}
               required={true}
               options={primaryThematicOptions}
             />
@@ -340,7 +349,7 @@ const ArticleForm: React.FC<ArticleFormProps> = ({ article, mode }) => {
               id="secondaryThematicAxis "
               name="secondaryThematicAxis "
               value={secondaryThematicAxis}
-              onChange={(e) => setThematicArea2(e.target.value)}
+              onChange={(e) => setSecondaryThematicAxis(e.target.value)}
               required={false}
               options={secondaryThematicOptions}
             />
@@ -438,9 +447,8 @@ const ArticleForm: React.FC<ArticleFormProps> = ({ article, mode }) => {
               required={true}
               accept="application/pdf"
               onChange={handleFileChange}
-              className={`block p-3 w-full md:w-3/4 border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500 text-center ${
-                fileError ? 'border-red-500' : ''
-              }`}
+              className={`block p-3 w-full md:w-3/4 border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500 text-center ${fileError ? 'border-red-500' : ''
+                }`}
             />
             {fileError && (
               <span className="text-red-500">

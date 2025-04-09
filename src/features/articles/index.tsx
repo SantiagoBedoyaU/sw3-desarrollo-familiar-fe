@@ -8,7 +8,8 @@ const Articles = () => {
   // Estado para los filtros de búsqueda
   const [searchFilters, setSearchFilters] = useState({
     title: '',
-    author: '',
+    authors: '',
+    keywords: '',
     primaryThematicAxis: '',
     secondaryThematicAxis: '',
   })
@@ -19,7 +20,8 @@ const Articles = () => {
   const manageCount = useCallback(() => {
     let count = 0
     if (searchFilters.title !== '') count++
-    if (searchFilters.author !== '') count++
+    if (searchFilters.authors !== '') count++
+    if (searchFilters.keywords !== '') count++
     if (searchFilters.primaryThematicAxis !== '') count++
     if (searchFilters.secondaryThematicAxis !== '') count++
     setCountFilters(count)
@@ -40,10 +42,6 @@ const Articles = () => {
     }))
   }
 
-  const handleSearch = () => {
-    console.log('Buscando con filtros:', searchFilters)
-  }
-
   return (
     <section className="max-w-4xl mx-auto p-6 bg-white shadow-lg rounded-lg">
       <section className="md:relative md:flex md:items-center md:justify-between mb-4">
@@ -54,13 +52,23 @@ const Articles = () => {
       </section>
 
       <ArticleFilters
+        setSearchFilters={setSearchFilters}
         handleFilterChange={handleFilterChange}
-        handleSearch={handleSearch}
         searchFilters={searchFilters}
       />
+      {countFilters === 0 && (
+        <section>
+          <section className="mb-4 flex flex-col items-center justify-between gap-4 bg-gray-50 p-4 rounded-md shadow-md">
+            <h4 className="text-lg font-bold text-gray-800 mb-2">
+              <span className="text-blue-500">Top Artículos destacados</span>
+            </h4>
+            <ArticlesTop />
 
-      {countFilters === 0 && <ArticlesTop />}
-      {countFilters > 0 && <ArticlesAllList />}
+          </section>
+          <ArticlesAllList />
+        </section>
+      )}
+
     </section>
   )
 }

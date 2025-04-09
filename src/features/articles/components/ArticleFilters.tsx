@@ -1,17 +1,27 @@
-import { Search } from 'lucide-react'
+import { Search, Trash2 } from 'lucide-react'
 import { thematicOptions } from '../../../shared/constants/cts'
+import { useArticleStore } from '../stores/ArticlesStore'
 
 interface ArticleFiltersProps {
   searchFilters: {
     title: string
-    author: string
+    authors: string
+    keywords: string
     primaryThematicAxis: string
     secondaryThematicAxis: string
   }
+  setSearchFilters: React.Dispatch<
+    React.SetStateAction<{
+      title: string
+      authors: string
+      keywords: string
+      primaryThematicAxis: string
+      secondaryThematicAxis: string
+    }>
+  >
   handleFilterChange: (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
   ) => void
-  handleSearch: () => void
 }
 
 const formattedThematicOptions = thematicOptions.map((option: string) => ({
@@ -22,8 +32,9 @@ const formattedThematicOptions = thematicOptions.map((option: string) => ({
 function ArticleFilters({
   searchFilters,
   handleFilterChange,
-  handleSearch,
+  setSearchFilters,
 }: Readonly<ArticleFiltersProps>) {
+  const { filterArticles, clearFilters } = useArticleStore()
   return (
     <section>
       <section className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mb-4">
@@ -37,16 +48,47 @@ function ArticleFilters({
             onChange={handleFilterChange}
             className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
+          <button
+
+            type="button"
+            onClick={
+              () => {
+                void clearFilters()
+                setSearchFilters({
+                  title: '',
+                  authors: '',
+                  keywords: '',
+                  primaryThematicAxis: '',
+                  secondaryThematicAxis: '',
+                })
+              }
+            }>
+            <span className="text-blue-500 hover:text-blue-600 bg-gray-100 hover:bg-gray-200 rounded-md px-4 py-2 flex items-center transition duration-300">
+              <Trash2 size={16} className="inline-block mr-2" />
+              Limpiar filtros
+            </span>
+          </button>
+        </section>
+
+        <section className="col-span-full flex flex-col sm:flex-row items-center justify-between gap-2">
           <input
             type="text"
-            name="author"
-            placeholder="Autor(es)"
-            value={searchFilters.author}
+            name="keywords"
+            placeholder="Palabras clave, separadas por comas"
+            value={searchFilters.keywords}
+            onChange={handleFilterChange}
+            className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+
+          <input
+            type="text"
+            name="authors"
+            placeholder="Autor(es) ej: Naydú Núñez, Juan Pérez"
+            value={searchFilters.authors}
             onChange={handleFilterChange}
             className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
         </section>
-
         {/* Selects */}
         {(['primaryThematicAxis', 'secondaryThematicAxis '] as const).map(
           (name) => (
@@ -91,7 +133,7 @@ function ArticleFilters({
         <section className="mb-6 md:mb-2 sm:col-span-full md:col-span-1">
           <button
             type="button"
-            onClick={handleSearch}
+            onClick={() => void filterArticles(searchFilters)}
             className="flex items-center justify-center w-full bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-md transition duration-300"
           >
             <Search size={16} className="inline-block mr-2" />

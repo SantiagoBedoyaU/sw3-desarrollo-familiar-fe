@@ -92,15 +92,15 @@ export class ApiService<T> {
     }
   }
 
-  async create(data: Omit<T, '_id'>): Promise<T> {
-    try {
-      return await this.handleResponse<T>(
-        axios.post(this.getUrl(), data, defaultConfig),
-      )
-    } catch (error) {
-      this.handleError(error, `Error creating ${this.endpoint}`)
-    }
-  }
+  // async create(data: Omit<T, '_id'>): Promise<T> {
+  //   try {
+  //     return await this.handleResponse<T>(
+  //       axios.post(this.getUrl(), data, defaultConfig),
+  //     )
+  //   } catch (error) {
+  //     this.handleError(error, `Error creating ${this.endpoint}`)
+  //   }
+  // }
 
   async update(_id: string, data: Partial<T>): Promise<T> {
     try {
