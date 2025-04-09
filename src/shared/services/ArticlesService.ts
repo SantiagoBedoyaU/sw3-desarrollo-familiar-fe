@@ -12,14 +12,17 @@ export class ArticleService extends ApiService<Article> {
   }
 
   // Métodos específicos para articulos
-  // async getTopArticles(): Promise<ResponseEntity<Article>> {
-  //   try {
-  //     const response = await axios.get(this.getUrl('top'), Config.defaultConfig)
-  //     return response.data
-  //   } catch (error) {
-  //     return this.handleError(error, 'Error getting articles top')
-  //   }
-  // }
+  async getTopArticles(): Promise<Article[]> {
+    try {
+      const response = await axios.get(
+        this.getUrl('top-5'),
+        Config.defaultConfig,
+      )
+      return response.data
+    } catch (error) {
+      return this.handleError(error, 'Error getting articles top')
+    }
+  }
 
   async getFilters(queryString: string): Promise<ResponseEntity<Article>> {
     try {

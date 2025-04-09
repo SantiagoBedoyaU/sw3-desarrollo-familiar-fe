@@ -1,122 +1,271 @@
 import axios, { AxiosRequestConfig, AxiosError, AxiosResponse } from 'axios'
+import Swal from 'sweetalert2'
 import Config from '../../app/config/Config'
 import { ResponseEntity } from '../types/reactTypes/ResponseEntity'
 
-// Base URL para todas las peticiones
+// Constantes
 const API_BASE_URL = Config.LOGIC_URL
+const DEFAULT_CONFIG: AxiosRequestConfig = Config.defaultConfig
 
-// Configuración por defecto para todas las peticiones
-const defaultConfig: AxiosRequestConfig = Config.defaultConfig
+// Interfaces
+interface ErrorResponse {
+  message?: string
+  [key: string]: unknown
+}
 
-// Clase base para servicios API
+/**
+ * Clase base para servicios API con manejo de errores mejorado
+ * @template T - Tipo de entidad que maneja el servicio
+ */
 export class ApiService<T> {
-  private readonly endpoint // Eliminada la anotación redundante `: string`
+  private readonly endpoint: string
+  private readonly entityName: string
 
-  constructor(endpoint: string) {
+  /**
+   * Constructor del servicio API
+   * @param endpoint - Ruta del endpoint sin la URL base
+   * @param entityName - Nombre legible de la entidad (opcional, por defecto usa el endpoint)
+   */
+  constructor(endpoint: string, entityName?: string) {
     this.endpoint = endpoint
+    this.entityName = entityName ?? this.formatEntityName(endpoint)
   }
 
-  // Método para obtener la URL completa
+  /**
+   * Formatea el nombre de la entidad para mensajes al usuario
+   */
+  private formatEntityName(endpoint: string): string {
+    return endpoint
+      .split('/')
+      .pop()!
+      .replace(/-/g, ' ')
+      .replace(/^./, (str) => str.toUpperCase())
+  }
+
+  /**
+   * Construye la URL completa para las peticiones
+   * @param path - Ruta adicional (generalmente un ID)
+   * @returns URL completa
+   */
   protected getUrl(path: string = ''): string {
     return `${API_BASE_URL}${this.endpoint}${path ? '/' + path : ''}`
   }
 
-  // Método genérico para manejar errores con mensajes contextualizados
-  protected handleError(error: unknown, errorMessage: string): never {
+  /**
+   * Maneja y muestra errores con SweetAlert
+   * @param error - Error capturado
+   * @param context - Contexto de la operación para el mensaje
+   */
+  protected handleError(error: unknown, context: string): never {
+    let title = 'Error'
+    let message = `${context}: Error inesperado`
+
     if (axios.isAxiosError(error)) {
       const axiosError = error as AxiosError
 
       if (axiosError.response) {
-        const status = axiosError.response.status.toString() // Convertir a cadena
+        const status = axiosError.response.status
         const statusText = axiosError.response.statusText
 
-        // Intentar extraer mensaje de error del cuerpo de la respuesta
-        if (
-          axiosError.response.data &&
-          typeof axiosError.response.data === 'object'
-        ) {
-          const errorData = axiosError.response.data as Record<string, unknown>
-          if (typeof errorData.message === 'string') {
-            console.error(`${errorMessage}: ${errorData.message}`)
-            throw new Error(`${errorMessage}: ${errorData.message}`)
-          }
+        // Personalización de mensaje según el código de estado
+        switch (status) {
+          case 400:
+            title = 'Datos incorrectos'
+            break
+          case 401:
+            title = 'No autorizado'
+            break
+          case 403:
+            title = 'Acceso denegado'
+            break
+          case 404:
+            title = 'No encontrado'
+            break
+          case 500:
+            title = 'Error del servidor'
+            break
+          default:
+            title = 'Error de comunicación'
         }
 
-        console.error(`${errorMessage}: ${status} ${statusText}`)
-        throw new Error(`${errorMessage}: Error HTTP ${status} ${statusText}`)
+        // Extraer mensaje del cuerpo de la respuesta si existe
+        if (axiosError.response.data) {
+          const errorData = axiosError.response.data as ErrorResponse
+          if (typeof errorData.message === 'string') {
+            message = errorData.message
+          } else {
+            message = `${context}: Error ${status} - ${statusText}`
+          }
+        } else {
+          message = `${context}: Error ${status} - ${statusText}`
+        }
       } else if (axiosError.request) {
-        console.error(`${errorMessage}: No se recibió respuesta del servidor`)
-        throw new Error(`${errorMessage}: No se recibió respuesta del servidor`)
+        title = 'Sin conexión'
+        message =
+          'No se pudo conectar con el servidor. Verifica tu conexión a internet.'
       } else {
-        console.error(`${errorMessage}: ${axiosError.message}`)
-        throw new Error(`${errorMessage}: ${axiosError.message}`)
+        message = axiosError.message
       }
     }
 
-    // Para errores que no son de Axios
-    console.error(errorMessage, error)
-    throw new Error(`${errorMessage}: Error inesperado`)
+    // Mostrar alerta
+    Swal.fire({
+      icon: 'error',
+      title,
+      text: message,
+      confirmButtonColor: '#3085d6',
+    })
+
+    console.error(`[API Error] ${title}: ${message}`, error)
+    throw new Error(message)
   }
 
-  // Método genérico para procesar respuestas
+  /**
+   * Muestra mensaje de éxito
+   * @param message - Mensaje a mostrar
+   */
+  protected showSuccess(message: string): void {
+    Swal.fire({
+      icon: 'success',
+      title: 'Operación exitosa',
+      text: message,
+      timer: 2000,
+      timerProgressBar: true,
+      showConfirmButton: false,
+    })
+  }
+
+  /**
+   * Solicita confirmación al usuario para acciones destructivas
+   * @param action - Descripción de la acción a confirmar
+   * @returns Promesa con la respuesta del usuario
+   */
+  protected async confirmAction(action: string): Promise<boolean> {
+    const result = await Swal.fire({
+      title: '¿Estás seguro?',
+      text: `${action} ${this.entityName}`,
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Confirmar',
+      cancelButtonText: 'Cancelar',
+    })
+
+    return result.isConfirmed
+  }
+
+  /**
+   * Procesa respuestas HTTP y maneja errores
+   * @param promise - Promesa de la petición Axios
+   * @param successMessage - Mensaje opcional para mostrar en caso de éxito
+   * @returns Datos de la respuesta
+   */
   protected async handleResponse<R>(
     promise: Promise<AxiosResponse<R>>,
+    successMessage?: string,
   ): Promise<R> {
     try {
       const response = await promise
+
+      if (successMessage) {
+        this.showSuccess(successMessage)
+      }
+
       return response.data
     } catch (error) {
-      console.error('Error processing response:', error)
+      // Dejar que el método que llama maneje el error específico
       throw error
     }
   }
 
-  // Métodos CRUD genéricos
+  /**
+   * Obtiene todos los registros
+   * @returns Lista paginada de entidades
+   */
   async getAll(): Promise<ResponseEntity<T>> {
     try {
       return await this.handleResponse<ResponseEntity<T>>(
-        axios.get(this.getUrl(), defaultConfig),
+        axios.get(this.getUrl(), DEFAULT_CONFIG),
       )
     } catch (error) {
-      this.handleError(error, `Error getting all ${this.endpoint}`)
+      return this.handleError(error, `Error al obtener ${this.entityName}`)
     }
   }
 
-  async getById(_id: string): Promise<T> {
+  /**
+   * Obtiene un registro por su ID
+   * @param id - Identificador del registro
+   * @returns Entidad solicitada
+   */
+  async getById(id: string): Promise<T> {
     try {
       return await this.handleResponse<T>(
-        axios.get(this.getUrl(_id), defaultConfig),
+        axios.get(this.getUrl(id), DEFAULT_CONFIG),
       )
     } catch (error) {
-      this.handleError(error, `Error getting ${this.endpoint} with _id ${_id}`)
+      return this.handleError(
+        error,
+        `Error al obtener ${this.entityName} #${id}`,
+      )
     }
   }
 
+  /**
+   * Crea un nuevo registro
+   * @param data - Datos para crear la entidad
+   * @returns Entidad creada
+   */
   // async create(data: Omit<T, '_id'>): Promise<T> {
   //   try {
   //     return await this.handleResponse<T>(
-  //       axios.post(this.getUrl(), data, defaultConfig),
+  //       axios.post(this.getUrl(), data, DEFAULT_CONFIG),
+  //       `${this.entityName} creado correctamente`,
   //     )
   //   } catch (error) {
-  //     this.handleError(error, `Error creating ${this.endpoint}`)
+  //     return this.handleError(error, `Error al crear ${this.entityName}`)
   //   }
   // }
 
-  async update(_id: string, data: Partial<T>): Promise<T> {
+  /**
+   * Actualiza un registro existente
+   * @param id - Identificador del registro
+   * @param data - Datos parciales para actualizar
+   * @returns Entidad actualizada
+   */
+  async update(id: string, data: Partial<T>): Promise<T> {
     try {
       return await this.handleResponse<T>(
-        axios.put(this.getUrl(_id), data, defaultConfig),
+        axios.put(this.getUrl(id), data, DEFAULT_CONFIG),
+        `${this.entityName} actualizado correctamente`,
       )
     } catch (error) {
-      this.handleError(error, `Error updating ${this.endpoint} with _id ${_id}`)
+      return this.handleError(
+        error,
+        `Error al actualizar ${this.entityName} #${id}`,
+      )
     }
   }
 
-  async delete(_id: string): Promise<void> {
+  /**
+   * Elimina un registro
+   * @param id - Identificador del registro
+   * @returns Void
+   */
+  async delete(id: string): Promise<void> {
     try {
-      await this.handleResponse(axios.delete(this.getUrl(_id), defaultConfig)) // Eliminado el uso incorrecto de `void`
+      const confirmed = await this.confirmAction(`¿Deseas eliminar este`)
+
+      if (!confirmed) {
+        return
+      }
+
+      await this.handleResponse(
+        axios.delete(this.getUrl(id), DEFAULT_CONFIG),
+        `${this.entityName} eliminado correctamente`,
+      )
     } catch (error) {
-      this.handleError(error, `Error deleting ${this.endpoint} with _id ${_id}`)
+      this.handleError(error, `Error al eliminar ${this.entityName} #${id}`)
     }
   }
 }

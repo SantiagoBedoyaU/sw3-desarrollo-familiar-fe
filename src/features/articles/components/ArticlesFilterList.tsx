@@ -6,9 +6,9 @@ function ArticlesFilterList() {
   const { isLoadingFilters, error, filteredArticles } =
     useArticleStore()
 
-  if (isLoadingFilters) return <div>Loading articles...</div>
+  if (isLoadingFilters) return <div>Cargando articulos...</div>
   if (error) return <div>Error: {error.message}</div>
-  if (!filteredArticles.length) return <div>No articles available </div>
+  if (!filteredArticles.length) return <div>No se encontraron articulos disponibles </div>
   return (
     <section>
       {/* Lista de artículos */}

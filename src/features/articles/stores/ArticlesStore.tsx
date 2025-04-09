@@ -3,7 +3,7 @@ import Swal from 'sweetalert2'
 import Article, { ArticleCreate } from '../../../shared/types/entities/Article'
 import { articleService } from '../../../shared/services/ArticlesService'
 import { ResponseEntity } from '../../../shared/types/reactTypes/ResponseEntity'
-import ArticleMock from '../../../shared/types/mocks/ArticleMock'
+// import ArticleMock from '../../../shared/types/mocks/ArticleMock'
 
 interface ArticleState {
   // State
@@ -46,9 +46,7 @@ export const useArticleStore = create<ArticleState>((set, get) => ({
   error: null,
   errorTop: null,
 
-  // Regular articles methods
   fetchArticles: async () => {
-    // If we already have articles and aren't in a loading state, do nothing
     if (get().articles.length > 0 && !get().isLoading) return
 
     try {
@@ -268,28 +266,7 @@ export const useArticleStore = create<ArticleState>((set, get) => ({
     try {
       set({ isLoadingTop: true })
 
-      // In your actual implementation, replace this with your API call
-
-      const responseArticles: ResponseEntity<Article> = {
-        data: ArticleMock,
-        currentPage: 0,
-        totalPages: 0,
-        totalItems: 0,
-      }
-
-      // const responseArticles: ResponseEntity<Article> | null =
-      //   await articleService.getTopArticles().catch((error: unknown) => {
-      //     void Swal.fire({
-      //       title: 'Error',
-      //       text: 'Ocurrió un error al obtener los artículos.',
-      //       icon: 'error',
-      //       confirmButtonText: 'Cerrar',
-      //       confirmButtonColor: '#4B5563',
-      //     })
-      //     console.error(error)
-      //     return null
-      //   })
-      const topArticles = responseArticles.data
+      const topArticles: Article[] = await articleService.getTopArticles()
 
       if (topArticles.length === 0) {
         await Swal.fire({
@@ -301,8 +278,11 @@ export const useArticleStore = create<ArticleState>((set, get) => ({
         })
       }
 
+      console.log(topArticles);
+
+
       set({
-        topArticles: topArticles.slice(0, 5), // Only the top 5 articles
+        topArticles: topArticles,
         isLoadingTop: false,
         errorTop: null,
       })
@@ -321,28 +301,8 @@ export const useArticleStore = create<ArticleState>((set, get) => ({
       set({ isLoadingTop: true })
 
       // In your actual implementation, replace this with your API call
-      // const responseArticles = await articleService
-      //   .getTopArticles()
-      //   .catch((error: unknown) => {
-      //     void Swal.fire({
-      //       title: 'Error',
-      //       text: 'Ocurrió un error al obtener los artículos.',
-      //       icon: 'error',
-      //       confirmButtonText: 'Cerrar',
-      //       confirmButtonColor: '#4B5563',
-      //     })
-      //     console.error(error)
-      //     return null
-      //   })
-
-      const responseArticles: ResponseEntity<Article> = {
-        data: ArticleMock,
-        currentPage: 0,
-        totalPages: 0,
-        totalItems: 0,
-      }
-
-      const topArticles = responseArticles.data
+      const topArticles = await articleService
+        .getTopArticles()
 
       if (topArticles.length === 0) {
         await Swal.fire({

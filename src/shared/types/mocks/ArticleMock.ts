@@ -4,7 +4,7 @@ const ArticleMock: Article[] = [
   {
     _id: '1',
     title: 'Artículo de aceite enriquecido en niñas',
-    authors: 'Naydú Núñez'.split(','),
+    authors: ['Naydú Núñez'],
     primaryThematicAxis:
       'La relación familia - escuela un asunto de corresponsabilidad',
     secondaryThematicAxis: 'Democratización de las relaciones familiares',
@@ -28,7 +28,7 @@ const ArticleMock: Article[] = [
   {
     _id: '3',
     title: 'Artículo de aceite enriquecido en niñas',
-    authors: 'Naydú Núñez'.split(','),
+    authors: ['Naydú Núñez'],
     primaryThematicAxis:
       'La relación familia - escuela un asunto de corresponsabilidad',
     secondaryThematicAxis: 'Democratización de las relaciones familiares',
@@ -40,7 +40,7 @@ const ArticleMock: Article[] = [
   {
     _id: '4',
     title: 'Artículo de aceite enriquecido en niñas',
-    authors: 'Naydú Núñez'.split(','),
+    authors: ['Naydú Núñez'],
     primaryThematicAxis: 'Democratización de las relaciones familiares',
     secondaryThematicAxis:
       'La relación familia - escuela un asunto de corresponsabilidad',

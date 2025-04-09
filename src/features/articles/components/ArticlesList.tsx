@@ -15,8 +15,8 @@ function ArticlesList({ articles }: Readonly<ArticlesListProps>) {
 
   return articles.map((article) => (
     <section
-      key={article._id ?? ''}
-      className="grid col-span-1 sm:col-span-2 md:col-span-4 md:grid-flow-col justify-center items-center gap-2 sm:gap-6 md:gap-10 border border-blue-200 rounded-lg p-4 bg-blue-50 h-fit"
+      key={article._id ?? '' + article.title + Math.random()}
+      className="grid col-span-1 sm:col-span-2 md:col-span-4 md:grid-flow-col justify-center items-center gap-2 sm:gap-6 md:gap-10 border border-blue-200 rounded-lg p-2 sm:p-4 bg-blue-50 h-fit"
     >
       <h3 className="h-fit flex items-center justify-center font-bold text-blue-800 sm:col-span-2 underline text-center text-lg md:text-xl">
         {article.title}
