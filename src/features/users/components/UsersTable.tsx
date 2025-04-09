@@ -46,7 +46,7 @@ export default function UsersTable() {
       .then((data) => {
         setUsers(data)
       })
-      .catch((error) => {
+      .catch((error: unknown) => {
         console.error('Error al cargar los usuarios', error)
         setUsers([])
         alert('Error al cargar los usuarios')

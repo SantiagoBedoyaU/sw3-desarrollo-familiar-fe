@@ -84,7 +84,7 @@ const UserForm: React.FC = () => {
 
       console.log('New user created:', completeUser)
 
-      Swal.fire({
+      void Swal.fire({
         title: 'Usuario creado exitosamente',
         text: `${formData.name} ha sido registrado como ${formData.role === 1 ? 'Administrador' : 'Usuario'}.`,
         icon: 'success',

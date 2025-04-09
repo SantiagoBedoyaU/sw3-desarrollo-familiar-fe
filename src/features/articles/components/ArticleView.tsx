@@ -69,33 +69,29 @@ const ArticleView: React.FC<ArticleViewProps> = ({ article }) => {
             <p className="text-sm">{article.primaryThematicAxis}</p>
           </section>
 
-          {article.file && (
-            <section>
-              <h3 className="text-md text-left font-bold">
-                Informe relacionado
-              </h3>
-              <div className="flex items-center gap-2">
-                <span className="text-sm">{article.file.name}</span>
-                <button
-                  type="button"
-                  onClick={(e) => {
-                    e.preventDefault()
-                    // Implementar lógica de descarga
-                    const link = document.createElement('a')
-                    link.href = URL.createObjectURL(article.file)
-                    link.download = article.file.name
-                    document.body.appendChild(link)
-                    link.click()
-                    document.body.removeChild(link)
-                    URL.revokeObjectURL(link.href) // Liberar el objeto URL
-                  }}
-                  className="text-sm text-blue-600 hover:underline flex items-center"
-                >
-                  Descargar
-                </button>
-              </div>
-            </section>
-          )}
+          <section>
+            <h3 className="text-md text-left font-bold">Informe relacionado</h3>
+            <div className="flex items-center gap-2">
+              <span className="text-sm">{article.file.name}</span>
+              <button
+                type="button"
+                onClick={(e) => {
+                  e.preventDefault()
+                  // Implementar lógica de descarga
+                  const link = document.createElement('a')
+                  link.href = URL.createObjectURL(article.file)
+                  link.download = article.file.name
+                  document.body.appendChild(link)
+                  link.click()
+                  document.body.removeChild(link)
+                  URL.revokeObjectURL(link.href) // Liberar el objeto URL
+                }}
+                className="text-sm text-blue-600 hover:underline flex items-center"
+              >
+                Descargar
+              </button>
+            </div>
+          </section>
         </div>
 
         <div className="flex justify-between mt-4 gap-4 py-4 mx-1">

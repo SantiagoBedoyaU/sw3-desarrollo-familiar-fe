@@ -20,7 +20,7 @@ function PrivateRoute({ element, requiredRoles }: PrivateRouteProps) {
   useEffect(() => {
     // Verificamos si no hay token
     if (!token && !alertShown.current) {
-      Swal.fire({
+      void Swal.fire({
         title: 'No estás autenticado',
         text: 'Por favor, inicia sesión para acceder a esta página.',
         icon: 'warning',
@@ -37,7 +37,7 @@ function PrivateRoute({ element, requiredRoles }: PrivateRouteProps) {
       const hasPermission = requiredRoles.includes(user.role)
 
       if (!hasPermission) {
-        Swal.fire({
+        void Swal.fire({
           title: 'Acceso denegado',
           text: 'No tienes permisos suficientes para acceder a esta página.',
           icon: 'error',

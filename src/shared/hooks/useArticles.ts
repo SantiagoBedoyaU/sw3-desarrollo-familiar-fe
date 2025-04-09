@@ -66,7 +66,7 @@ export const useArticles = () => {
         // })
 
         if (articulosDisponibles.length === 0) {
-          Swal.fire({
+          void Swal.fire({
             title: 'Sin artículos disponibles',
             text: 'No hay artículos disponibles en este momento.',
             icon: 'info',
@@ -124,7 +124,7 @@ export const useArticles = () => {
         //   })
         // })
         if (articulosDisponibles.length === 0) {
-          Swal.fire({
+          void Swal.fire({
             title: 'Sin artículos disponibles',
             text: 'No hay artículos disponibles en este momento.',
             icon: 'info',
@@ -138,7 +138,7 @@ export const useArticles = () => {
         loadError = null
 
         // Actualizar estado local
-        setArticles(articlesCache ?? [])
+        setArticles(articlesCache)
         setError(null)
       } catch (err) {
         console.error('Error refreshing articles:', err)
@@ -169,6 +169,7 @@ export const useArticles = () => {
     //       confirmButtonColor: '#4B5563',
     //     })
     //   })
+    await new Promise((resolve) => setTimeout(resolve, 1000)) // Simulación de espera
     setArticles((prevArticles) => [...prevArticles, article])
     // // Apply any existing filters to the updated list
     // applyFilters([...articles, newArticle], searchTerm, selectedThematicArea)
@@ -186,6 +187,7 @@ export const useArticles = () => {
     //       confirmButtonColor: '#4B5563',
     //     })
     //   })
+    await new Promise((resolve) => setTimeout(resolve, 1000)) // Simulación de espera
     const prevarticles = articles.filter((article) => article._id !== _id)
     articlesCache = prevarticles
     setArticles(prevarticles)
@@ -222,6 +224,7 @@ export const useArticles = () => {
     //   searchTerm,
     //   selectedThematicArea,
     // )
+    await new Promise((resolve) => setTimeout(resolve, 1000)) // Simulación de espera
     console.log('====================================')
     console.log('editArticle', updatedArticle)
   }

@@ -66,7 +66,7 @@ export const useArticlesTop = () => {
         //   })
         // })
         if (articulosDisponibles.length === 0) {
-          Swal.fire({
+          void Swal.fire({
             title: 'Sin artículos disponibles',
             text: 'No hay artículos disponibles en este momento.',
             icon: 'info',
@@ -123,7 +123,7 @@ export const useArticlesTop = () => {
         //   })
         // })
         if (articulosDisponibles.length === 0) {
-          Swal.fire({
+          void Swal.fire({
             title: 'Sin artículos disponibles',
             text: 'No hay artículos disponibles en este momento.',
             icon: 'info',
