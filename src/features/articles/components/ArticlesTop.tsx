@@ -6,7 +6,7 @@ function ArticlesTop() {
   const { topArticles, fetchTopArticles } = useArticleStore()
 
   useEffect(() => {
-    fetchTopArticles()
+    void fetchTopArticles()
   }, [])
 
   return <ArticlesList articles={topArticles} />

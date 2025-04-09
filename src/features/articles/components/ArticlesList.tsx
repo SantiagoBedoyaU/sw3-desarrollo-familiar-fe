@@ -7,7 +7,6 @@ import { useArticleStore } from '../stores/ArticlesStore'
 
 interface ArticlesListProps {
   articles: Article[]
-  setArticles: (articles: Article[]) => void
 }
 
 function ArticlesList({ articles }: Readonly<ArticlesListProps>) {
@@ -46,7 +45,7 @@ function ArticlesList({ articles }: Readonly<ArticlesListProps>) {
               const trimmed = author.trim()
               return (
                 <li
-                  key={`${article._id}-${trimmed}`}
+                  key={`${article._id ?? ''}-${trimmed}`}
                   className="w-fit ml-5 md:ml-4 text-sm text-gray-600 "
                 >
                   {trimmed}
@@ -60,7 +59,7 @@ function ArticlesList({ articles }: Readonly<ArticlesListProps>) {
         <section className="flex flex-col sm:flex-row md:col-span-4 items-center justify-between md:justify-center gap-2">
           <button
             type="button"
-            onClick={() => article._id && editArticle(article._id, article)}
+            onClick={() => article._id && void editArticle(article._id, article)}
             className="w-full md:w-fit flex items-center justify-center bg-blue-500 hover:bg-blue-600 text-white py-1 px-3 rounded text-sm"
           >
             <Edit2 size={16} className="mr-1" />
@@ -80,7 +79,6 @@ function ArticlesList({ articles }: Readonly<ArticlesListProps>) {
         <section className="flex flex-col sm:flex-row md:col-span-4 items-center justify-between md:flex-col md:justify-center gap-2 relative">
           <button
             type="button"
-            onClick={() => {}}
             className="md:h-16 flex w-full md:w-fit  items-center justify-center rounded text-sm "
           >
             <ArticleView article={article} />

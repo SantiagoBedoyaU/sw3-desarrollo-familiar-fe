@@ -261,7 +261,7 @@ const ArticleForm: React.FC<ArticleFormProps> = ({ article, mode }) => {
               placeholder="Ingrese autores separados por comas"
               id="authors"
               name="authors"
-              value={authors.join(', ') ?? ''}
+              value={authors.join(', ')}
               type="text"
               required={false}
               onChange={(e) =>
@@ -275,7 +275,6 @@ const ArticleForm: React.FC<ArticleFormProps> = ({ article, mode }) => {
               className="btn-outline inline-flex gap-2 items-center w-full md:w-fit justify-center py-2 px-4 my-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-50 bg-black hover:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
               onClick={(e) => {
                 e.preventDefault()
-                if (!authors) return
                 const uniqueAuthors = authors.filter(
                   (author) =>
                     !changeableAuthors.includes(author) && author.trim() !== '',
