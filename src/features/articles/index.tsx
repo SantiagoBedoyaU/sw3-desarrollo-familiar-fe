@@ -3,8 +3,11 @@ import ArticleForm from './components/ArticleForm'
 import ArticleFilters from './components/ArticleFilters'
 import ArticlesTop from './components/ArticlesTop'
 import ArticlesAllList from './components/ArticlesAllList'
+import ArticlesFilterList from './components/ArticlesFilterList'
+import { useArticleStore } from './stores/ArticlesStore'
 
 const Articles = () => {
+  const { filteredArticles } = useArticleStore()
   // Estado para los filtros de búsqueda
   const [searchFilters, setSearchFilters] = useState({
     title: '',
@@ -69,6 +72,9 @@ const Articles = () => {
         </section>
       )}
 
+      {filteredArticles.length > 0 && (
+        <ArticlesFilterList />
+      )}
     </section>
   )
 }

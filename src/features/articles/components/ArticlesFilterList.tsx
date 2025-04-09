@@ -1,7 +1,7 @@
 import ArticlesList from './ArticlesList'
 import { useArticleStore } from '../stores/ArticlesStore'
 
-function ArticlesAllList() {
+function ArticlesFilterList() {
   // const { articles, loading, error, refreshArticles } = useArticles()
   const { isLoadingFilters, error, filteredArticles } =
     useArticleStore()
@@ -24,4 +24,4 @@ function ArticlesAllList() {
   )
 }
 
-export default ArticlesAllList
+export default ArticlesFilterList
