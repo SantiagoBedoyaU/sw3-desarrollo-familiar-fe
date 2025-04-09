@@ -170,8 +170,8 @@ export const useArticleStore = create<ArticleState>((set, get) => ({
             ...state.articles,
             {
               ...newArticle,
-              keywords: newArticle.keywords?.split(','),
-              authors: newArticle.authors?.split(','),
+              keywords: newArticle.keywords.split(','),
+              authors: newArticle.authors.split(','),
             },
           ],
         }))
