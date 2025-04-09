@@ -46,10 +46,10 @@ function ArticleFilters({
             placeholder="Título del artículo"
             value={searchFilters.title}
             onChange={handleFilterChange}
-            className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="order-2 sm:order-1 w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
           <button
-
+            className='order-1 sm:order-2 w-full md:w-fit'
             type="button"
             onClick={
               () => {
@@ -63,7 +63,7 @@ function ArticleFilters({
                 })
               }
             }>
-            <span className="text-blue-500 hover:text-blue-600 bg-gray-100 hover:bg-gray-200 rounded-md px-4 py-2 flex items-center transition duration-300">
+            <span className="text-blue-500 hover:text-blue-600 bg-gray-100 hover:bg-gray-200 rounded-md px-4 py-2 flex items-center justify-center transition duration-300">
               <Trash2 size={16} className="inline-block mr-2" />
               Limpiar filtros
             </span>
