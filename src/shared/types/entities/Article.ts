@@ -29,7 +29,7 @@ export interface ArticleCreate {
   summary: string
   keywords: string
   primaryThematicAxis: string
-  file?: File
+  file: File
   fileAddress?: string
   counter?: number
   downloadCounter?: number

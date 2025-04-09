@@ -148,37 +148,22 @@ export const useArticleStore = create<ArticleState>((set, get) => ({
   },
 
   addArticle: async (article: Omit<ArticleCreate, '_id'>) => {
-    try {
-      const newArticle = await articleService
-        .create(article)
-        .catch((error: unknown) => {
-          void Swal.fire({
-            title: 'Error',
-            text: 'Ocurrió un error al agregar el artículo.',
-            icon: 'error',
-            confirmButtonText: 'Cerrar',
-            confirmButtonColor: '#4B5563',
-          })
-          console.error(error)
 
-          return null
-        })
-
-      if (newArticle) {
-        set((state) => ({
-          articles: [
-            ...state.articles,
-            {
-              ...newArticle,
-              keywords: newArticle.keywords.split(','),
-              authors: newArticle.authors.split(','),
-            },
-          ],
-        }))
-      }
-    } catch (error) {
-      console.error('Error adding article:', error)
+    const newArticle = await articleService
+      .create(article)
+    if (newArticle) {
+      set((state) => ({
+        articles: [
+          ...state.articles,
+          {
+            ...newArticle,
+            keywords: newArticle.keywords,
+            authors: newArticle.authors
+          },
+        ],
+      }))
     }
+
   },
 
   deleteArticle: async (_id: string) => {

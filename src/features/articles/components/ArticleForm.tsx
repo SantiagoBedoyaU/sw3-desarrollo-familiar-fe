@@ -164,15 +164,10 @@ const ArticleForm: React.FC<ArticleFormProps> = ({ article, mode }) => {
           authors: articleData.authors.join(','),
           keywords: articleData.keywords.join(',')
         }
-      ).then(() => {
-        onClose(false)
-        void Swal.fire({
-          title: 'Artículo agregado',
-          text: 'El artículo ha sido agregado exitosamente.',
-          icon: 'success',
-          confirmButtonText: 'Aceptar',
-        })
-      })
+      )
+      onClose(false)
+
+
     } else if (article?._id) {
       void editArticle(article._id, articleData).then(() => {
         onClose(false)

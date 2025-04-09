@@ -3,6 +3,9 @@ import Article, { ArticleCreate } from '../types/entities/Article'
 import { ApiService } from './ApiService'
 import Config from '../../app/config/Config'
 import { ResponseEntity } from '../types/reactTypes/ResponseEntity'
+import FormData from 'form-data'
+import Swal from 'sweetalert2'
+
 export class ArticleService extends ApiService<Article> {
   constructor() {
     super('research-articles')
@@ -30,17 +33,56 @@ export class ArticleService extends ApiService<Article> {
     }
   }
 
-  async create(data: Omit<ArticleCreate, '_id'>): Promise<ArticleCreate> {
+  async create(data: Omit<ArticleCreate, '_id'>): Promise<Article> {
+    const formData = new FormData()
+
+    formData.append('title', data.title)
+    formData.append('year', data.year.toString())
+    formData.append('authors', data.authors)
+    formData.append('primaryThematicAxis', data.primaryThematicAxis)
+    formData.append('secondaryThematicAxis', data.secondaryThematicAxis)
+    formData.append('keywords', data.keywords)
+    formData.append('summary', data.summary)
+    console.log(data.file)
+
+    const cleanName = data.file.name
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '') // quita acentos
+    const safeFileName = cleanName.replace(/[^a-zA-Z0-9-.]/g, '-')
+    const renamedFile = new File([data.file], safeFileName, {
+      type: data.file.type,
+    })
+    formData.append('file', renamedFile)
+
+    const url = this.getUrl('')
+
+    const options = {
+      method: 'POST',
+      body: formData,
+    }
+
     try {
-      return await this.handleResponse<ArticleCreate>(
-        axios.post(this.getUrl(), data, {
-          headers: {
-            'Content-Type': 'multipart/form-data',
-          },
-        }),
-      )
-    } catch (error) {
-      this.handleError(error, `Error creating ${this.getUrl()}`)
+      const response = await fetch(url, {
+        ...options,
+        body: formData as unknown as BodyInit,
+      })
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`)
+      }
+      const article = (await response.json()) as Article
+      console.log(article)
+
+      return article
+    } catch (err) {
+      console.error('Error:', err)
+      void Swal.fire({
+        title: 'Error',
+        text: 'Ocurrió un error al agregar el artículo.',
+        icon: 'error',
+        confirmButtonText: 'Cerrar',
+        confirmButtonColor: '#4B5563',
+      })
+      throw err
     }
   }
 
