@@ -36,7 +36,7 @@ const ArticleForm: React.FC<ArticleFormProps> = ({ article, mode }) => {
   const [year, setYear] = useState(new Date().getFullYear().toString())
   const [authors, setAuthors] = useState<string[]>([])
   const [summary, setSummary] = useState('')
-  const [keywords, setKeywords] = useState<string[]>()
+  const [keywords, setKeywords] = useState<string[]>([])
   const [file, setFile] = useState<File | null>(null)
   const [fileError, setFileError] = useState(false) // Estado para errores del archivo
   const [changeableKeywords, setChangeableKeywords] = useState(
