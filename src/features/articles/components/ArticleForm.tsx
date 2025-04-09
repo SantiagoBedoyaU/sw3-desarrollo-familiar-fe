@@ -160,7 +160,7 @@ const ArticleForm: React.FC<ArticleFormProps> = ({ article, mode }) => {
     if (mode === 'add') {
       void addArticle(articleData).then(() => {
         onClose(false)
-        Swal.fire({
+        void Swal.fire({
           title: 'Artículo agregado',
           text: 'El artículo ha sido agregado exitosamente.',
           icon: 'success',
@@ -170,7 +170,7 @@ const ArticleForm: React.FC<ArticleFormProps> = ({ article, mode }) => {
     } else if (article?._id) {
       void editArticle(article._id, articleData).then(() => {
         onClose(false)
-        Swal.fire({
+        void Swal.fire({
           title: 'Artículo editado',
           text: 'El artículo ha sido editado exitosamente.',
           icon: 'success',

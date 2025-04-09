@@ -222,6 +222,8 @@ export const useArticles = () => {
     //   searchTerm,
     //   selectedThematicArea,
     // )
+    console.log('====================================')
+    console.log('editArticle', updatedArticle)
   }
 
   const downloadArticle = async (_id: string) => {

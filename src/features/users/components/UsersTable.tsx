@@ -1,4 +1,4 @@
-import { MoreHorizontal, Pencil, Trash2 } from 'lucide-react'
+import { Pencil, Trash2 } from 'lucide-react'
 // import {
 //   DropdownMenu,
 //   DropdownMenuContent,
@@ -37,7 +37,6 @@ const fetchUsers = async () => {
 }
 
 export default function UsersTable() {
-  const [isOpen, setIsOpen] = useState(false)
   const [selectedUser, setSelectedUser] = useState<User>(sample_users[0])
   const [users, setUsers] = useState<User[]>([])
   const [isDeleteConfirmOpen, setIsDeleteConfirmOpen] = useState(false)
