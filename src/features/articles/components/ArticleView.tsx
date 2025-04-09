@@ -82,8 +82,8 @@ const ArticleView: React.FC<ArticleViewProps> = ({ article }) => {
                     e.preventDefault()
                     // Implementar lógica de descarga
                     const link = document.createElement('a')
-                    link.href = URL.createObjectURL(article.file)
-                    link.download = article.file?.name 
+                    link.href = URL.createObjectURL(article.file as Blob)
+                    link.download = article.file?.name ?? 'file.pdf'
                     document.body.appendChild(link)
                     link.click()
                     document.body.removeChild(link)
