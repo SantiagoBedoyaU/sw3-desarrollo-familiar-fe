@@ -9,8 +9,8 @@ const Articles = () => {
   const [searchFilters, setSearchFilters] = useState({
     title: '',
     author: '',
-    thematicArea: '',
-    thematicArea2: '',
+    primaryThematicAxis: '',
+    secondaryThematicAxis: '',
   })
 
   const [countFilters, setCountFilters] = useState(0)
@@ -20,8 +20,8 @@ const Articles = () => {
     let count = 0
     if (searchFilters.title !== '') count++
     if (searchFilters.author !== '') count++
-    if (searchFilters.thematicArea !== '') count++
-    if (searchFilters.thematicArea2 !== '') count++
+    if (searchFilters.primaryThematicAxis !== '') count++
+    if (searchFilters.secondaryThematicAxis !== '') count++
     setCountFilters(count)
   }, [searchFilters])
 
@@ -45,7 +45,7 @@ const Articles = () => {
   }
 
   return (
-    <div className="max-w-4xl mx-auto p-6 bg-white shadow-lg rounded-lg">
+    <section className="max-w-4xl mx-auto p-6 bg-white shadow-lg rounded-lg">
       <section className="md:relative md:flex md:items-center md:justify-between mb-4">
         <ArticleForm mode="add" />
         <h2 className="text-2xl font-bold text-center mb-6 text-gray-800">
@@ -61,7 +61,7 @@ const Articles = () => {
 
       {countFilters === 0 && <ArticlesTop />}
       {countFilters > 0 && <ArticlesAllList />}
-    </div>
+    </section>
   )
 }
 

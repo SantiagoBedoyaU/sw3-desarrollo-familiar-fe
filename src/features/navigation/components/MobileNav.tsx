@@ -14,9 +14,9 @@ const NavbarMobile: React.FC<NavbarMobileProps> = ({ open, setOpen }) => {
   if (!open) return null
 
   return (
-    <div className="fixed top-0 left-0 w-64 h-full z-50 bg-[#e1effa] shadow-xl border-r border-[#b4d3ea] flex flex-col">
+    <section className="fixed top-0 left-0 w-64 h-full z-50 bg-[#e1effa] shadow-xl border-r border-[#b4d3ea] flex flex-col">
       {/* Encabezado */}
-      <div className="flex items-center justify-between px-4 h-14 bg-[#5395c1] text-white border-b border-blue-100">
+      <section className="flex items-center justify-between px-4 h-14 bg-[#5395c1] text-white border-b border-blue-100">
         <h1 className="text-sm font-bold">Escuelas Familiares</h1>
         <button
           type="button"
@@ -26,7 +26,7 @@ const NavbarMobile: React.FC<NavbarMobileProps> = ({ open, setOpen }) => {
         >
           <X className="h-5 w-5" />
         </button>
-      </div>
+      </section>
 
       {/* Navegación */}
       <nav className="flex-1 overflow-y-auto px-3 py-4 space-y-1">
@@ -50,7 +50,7 @@ const NavbarMobile: React.FC<NavbarMobileProps> = ({ open, setOpen }) => {
       </nav>
 
       {/* Sesión */}
-      <div className="border-t border-[#b4d3ea] bg-[#c2daf1] px-3 py-4 space-y-2 text-[#1d3557]">
+      <section className="border-t border-[#b4d3ea] bg-[#c2daf1] px-3 py-4 space-y-2 text-[#1d3557]">
         {isAuthenticated ? (
           <>
             <a
@@ -90,8 +90,8 @@ const NavbarMobile: React.FC<NavbarMobileProps> = ({ open, setOpen }) => {
             </a>
           </>
         )}
-      </div>
-    </div>
+      </section>
+    </section>
   )
 }
 

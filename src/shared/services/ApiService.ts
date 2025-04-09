@@ -81,17 +81,17 @@ export class ApiService<T> {
     }
   }
 
-  async getById(id: string): Promise<T> {
+  async getById(_id: string): Promise<T> {
     try {
       return await this.handleResponse<T>(
-        axios.get(this.getUrl(id), defaultConfig),
+        axios.get(this.getUrl(_id), defaultConfig),
       )
     } catch (error) {
-      this.handleError(error, `Error getting ${this.endpoint} with id ${id}`)
+      this.handleError(error, `Error getting ${this.endpoint} with _id ${_id}`)
     }
   }
 
-  async create(data: Omit<T, 'id'>): Promise<T> {
+  async create(data: Omit<T, '_id'>): Promise<T> {
     try {
       return await this.handleResponse<T>(
         axios.post(this.getUrl(), data, defaultConfig),
@@ -101,21 +101,21 @@ export class ApiService<T> {
     }
   }
 
-  async update(id: string, data: Partial<T>): Promise<T> {
+  async update(_id: string, data: Partial<T>): Promise<T> {
     try {
       return await this.handleResponse<T>(
-        axios.put(this.getUrl(id), data, defaultConfig),
+        axios.put(this.getUrl(_id), data, defaultConfig),
       )
     } catch (error) {
-      this.handleError(error, `Error updating ${this.endpoint} with id ${id}`)
+      this.handleError(error, `Error updating ${this.endpoint} with _id ${_id}`)
     }
   }
 
-  async delete(id: string): Promise<void> {
+  async delete(_id: string): Promise<void> {
     try {
-      await this.handleResponse(axios.delete(this.getUrl(id), defaultConfig)) // Eliminado el uso incorrecto de `void`
+      await this.handleResponse(axios.delete(this.getUrl(_id), defaultConfig)) // Eliminado el uso incorrecto de `void`
     } catch (error) {
-      this.handleError(error, `Error deleting ${this.endpoint} with id ${id}`)
+      this.handleError(error, `Error deleting ${this.endpoint} with _id ${_id}`)
     }
   }
 }

@@ -2,10 +2,13 @@ import { useArticles } from '../../../shared/hooks/useArticles'
 import ArticlesList from './ArticlesList'
 
 function ArticlesAllList() {
-  const { articles } = useArticles()
+  const { articles, setArticles } = useArticles()
   return (
-    <section className="space-y-4">
-      <ArticlesList articles={articles} />
+    <section>
+      {/* Lista de artículos */}
+      <section className="space-y-4">
+        <ArticlesList setArticles={setArticles} articles={articles} />
+      </section>
     </section>
   )
 }

@@ -9,7 +9,7 @@ function Header() {
 
   return (
     <header className="bg-[#5395c1] text-white shadow-md w-full">
-      <div className="flex justify-between items-center px-4 py-2">
+      <section className="flex justify-between items-center px-4 py-2">
         {/* Logo */}
         <a href="/" className="flex items-center gap-2">
           <img src="/icon.jpg" alt="logo" className="h-10 w-10 rounded-full" />
@@ -29,12 +29,12 @@ function Header() {
         </button>
 
         {/* Desktop nav */}
-        <div className="hidden md:flex flex-1 justify-center">
+        <section className="hidden md:flex flex-1 justify-center">
           <NavigationWrapper />
-        </div>
+        </section>
 
         {/* Auth options */}
-        <div className="hidden md:flex items-center gap-3">
+        <section className="hidden md:flex items-center gap-3">
           {isAuthenticated ? (
             <>
               <a
@@ -71,8 +71,8 @@ function Header() {
               </a>
             </>
           )}
-        </div>
-      </div>
+        </section>
+      </section>
 
       {/* Mobile menu (Nav + Auth) */}
       {open && <NavigationWrapper open={open} setOpen={setOpen} />}

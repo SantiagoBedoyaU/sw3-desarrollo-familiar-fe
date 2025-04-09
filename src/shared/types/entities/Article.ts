@@ -1,16 +1,16 @@
 import PracticeReport from './PracticeReport'
 
 export default interface Article {
-  id?: string
+  _id?: string
   title: string
   authors: string
   year: string
   summary: string
   keywords: string
-  thematicArea: string
+  primaryThematicAxis: string
   file: File
 
-  thematicArea2?: string
+  secondaryThematicAxis?: string
   practiceReportId?: string
 
   practiceReport?: PracticeReport
