@@ -1,4 +1,11 @@
-import { Home, FileText, PenTool, Search, GraduationCap } from 'lucide-react'
+import {
+  Home,
+  FileText,
+  PenTool,
+  Search,
+  GraduationCap,
+  User,
+} from 'lucide-react'
 
 export const navItems = [
   { title: 'Inicio', href: '/', icon: <Home className="h-5 w-5" /> },
@@ -21,5 +28,10 @@ export const navItems = [
     title: 'Formación docente',
     href: '/formacion-docente',
     icon: <GraduationCap className="h-5 w-5" />,
+  },
+  {
+    title: 'Usuarios',
+    href: '/usuarios',
+    icon: <User className="h-5 w-5" />,
   },
 ]
