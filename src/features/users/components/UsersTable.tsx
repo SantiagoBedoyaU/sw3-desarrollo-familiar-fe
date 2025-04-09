@@ -28,7 +28,7 @@ const sample_users: User[] = [
   },
 ]
 
-const headersTable = ['Usuario', 'Rol', 'Acciones']
+const headersTable = ['Nombre', 'Email', 'Rol', 'Acciones']
 
 const fetchUsers = async () => {
   // Simulated API call
@@ -38,7 +38,7 @@ const fetchUsers = async () => {
 
 export default function UsersTable() {
   const [isOpen, setIsOpen] = useState(false)
-  const [selectedUser, setSelectedUser] = useState<User>({} as User)
+  const [selectedUser, setSelectedUser] = useState<User>(sample_users[0])
   const [users, setUsers] = useState<User[]>([])
   const [isDeleteConfirmOpen, setIsDeleteConfirmOpen] = useState(false)
 
@@ -60,37 +60,47 @@ export default function UsersTable() {
   }
 
   return (
-    <section className="px-2 py-4 overflow-x-auto sm:overflow-visible">
-      <table className="w-full border border-gray-50 rounded-xl table-auto text-sm sm:text-base">
-        <thead>
-          <tr className="bg-gray-50 text-left text-gray-600 uppercase text-xs sm:text-sm">
-            {headersTable.map((header) => (
-              <th key={'UserHeader' + header} className="p-2">
-                {header}
-              </th>
-            ))}
-          </tr>
+    <section className="relative overflow-x-auto px-4 py-2 sm:px-6 lg:px-8">
+      <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+        <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+          {headersTable.map((header) => (
+            <th key={'UserHeader' + header} className="px-6 py-3">
+              {header}
+            </th>
+          ))}
         </thead>
-        <tbody className="bg-white divide-y divide-gray-200">
+        <tbody>
           {users.map((user) => (
-            <tr key={user._id} className="text-sm sm:text-base">
-              <td className="p-2 whitespace-nowrap">{user.name}</td>
-              <td className="p-2 whitespace-nowrap">{user.role}</td>
-              <td className="p-2 cursor-pointer text-center">
-                <button>
-                  <Pencil className="mr-2 h-4 w-4" />
-                  <p>Editar</p>
-                </button>
-                <button>
-                  <Trash2 className="mr-2 h-4 w-4" />
-                  Eliminar
-                </button>
+            <tr
+              key={user._id}
+              className="text-sm sm:text-base bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700"
+              onClick={() => setSelectedUser(user)}
+            >
+              <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white ">
+                {user.name}
+              </td>
+              <td className="px-6 py-4 whitespace-nowrap">{user.email}</td>
+              <td className="px-6 py-4 whitespace-nowrap">{user.role}</td>
+              {/* Dropdown Menu for Actions */}
+              <td className="px-6 py-4 whitespace-nowrap">
+                <section className="px-6 py-4">
+                  <button className="flex items-center gap-2">
+                    <Pencil className="mr-2 h-4 w-4" />
+                    <p>Editar</p>
+                  </button>
+                  <button
+                    className="flex items-center gap-2"
+                    onClick={() => setIsDeleteConfirmOpen(true)}
+                  >
+                    <Trash2 className="mr-2 h-4 w-4" />
+                    Eliminar
+                  </button>
+                </section>
               </td>
             </tr>
           ))}
         </tbody>
       </table>
-
       {/* Delete Confirmation Modal */}
       <Modal
         isOpen={isDeleteConfirmOpen}

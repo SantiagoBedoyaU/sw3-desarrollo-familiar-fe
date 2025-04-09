@@ -66,7 +66,7 @@ const ArticleView: React.FC<ArticleViewProps> = ({ article }) => {
 
           <section>
             <h3 className="text-md font-bold">Ejes temáticos</h3>
-            <p className="text-sm">{article.thematicArea}</p>
+            <p className="text-sm">{article.primaryThematicAxis}</p>
           </section>
 
           {article.file && (

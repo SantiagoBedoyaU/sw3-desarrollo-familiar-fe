@@ -26,12 +26,12 @@ function ArticlesList({ articles, setArticles }: Readonly<ArticlesListProps>) {
         <span className="underline font-medium w-full ">Eje temático </span>
         <section>
           <span className="mx-2">•</span>
-          {article.thematicArea}
+          {article.primaryThematicAxis}
         </section>
-        {article.thematicArea2 && (
+        {article.secondaryThematicAxis && (
           <section>
             <span className="mx-2">•</span>
-            {article.thematicArea2}
+            {article.secondaryThematicAxis}
           </section>
         )}
       </section>

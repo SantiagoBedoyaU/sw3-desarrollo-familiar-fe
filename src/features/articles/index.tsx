@@ -9,8 +9,8 @@ const Articles = () => {
   const [searchFilters, setSearchFilters] = useState({
     title: '',
     author: '',
-    thematicArea: '',
-    thematicArea2: '',
+    primaryThematicAxis: '',
+    secondaryThematicAxis: '',
   })
 
   const [countFilters, setCountFilters] = useState(0)
@@ -20,8 +20,8 @@ const Articles = () => {
     let count = 0
     if (searchFilters.title !== '') count++
     if (searchFilters.author !== '') count++
-    if (searchFilters.thematicArea !== '') count++
-    if (searchFilters.thematicArea2 !== '') count++
+    if (searchFilters.primaryThematicAxis !== '') count++
+    if (searchFilters.secondaryThematicAxis !== '') count++
     setCountFilters(count)
   }, [searchFilters])
 

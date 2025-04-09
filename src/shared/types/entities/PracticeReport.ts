@@ -7,10 +7,10 @@ export default interface PracticeReport {
   year: string
   summary: string
   keywords: string
-  thematicArea: string
+  primaryThematicAxis: string
   file: File
 
-  thematicArea2?: string
+  secondaryThematicAxis?: string
   articleId?: string
 
   article?: Article

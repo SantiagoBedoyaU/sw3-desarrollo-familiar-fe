@@ -10,7 +10,7 @@ import { DialogDescription } from '../../../shared/components/common/dialog/Dial
 function UsersHeader() {
   const [open, setOpen] = useState(false)
   return (
-    <section className="flex items-center justify-between gap-4 p-2 mr-10 md:mr-5 max-w-fit">
+    <section className="flex items-center justify-between gap-4 mr-10 md:mr-5 max-w-fit px-4 py-2 sm:px-6 lg:px-8">
       <section>
         <h2 className="text-3xl font-bold tracking-tight">Usuarios</h2>
       </section>

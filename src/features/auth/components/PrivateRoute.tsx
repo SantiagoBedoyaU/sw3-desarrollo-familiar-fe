@@ -11,15 +11,15 @@ function PrivateRoute({ element }: PrivateRouteProps) {
 
   const token = localStorage.getItem('token')
 
-  useEffect(() => {
-    if (!token && !alertShown.current) {
-      alert('Porfavor registrare para acceder a esta pagina')
-      alertShown.current = true
-      setRedirect(true)
-    }
-  }, [token])
+  // useEffect(() => {
+  //   if (!token && !alertShown.current) {
+  //     alert('Porfavor registrare para acceder a esta pagina')
+  //     alertShown.current = true
+  //     setRedirect(true)
+  //   }
+  // }, [token])
 
-  if (redirect) return <Navigate to="/registrarse" />
+  // if (redirect) return <Navigate to="/registrarse" />
 
   return element
 }

@@ -5,9 +5,9 @@ const mockArticle: Article[] = [
     id: '1',
     title: 'Artículo de aceite enriquecido en niñas',
     authors: 'Naydú Núñez',
-    thematicArea:
+    primaryThematicAxis:
       'La relación familia - escuela un asunto de corresponsabilidad',
-    thematicArea2: 'Democratización de las relaciones familiares',
+    secondaryThematicAxis: 'Democratización de las relaciones familiares',
     keywords: 'aceite, enriquecido, niñas',
     summary: 'Resumen del artículo',
     file: new File([], 'file.pdf'),
@@ -17,8 +17,8 @@ const mockArticle: Article[] = [
     id: '2',
     title: 'Artículo de aceite enriquecido en niñas',
     authors: 'Naydú Núñez, Juan Perez',
-    thematicArea: 'Democratización de las relaciones familiares',
-    thematicArea2:
+    primaryThematicAxis: 'Democratización de las relaciones familiares',
+    secondaryThematicAxis:
       'La relación familia - escuela un asunto de corresponsabilidad',
     keywords: 'aceite, enriquecido, niñas',
     summary: 'Resumen del artículo',
@@ -29,9 +29,9 @@ const mockArticle: Article[] = [
     id: '3',
     title: 'Artículo de aceite enriquecido en niñas',
     authors: 'Naydú Núñez',
-    thematicArea:
+    primaryThematicAxis:
       'La relación familia - escuela un asunto de corresponsabilidad',
-    thematicArea2: 'Democratización de las relaciones familiares',
+    secondaryThematicAxis: 'Democratización de las relaciones familiares',
     keywords: 'aceite, enriquecido, niñas',
     summary: 'Resumen del artículo',
     file: new File([], 'file.pdf'),
@@ -41,8 +41,8 @@ const mockArticle: Article[] = [
     id: '4',
     title: 'Artículo de aceite enriquecido en niñas',
     authors: 'Naydú Núñez',
-    thematicArea: 'Democratización de las relaciones familiares',
-    thematicArea2:
+    primaryThematicAxis: 'Democratización de las relaciones familiares',
+    secondaryThematicAxis:
       'La relación familia - escuela un asunto de corresponsabilidad',
     keywords: 'aceite, enriquecido, niñas',
     summary: 'Resumen del artículo',

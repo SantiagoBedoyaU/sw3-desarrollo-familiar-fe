@@ -45,15 +45,15 @@ const ArticleForm: React.FC<ArticleFormProps> = ({ article, mode }) => {
   const [changeableAuthors, setChangeableAuthors] = useState(
     article?.changeableAuthors ?? article?.authors.split(', ') ?? [],
   )
-  const [thematicArea, setThematicArea] = useState('')
-  const [thematicArea2, setThematicArea2] = useState('')
+  const [primaryThematicAxis, setThematicArea] = useState('')
+  const [secondaryThematicAxis, setThematicArea2] = useState('')
   const [practiceReportId, setPracticeReportId] = useState('')
   const [practiceReport, setPracticeReport] = useState('')
   const [formErrors, setFormErrors] = useState({
     title: false,
     year: false,
     authors: false,
-    thematicArea: false,
+    primaryThematicAxis: false,
     summary: false,
     keywords: false,
     // changeableAuthors: false,
@@ -65,10 +65,10 @@ const ArticleForm: React.FC<ArticleFormProps> = ({ article, mode }) => {
       setYear(article.year)
       setAuthors(article.authors)
       setSummary(article.summary)
-      setThematicArea(article.thematicArea)
+      setThematicArea(article.primaryThematicAxis)
       setKeywords(article.keywords)
       setFile(article.file)
-      setThematicArea2(article.thematicArea2 ?? '')
+      setThematicArea2(article.secondaryThematicAxis ?? '')
       setPracticeReportId(article.practiceReportId ?? '')
       setChangeableAuthors(article.changeableAuthors ?? [])
       setChangeableKeywords(article.changeableKeywords ?? [])
@@ -107,7 +107,7 @@ const ArticleForm: React.FC<ArticleFormProps> = ({ article, mode }) => {
       title: false,
       year: false,
       authors: false,
-      thematicArea: false,
+      primaryThematicAxis: false,
       summary: false,
       keywords: false,
     })
@@ -118,7 +118,7 @@ const ArticleForm: React.FC<ArticleFormProps> = ({ article, mode }) => {
       title: !title.trim(),
       year: !year.trim(),
       authors: !changeableAuthors.length,
-      thematicArea: !thematicArea,
+      primaryThematicAxis: !primaryThematicAxis,
       summary: !summary.trim(),
       keywords: !changeableKeywords.length,
     }
@@ -143,7 +143,7 @@ const ArticleForm: React.FC<ArticleFormProps> = ({ article, mode }) => {
       title: title.trim(),
       authors: changeableAuthors.join(', '),
       year: year.trim(),
-      thematicArea: thematicArea,
+      primaryThematicAxis: primaryThematicAxis,
       summary: summary.trim(),
       keywords: changeableKeywords.join(', '),
       file: file,
@@ -153,8 +153,8 @@ const ArticleForm: React.FC<ArticleFormProps> = ({ article, mode }) => {
       articleData.practiceReportId = practiceReportId
     }
 
-    if (thematicArea2) {
-      articleData.thematicArea2 = thematicArea2
+    if (secondaryThematicAxis) {
+      articleData.secondaryThematicAxis = secondaryThematicAxis
     }
 
     if (mode === 'add') {
@@ -309,17 +309,17 @@ const ArticleForm: React.FC<ArticleFormProps> = ({ article, mode }) => {
 
           <section className="md:flex md:items-center md:justify-between md:space-x-4">
             <Label
-              htmlFor="thematicArea"
-              error={formErrors.thematicArea}
+              htmlFor="primaryThematicAxis"
+              error={formErrors.primaryThematicAxis}
               text="Eje principal*"
             />
             <Select
-              error={formErrors.thematicArea}
+              error={formErrors.primaryThematicAxis}
               errorString="El eje temático es requerido"
               optionDefaultText="Seleccione un eje principal"
-              id="thematicArea"
-              name="thematicArea"
-              value={thematicArea}
+              id="primaryThematicAxis"
+              name="primaryThematicAxis"
+              value={primaryThematicAxis}
               onChange={(e) => setThematicArea(e.target.value)}
               required={true}
               options={primaryThematicOptions}
@@ -328,16 +328,16 @@ const ArticleForm: React.FC<ArticleFormProps> = ({ article, mode }) => {
 
           <section className="md:flex md:items-center md:justify-between md:space-x-4">
             <Label
-              htmlFor="thematicArea2"
+              htmlFor="secondaryThematicAxis "
               error={false}
               text="Eje secundario (opcional)"
             />
             <Select
               error={false}
               optionDefaultText="Seleccione un eje secundario"
-              id="thematicArea2"
-              name="thematicArea2"
-              value={thematicArea2}
+              id="secondaryThematicAxis "
+              name="secondaryThematicAxis "
+              value={secondaryThematicAxis}
               onChange={(e) => setThematicArea2(e.target.value)}
               required={false}
               options={secondaryThematicOptions}
