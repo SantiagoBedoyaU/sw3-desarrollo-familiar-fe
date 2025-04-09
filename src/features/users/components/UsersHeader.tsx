@@ -1,11 +1,12 @@
 import { useState } from 'react'
-import { Plus } from 'lucide-react'
+import { Plus, UserPlus } from 'lucide-react'
 import { Dialog } from '../../../shared/components/common/dialog/Dialog'
 import { DialogTrigger } from '../../../shared/components/common/dialog/DialogTrigger'
 import { DialogContent } from '../../../shared/components/common/dialog/DialogContent'
 import { DialogHeader } from '../../../shared/components/common/dialog/DialogHeader'
 import { DialogTitle } from '../../../shared/components/common/dialog/DialogTitle'
 import { DialogDescription } from '../../../shared/components/common/dialog/DialogDescription'
+import UserForm from './UserForm'
 
 function UsersHeader() {
   const [open, setOpen] = useState(false)
@@ -27,13 +28,22 @@ function UsersHeader() {
           className="sm:max-w-[600px] m-auto"
         >
           <DialogHeader>
-            <DialogTitle>Crear Nuevo Usuario</DialogTitle>
+            <DialogTitle>
+              <h3 className="flex items-center gap-2 text-xl font-semibold mb-2">
+                <UserPlus className="h-5 w-5" />
+                Crear Nuevo Usuario
+              </h3>
+            </DialogTitle>
             <DialogDescription>
-              Completa los detalles del usuario. Todos los campos son
-              requeridos.
+              <section className="mb-6">
+                <p className="text-gray-600">
+                  Ingresa los datos del nuevo usuario para registrarlo en el
+                  sistema.
+                </p>
+              </section>
             </DialogDescription>
           </DialogHeader>
-          {/* <UserCreate /> */}
+          <UserForm />
         </DialogContent>
       </Dialog>
     </section>

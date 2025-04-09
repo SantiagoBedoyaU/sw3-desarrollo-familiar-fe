@@ -82,20 +82,18 @@ export default function UsersTable() {
               <td className="px-6 py-4 whitespace-nowrap">{user.email}</td>
               <td className="px-6 py-4 whitespace-nowrap">{user.role}</td>
               {/* Dropdown Menu for Actions */}
-              <td className="px-6 py-4 whitespace-nowrap">
-                <section className="px-6 py-4">
-                  <button className="flex items-center gap-2">
-                    <Pencil className="mr-2 h-4 w-4" />
-                    <p>Editar</p>
-                  </button>
-                  <button
-                    className="flex items-center gap-2"
-                    onClick={() => setIsDeleteConfirmOpen(true)}
-                  >
-                    <Trash2 className="mr-2 h-4 w-4" />
-                    Eliminar
-                  </button>
-                </section>
+              <td className="px-6 py-4 whitespace-nowrap flex md:flex-row items-center justify-center gap-2">
+                <button className="w-full md:w-fit flex items-center justify-center bg-blue-500 hover:bg-blue-600 text-white py-1 px-3 rounded text-sm">
+                  <Pencil className="mr-2 h-4 w-4" />
+                  <p>Editar</p>
+                </button>
+                <button
+                  className="w-full md:w-fit flex items-center justify-center bg-red-500 hover:bg-red-600 text-white py-1 px-3 rounded text-sm"
+                  onClick={() => setIsDeleteConfirmOpen(true)}
+                >
+                  <Trash2 className="mr-2 h-4 w-4" />
+                  Eliminar
+                </button>
               </td>
             </tr>
           ))}
