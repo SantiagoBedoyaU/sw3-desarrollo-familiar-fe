@@ -157,7 +157,7 @@ export const useArticles = () => {
     void fetchArticles()
   }
 
-  const addArticle = async (article: Omit<Article, 'id'>) => {
+  const addArticle = async (article: Omit<Article, '_id'>) => {
     // await articleService
     //   .create(article)
     //   .catch(() => {
@@ -174,7 +174,7 @@ export const useArticles = () => {
     // applyFilters([...articles, newArticle], searchTerm, selectedThematicArea)
   }
 
-  const deleteArticle = async (id: string) => {
+  const deleteArticle = async (_id: string) => {
     // await articleService
     //   .delete(id)
     //   .catch(() => {
@@ -186,7 +186,7 @@ export const useArticles = () => {
     //       confirmButtonColor: '#4B5563',
     //     })
     //   })
-    const prevarticles = articles.filter((article) => article.id !== id)
+    const prevarticles = articles.filter((article) => article._id !== _id)
     articlesCache = prevarticles
     setArticles(prevarticles)
     console.log('====================================')
@@ -200,7 +200,7 @@ export const useArticles = () => {
     // )
   }
 
-  const editArticle = async (id: string, updatedArticle: Article) => {
+  const editArticle = async (_id: string, updatedArticle: Article) => {
     // await articleService
     //   .update(id, updatedArticle)
     //   .catch(() => {
@@ -224,8 +224,8 @@ export const useArticles = () => {
     // )
   }
 
-  const downloadArticle = async (id: string) => {
-    const article = articles.find((article) => article.id === id)
+  const downloadArticle = async (_id: string) => {
+    const article = articles.find((article) => article._id === _id)
     if (!article) {
       throw new Error('Artículo no encontrado')
     }

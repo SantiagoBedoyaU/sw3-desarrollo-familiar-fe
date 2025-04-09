@@ -167,8 +167,8 @@ const ArticleForm: React.FC<ArticleFormProps> = ({ article, mode }) => {
           confirmButtonText: 'Aceptar',
         })
       })
-    } else if (article?.id) {
-      void editArticle(article.id, articleData).then(() => {
+    } else if (article?._id) {
+      void editArticle(article._id, articleData).then(() => {
         onClose(false)
         Swal.fire({
           title: 'Artículo editado',

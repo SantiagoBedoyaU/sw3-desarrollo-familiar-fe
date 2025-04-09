@@ -16,7 +16,7 @@ function ArticlesList({ articles, setArticles }: Readonly<ArticlesListProps>) {
 
   return articles.map((article) => (
     <section
-      key={article.id ?? ''}
+      key={article._id ?? ''}
       className="grid col-span-1 sm:col-span-2 md:col-span-4 md:grid-flow-col justify-center items-center gap-2 sm:gap-6 md:gap-10 border border-blue-200 rounded-lg p-4 bg-blue-50 h-fit"
     >
       <h3 className="h-fit flex items-center justify-center font-bold text-blue-800 sm:col-span-2 underline text-center text-lg md:text-xl">
@@ -44,7 +44,7 @@ function ArticlesList({ articles, setArticles }: Readonly<ArticlesListProps>) {
             const trimmed = author.trim()
             return (
               <li
-                key={`${String(article.id)}-${trimmed}`}
+                key={`${article._id}-${trimmed}`}
                 className="w-fit ml-5 md:ml-4 text-sm text-gray-600 "
               >
                 {trimmed}
@@ -58,7 +58,7 @@ function ArticlesList({ articles, setArticles }: Readonly<ArticlesListProps>) {
         <section className="flex flex-col sm:flex-row md:col-span-4 items-center justify-between md:justify-center gap-2">
           <button
             type="button"
-            onClick={() => article.id && editArticle(article.id, article)}
+            onClick={() => article._id && editArticle(article._id, article)}
             className="w-full md:w-fit flex items-center justify-center bg-blue-500 hover:bg-blue-600 text-white py-1 px-3 rounded text-sm"
           >
             <Edit2 size={16} className="mr-1" />
@@ -86,7 +86,7 @@ function ArticlesList({ articles, setArticles }: Readonly<ArticlesListProps>) {
 
           <button
             type="button"
-            onClick={() => article.id && void downloadArticle(article.id)}
+            onClick={() => article._id && void downloadArticle(article._id)}
             className="w-full md:w-fit flex items-center justify-center border border-gray-200 bg-white hover:bg-gray-100 text-gray-800 py-1 px-3 rounded text-sm"
           >
             <Download size={16} className="mr-1" />
@@ -123,10 +123,10 @@ function ArticlesList({ articles, setArticles }: Readonly<ArticlesListProps>) {
           <button
             type="button"
             onClick={() => {
-              if (article.id) {
-                const id = article.id
-                void deleteArticle(article.id)
-                setArticles(articles.filter((article) => article.id !== id))
+              if (article._id) {
+                const id = article._id
+                void deleteArticle(article._id)
+                setArticles(articles.filter((article) => article._id !== id))
                 setIsDeleteConfirmOpen(false)
               }
             }}

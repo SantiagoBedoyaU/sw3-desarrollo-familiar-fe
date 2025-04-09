@@ -18,16 +18,16 @@ export class ArticleService extends ApiService<Article> {
   }
 
   // download specific article
-  async downloadArticle(id: string): Promise<void> {
+  async downloadArticle(_id: string): Promise<void> {
     try {
-      const response = await axios.get(this.getUrl(`${id}/download`), {
+      const response = await axios.get(this.getUrl(`${_id}/download`), {
         ...Config.defaultConfig,
         responseType: 'blob',
       })
       const url = window.URL.createObjectURL(new Blob([response.data]))
       const link = document.createElement('a')
       link.href = url
-      link.setAttribute('download', `article-${id}.pdf`)
+      link.setAttribute('download', `article-${_id}.pdf`)
       document.body.appendChild(link)
       link.click()
     } catch (error) {

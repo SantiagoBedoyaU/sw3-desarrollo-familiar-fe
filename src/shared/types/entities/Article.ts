@@ -1,7 +1,7 @@
 import PracticeReport from './PracticeReport'
 
 export default interface Article {
-  id?: string
+  _id?: string
   title: string
   authors: string
   year: string
