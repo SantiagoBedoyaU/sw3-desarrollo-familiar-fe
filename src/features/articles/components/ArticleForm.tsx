@@ -3,7 +3,7 @@ import { Dialog } from '../../../shared/components/common/dialog/Dialog'
 import { DialogContent } from '../../../shared/components/common/dialog/DialogContent'
 import { DialogHeader } from '../../../shared/components/common/dialog/DialogHeader'
 import { DialogTitle } from '../../../shared/components/common/dialog/DialogTitle'
-import Article, { ArticleCreate } from '../../../shared/types/entities/Article'
+import Article from '../../../shared/types/entities/Article'
 import { DialogTrigger } from '../../../shared/components/common/dialog/DialogTrigger'
 import { Plus } from 'lucide-react'
 import { DialogDescription } from '../../../shared/components/common/dialog/DialogDescription'
@@ -157,9 +157,6 @@ const ArticleForm: React.FC<ArticleFormProps> = ({ article, mode }) => {
     }
 
     if (mode === 'add') {
-
-      console.log(file);
-
       void addArticle(
         {
           ...articleData,
@@ -367,7 +364,7 @@ const ArticleForm: React.FC<ArticleFormProps> = ({ article, mode }) => {
               placeholder="Ingrese palabras clave separadas por comas"
               id="keywords"
               name="keywords"
-              value={keywords?.join(', ') ?? ''}
+              value={keywords.join(', ')}
               type="text"
               required={false}
               onChange={(e) =>
@@ -381,7 +378,6 @@ const ArticleForm: React.FC<ArticleFormProps> = ({ article, mode }) => {
               className="btn-outline inline-flex gap-2 items-center w-full md:w-fit justify-center py-2 px-4 my-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-50 bg-black hover:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
               onClick={(e) => {
                 e.preventDefault()
-                if (!keywords) return
                 const uniqueKeywords = keywords.filter(
                   (keyword) =>
                     !changeableKeywords.includes(keyword) &&
@@ -447,8 +443,7 @@ const ArticleForm: React.FC<ArticleFormProps> = ({ article, mode }) => {
               required={true}
               accept="application/pdf"
               onChange={handleFileChange}
-              className={`block p-3 w-full md:w-3/4 border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500 text-center ${fileError ? 'border-red-500' : ''
-                }`}
+              className={`block p-3 w-full md:w-3/4 border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500 text-center ${fileError ? 'border-red-500' : ''}`}
             />
             {fileError && (
               <span className="text-red-500">

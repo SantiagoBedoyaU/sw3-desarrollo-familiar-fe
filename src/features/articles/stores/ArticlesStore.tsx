@@ -170,8 +170,8 @@ export const useArticleStore = create<ArticleState>((set, get) => ({
             ...state.articles,
             {
               ...newArticle,
-              keywords: newArticle.keywords?.split(',') ?? [],
-              authors: newArticle.authors?.split(',') ?? [],
+              keywords: newArticle.keywords?.split(','),
+              authors: newArticle.authors?.split(','),
             },
           ],
         }))
@@ -308,11 +308,6 @@ export const useArticleStore = create<ArticleState>((set, get) => ({
       //     console.error(error)
       //     return null
       //   })
-
-      if (!responseArticles) {
-        throw new Error('No se encontraron artículos disponibles')
-      }
-
       const topArticles = responseArticles.data
 
       if (topArticles.length === 0) {
@@ -366,10 +361,6 @@ export const useArticleStore = create<ArticleState>((set, get) => ({
         totalItems: 0,
       }
 
-      if (!responseArticles) {
-        throw new Error('No se encontraron artículos disponibles')
-      }
-
       const topArticles = responseArticles.data
 
       if (topArticles.length === 0) {
@@ -408,9 +399,6 @@ export const useArticleStore = create<ArticleState>((set, get) => ({
 
     set({ isLoadingFilters: true })
     articleService.getFilters(queryString).then((response) => {
-      if (!response) {
-        throw new Error('No se encontraron artículos disponibles')
-      }
       const articles = response.data
       set({ filteredArticles: articles })
       if (articles.length === 0) {
@@ -423,9 +411,9 @@ export const useArticleStore = create<ArticleState>((set, get) => ({
         })
       }
       set({ isLoadingFilters: false })
-    }).catch((error) => {
+    }).catch((error: unknown) => {
       console.error('Error filtering articles:', error)
-      set({ error, isLoadingFilters: false })
+      set({ error: error instanceof Error ? error : new Error('Unknown error'), isLoadingFilters: false })
     })
   },
 
