@@ -67,7 +67,7 @@ export class ArticleService extends ApiService<Article> {
         body: formData as unknown as BodyInit,
       })
       if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`)
+        throw new Error(`HTTP error! status: ${String(response.status)}`)
       }
       const article = (await response.json()) as Article
       console.log(article)
