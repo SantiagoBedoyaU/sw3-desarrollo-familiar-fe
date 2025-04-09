@@ -7,6 +7,7 @@ import { useArticleStore } from '../stores/ArticlesStore'
 
 interface ArticlesListProps {
   articles: Article[]
+  setArticles: (articles: Article[]) => void
 }
 
 function ArticlesList({ articles }: Readonly<ArticlesListProps>) {

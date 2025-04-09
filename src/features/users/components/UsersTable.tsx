@@ -1,4 +1,4 @@
-import { MoreHorizontal, Pencil, Trash2 } from 'lucide-react'
+import { Pencil, Trash2 } from 'lucide-react'
 // import {
 //   DropdownMenu,
 //   DropdownMenuContent,
@@ -37,7 +37,6 @@ const fetchUsers = async () => {
 }
 
 export default function UsersTable() {
-  const [isOpen, setIsOpen] = useState(false)
   const [selectedUser, setSelectedUser] = useState<User>(sample_users[0])
   const [users, setUsers] = useState<User[]>([])
   const [isDeleteConfirmOpen, setIsDeleteConfirmOpen] = useState(false)
@@ -47,7 +46,7 @@ export default function UsersTable() {
       .then((data) => {
         setUsers(data)
       })
-      .catch((error) => {
+      .catch((error: unknown) => {
         console.error('Error al cargar los usuarios', error)
         setUsers([])
         alert('Error al cargar los usuarios')

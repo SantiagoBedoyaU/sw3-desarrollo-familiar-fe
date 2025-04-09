@@ -2,7 +2,7 @@ import Article from '../entities/Article'
 
 const mockArticle: Article[] = [
   {
-    id: '1',
+    _id: '1',
     title: 'Artículo de aceite enriquecido en niñas',
     authors: 'Naydú Núñez',
     primaryThematicAxis:
@@ -14,7 +14,7 @@ const mockArticle: Article[] = [
     year: '2023',
   },
   {
-    id: '2',
+    _id: '2',
     title: 'Artículo de aceite enriquecido en niñas',
     authors: 'Naydú Núñez, Juan Perez',
     primaryThematicAxis: 'Democratización de las relaciones familiares',
@@ -26,7 +26,7 @@ const mockArticle: Article[] = [
     year: '2023',
   },
   {
-    id: '3',
+    _id: '3',
     title: 'Artículo de aceite enriquecido en niñas',
     authors: 'Naydú Núñez',
     primaryThematicAxis:
@@ -38,7 +38,7 @@ const mockArticle: Article[] = [
     year: '2023',
   },
   {
-    id: '4',
+    _id: '4',
     title: 'Artículo de aceite enriquecido en niñas',
     authors: 'Naydú Núñez',
     primaryThematicAxis: 'Democratización de las relaciones familiares',

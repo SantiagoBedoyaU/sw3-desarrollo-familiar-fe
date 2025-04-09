@@ -83,7 +83,7 @@ const ArticleView: React.FC<ArticleViewProps> = ({ article }) => {
                     // Implementar lógica de descarga
                     const link = document.createElement('a')
                     link.href = URL.createObjectURL(article.file)
-                    link.download = article.file.name
+                    link.download = article.file?.name 
                     document.body.appendChild(link)
                     link.click()
                     document.body.removeChild(link)
