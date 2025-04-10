@@ -162,24 +162,18 @@ export const useArticleStore = create<ArticleState>((set, get) => ({
   deleteArticle: async (_id: string) => {
     try {
       // Uncomment this when you're ready to use the actual service
-      // await articleService.delete(_id).catch((error: unknown) => {
-      //   void Swal.fire({
-      //     title: 'Error',
-      //     text: 'Ocurrió un error al eliminar el artículo.',
-      //     icon: 'error',
-      //     confirmButtonText: 'Cerrar',
-      //     confirmButtonColor: '#4B5563',
-      //   });
-      //   return false;
-      // });
-
-      // Since we're not actually awaiting anything in the current implementation,
-      // this is just a placeholder to satisfy the require-await rule
-      await Promise.resolve()
-
+      await articleService.delete(_id).catch(() => {
+        void Swal.fire({
+          title: 'Error',
+          text: 'Ocurrió un error al eliminar el artículo.',
+          icon: 'error',
+          confirmButtonText: 'Cerrar',
+          confirmButtonColor: '#4B5563',
+        });
+        return false;
+      });
       set((state) => ({
         articles: state.articles.filter((article) => article._id !== _id),
-        // Also remove from top articles if present
         topArticles: state.topArticles.filter((article) => article._id !== _id),
       }))
     } catch (error) {

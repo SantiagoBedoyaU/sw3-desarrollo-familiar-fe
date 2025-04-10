@@ -13,12 +13,14 @@ export const Modal = ({ isOpen, onClose, children }: ModalProps) => {
   return (
     <section className="fixed inset-0 z-50 flex items-center justify-center h-screen my-auto w-screen">
       <button
+        type="button"
         className="fixed inset-0 bg-gray-400 opacity-50"
         onClick={onClose}
       />
       <section className="relative flex flex-col min-w-[320px] max-w-fit bg-white rounded shadow-lg max-h-[99vh] ">
         <section className="flex justify-end">
           <button
+            type="button"
             onClick={onClose}
             className="absolute top-2 right-3 text-gray-600 hover:text-gray-900"
           >

@@ -254,12 +254,10 @@ export class ApiService<T> {
    */
   async delete(id: string): Promise<void> {
     try {
-      const confirmed = await this.confirmAction(`¿Deseas eliminar este`)
-
-      if (!confirmed) {
-        return
-      }
-
+      // const confirmed = await this.confirmAction(`¿Deseas eliminar este`)
+      // if (!confirmed) {
+      //   return
+      // }
       await this.handleResponse(
         axios.delete(this.getUrl(id), DEFAULT_CONFIG),
         `${this.entityName} eliminado correctamente`,
