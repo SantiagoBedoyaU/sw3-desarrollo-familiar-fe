@@ -18,8 +18,8 @@ interface ArticleViewProps {
 
 const ArticleView: React.FC<ArticleViewProps> = ({ article, incrementCounter, incrementDownload }) => {
   const [open, onClose] = useState(false)
-  const viewDownload = async () => {
-    downloadArticle(article, incrementDownload)
+  const viewDownload = () => {
+    void downloadArticle(article, incrementDownload)
   }
   const addView = async (_id: string) => {
     try {
@@ -44,7 +44,7 @@ const ArticleView: React.FC<ArticleViewProps> = ({ article, incrementCounter, in
         <button
           type='button'
           className="flex w-full md:w-fit h-fit items-center justify-center gap-2 p-2 border rounded-lg text-white bg-blue-500 border-gray-50 hover:bg-gray-600 hover:border-gray-800"
-          onClick={() => article._id && addView(article._id)}>
+          onClick={() => article._id && void addView(article._id)}>
           <span>
             <Eye size={16} className="w-4 h-4" />
           </span>

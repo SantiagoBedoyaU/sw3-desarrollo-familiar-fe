@@ -115,12 +115,9 @@ export class ArticleService extends ApiService<Article> {
 
   addView = async (id: string): Promise<void> => {
     try {
-      const response = await axios.get(
-        this.getUrl(`${id}`),
-        Config.defaultConfig,
-      )
+      const response = await axios.get(this.getUrl(id), Config.defaultConfig)
       if (response.status !== 200) {
-        Swal.fire({
+        void Swal.fire({
           icon: 'error',
           title: 'Error',
           text: 'No se pudo añadir la vista al artículo',

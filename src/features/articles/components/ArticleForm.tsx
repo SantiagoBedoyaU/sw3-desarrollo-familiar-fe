@@ -140,6 +140,7 @@ const ArticleForm: React.FC<ArticleFormProps> = ({ article, mode }) => {
     }
 
     const articleData: Article = {
+      _id: article?._id ?? '',
       title: title.trim(),
       authors: changeableAuthors,
       year: year.trim(),

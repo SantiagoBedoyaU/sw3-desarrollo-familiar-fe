@@ -13,7 +13,7 @@ interface ArticlesListProps {
 function ArticlesList({ articles }: Readonly<ArticlesListProps>) {
   const [isDeleteConfirmOpen, setIsDeleteConfirmOpen] = useState(false)
   const { deleteArticle, editArticle } = useArticleStore()
-  const [updatedArticles, setUpdatedArticles] = useState(articles);
+  const [updatedArticles, setUpdatedArticles] = useState(articles)
 
   const incrementCounter = (id: string) => {
     setUpdatedArticles((prevArticles) =>
@@ -36,11 +36,11 @@ function ArticlesList({ articles }: Readonly<ArticlesListProps>) {
   }
 
   const fromListDownload = (article: Article) => {
-    downloadArticle(article, incrementDownload)
+    void downloadArticle(article, incrementDownload)
   }
   return updatedArticles.map((article) => (
     <section
-      key={article._id ?? '' + article.title + Math.random()}
+      key={article._id + article.title + article.year}
       className="grid col-span-1 sm:col-span-2 md:col-span-4 md:grid-flow-col justify-center items-center gap-2 sm:gap-6 md:gap-10 border border-blue-200 rounded-lg p-2 sm:p-4 bg-blue-50 h-fit"
     >
       <section className='flex flex-col items-center gap-2 md:gap-4 sm:col-span-2 md:col-span-4'>
@@ -73,7 +73,7 @@ function ArticlesList({ articles }: Readonly<ArticlesListProps>) {
               const trimmed = author.trim()
               return (
                 <li
-                  key={`${article._id ?? ''}-${trimmed}`}
+                  key={`${article._id}-${trimmed}`}
                   className="w-fit ml-5 md:ml-4 text-sm text-gray-600 "
                 >
                   {trimmed}
@@ -88,8 +88,8 @@ function ArticlesList({ articles }: Readonly<ArticlesListProps>) {
       <section className="grid grid-cols-1 col-span-1 sm:col-span-2 sm:grid-cols-2 justify-center gap-4 text-sm text-gray-600 md:mr-4">
 
         <section className="flex flex-col sm:flex-row md:col-span-4 items-center justify-between md:justify-center gap-2">
-          <p>{article.counter} vista{article.counter == 1 ? '' : 's'} </p>
-          <p>{article.downloadCounter} descarga{article.downloadCounter == 1 ? '' : 's'}</p>
+          <p>{article.counter} vista{article.counter === 1 ? '' : 's'} </p>
+          <p>{article.downloadCounter} descarga{article.downloadCounter === 1 ? '' : 's'}</p>
         </section>
         <section className="flex flex-col sm:flex-row md:col-span-4 items-center justify-between md:justify-center gap-2">
           <button

@@ -145,7 +145,6 @@ export const useArticleStore = create<ArticleState>((set, get) => ({
   },
 
   addArticle: async (article: Omit<ArticleCreate, '_id'>) => {
-
     const newArticle = await articleService.create(article)
     set((state) => ({
       articles: [
@@ -169,9 +168,9 @@ export const useArticleStore = create<ArticleState>((set, get) => ({
           icon: 'error',
           confirmButtonText: 'Cerrar',
           confirmButtonColor: '#4B5563',
-        });
-        return false;
-      });
+        })
+        return false
+      })
       set((state) => ({
         articles: state.articles.filter((article) => article._id !== _id),
         topArticles: state.topArticles.filter((article) => article._id !== _id),
@@ -233,10 +232,6 @@ export const useArticleStore = create<ArticleState>((set, get) => ({
           confirmButtonColor: '#4B5563',
         })
       }
-
-      console.log(topArticles);
-
-
       set({
         topArticles: topArticles,
         isLoadingTop: false,

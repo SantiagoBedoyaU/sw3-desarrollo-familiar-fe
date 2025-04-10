@@ -94,10 +94,10 @@ export class ApiService<T> {
           if (typeof errorData.message === 'string') {
             message = errorData.message
           } else {
-            message = `${context}: Error ${status} - ${statusText}`
+            message = `${context}: Error ${String(status)} - ${statusText}`
           }
         } else {
-          message = `${context}: Error ${status} - ${statusText}`
+          message = `${context}: Error ${String(status)} - ${statusText}`
         }
       } else if (axiosError.request) {
         title = 'Sin conexión'
@@ -109,7 +109,7 @@ export class ApiService<T> {
     }
 
     // Mostrar alerta
-    Swal.fire({
+    void Swal.fire({
       icon: 'error',
       title,
       text: message,
@@ -125,7 +125,7 @@ export class ApiService<T> {
    * @param message - Mensaje a mostrar
    */
   protected showSuccess(message: string): void {
-    Swal.fire({
+    void Swal.fire({
       icon: 'success',
       title: 'Operación exitosa',
       text: message,
@@ -165,18 +165,11 @@ export class ApiService<T> {
     promise: Promise<AxiosResponse<R>>,
     successMessage?: string,
   ): Promise<R> {
-    try {
-      const response = await promise
-
-      if (successMessage) {
-        this.showSuccess(successMessage)
-      }
-
-      return response.data
-    } catch (error) {
-      // Dejar que el método que llama maneje el error específico
-      throw error
+    const response = await promise
+    if (successMessage) {
+      this.showSuccess(successMessage)
     }
+    return response.data
   }
 
   /**
