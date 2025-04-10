@@ -6,14 +6,30 @@ import { DialogTitle } from '../../../shared/components/common/dialog/DialogTitl
 import { DialogTrigger } from '../../../shared/components/common/dialog/DialogTrigger'
 import Article from '../../../shared/types/entities/Article'
 import { Eye } from 'lucide-react'
+import Swal from 'sweetalert2'
+import { articleService } from '../../../shared/services/ArticlesService'
 
 interface ArticleViewProps {
   article: Article
+  incrementCounter: (id: string) => void
 }
 
-const ArticleView: React.FC<ArticleViewProps> = ({ article }) => {
+const ArticleView: React.FC<ArticleViewProps> = ({ article, incrementCounter }) => {
   const [open, onClose] = useState(false)
 
+  const addView = async (_id: string) => {
+    try {
+      await articleService.addView(_id)
+      incrementCounter(_id)
+    } catch (error) {
+      console.error('Error adding view:', error)
+      void Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: 'No se pudo añadir la vista al artículo',
+      })
+    }
+  }
   return (
     <Dialog
       open={open}
@@ -21,12 +37,15 @@ const ArticleView: React.FC<ArticleViewProps> = ({ article }) => {
       className="relative md:absolute md:right-0 flex items-center justify-center w-full md:w-fit"
     >
       <DialogTrigger setOpen={onClose} className="w-full h-fit">
-        <section className="flex w-full md:w-fit h-fit items-center justify-center gap-2 p-2 border rounded-lg text-white bg-blue-500 border-gray-50 hover:bg-gray-600 hover:border-gray-800">
+        <button
+          type='button'
+          className="flex w-full md:w-fit h-fit items-center justify-center gap-2 p-2 border rounded-lg text-white bg-blue-500 border-gray-50 hover:bg-gray-600 hover:border-gray-800"
+          onClick={() => article._id && addView(article._id)}>
           <span>
             <Eye size={16} className="w-4 h-4" />
           </span>
           <p className="text-sm">Ver artículo completo</p>
-        </section>
+        </button>
       </DialogTrigger>
       <DialogContent
         open={open}

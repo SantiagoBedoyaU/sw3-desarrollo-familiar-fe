@@ -12,15 +12,28 @@ interface ArticlesListProps {
 function ArticlesList({ articles }: Readonly<ArticlesListProps>) {
   const [isDeleteConfirmOpen, setIsDeleteConfirmOpen] = useState(false)
   const { deleteArticle, editArticle, downloadArticle } = useArticleStore()
+  const [updatedArticles, setUpdatedArticles] = useState(articles);
 
-  return articles.map((article) => (
+  const incrementCounter = (id: string) => {
+    setUpdatedArticles((prevArticles) =>
+      prevArticles.map((article) =>
+        article._id === id
+          ? { ...article, counter: (article.counter || 0) + 1 }
+          : article
+      )
+    )
+  }
+  return updatedArticles.map((article) => (
     <section
       key={article._id ?? '' + article.title + Math.random()}
       className="grid col-span-1 sm:col-span-2 md:col-span-4 md:grid-flow-col justify-center items-center gap-2 sm:gap-6 md:gap-10 border border-blue-200 rounded-lg p-2 sm:p-4 bg-blue-50 h-fit"
     >
-      <h3 className="h-fit flex items-center justify-center font-bold text-blue-800 sm:col-span-2 underline text-center text-lg md:text-xl">
-        {article.title}
-      </h3>
+      <section className='flex flex-col items-center gap-2 md:gap-4 sm:col-span-2 md:col-span-4'>
+        <h3 className="h-fit flex items-center justify-center font-bold text-blue-800 sm:col-span-2 underline text-center text-lg md:text-xl">
+          {article.title}
+        </h3>
+
+      </section>
       <section className="sm:col-span-1 text-sm text-center text-gray-600 gap-1 md:gap-2 flex flex-col">
         <span className="underline font-medium w-full ">Eje temático </span>
         <section>
@@ -55,7 +68,14 @@ function ArticlesList({ articles }: Readonly<ArticlesListProps>) {
         </ul>
       </section>
 
+
+
       <section className="grid grid-cols-1 col-span-1 sm:col-span-2 sm:grid-cols-2 justify-center gap-4 text-sm text-gray-600 md:mr-4">
+
+        <section className="flex flex-col sm:flex-row md:col-span-4 items-center justify-between md:justify-center gap-2">
+          <p>{article.counter} vista{article.counter == 1 ? '' : 's'} </p>
+          <p>{article.downloadCounter} descarga{article.downloadCounter == 1 ? '' : 's'}</p>
+        </section>
         <section className="flex flex-col sm:flex-row md:col-span-4 items-center justify-between md:justify-center gap-2">
           <button
             type="button"
@@ -76,12 +96,13 @@ function ArticlesList({ articles }: Readonly<ArticlesListProps>) {
           </button>
         </section>
 
+
         <section className="flex flex-col sm:flex-row md:col-span-4 items-center justify-between md:flex-col md:justify-center gap-2 relative">
           <button
             type="button"
             className="md:h-16 flex w-full md:w-fit  items-center justify-center rounded text-sm "
           >
-            <ArticleView article={article} />
+            <ArticleView article={article} incrementCounter={incrementCounter} />
           </button>
 
           <button
@@ -93,6 +114,7 @@ function ArticlesList({ articles }: Readonly<ArticlesListProps>) {
             <span>Descargar</span>
           </button>
         </section>
+
       </section>
       {/* Delete Confirmation Modal */}
       <Modal

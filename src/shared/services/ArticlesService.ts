@@ -106,5 +106,23 @@ export class ArticleService extends ApiService<Article> {
       this.handleError(error, 'Error downloading article')
     }
   }
+
+  addView = async (id: string): Promise<void> => {
+    try {
+      const response = await axios.get(
+        this.getUrl(`${id}`),
+        Config.defaultConfig,
+      )
+      if (response.status !== 200) {
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: 'No se pudo añadir la vista al artículo',
+        })
+      }
+    } catch (error) {
+      console.error('Error adding view:', error)
+    }
+  }
 }
 export const articleService = new ArticleService()
