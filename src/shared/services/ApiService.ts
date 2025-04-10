@@ -35,11 +35,15 @@ export class ApiService<T> {
    * Formatea el nombre de la entidad para mensajes al usuario
    */
   private formatEntityName(endpoint: string): string {
-    return endpoint
-      .split('/')
-      .pop()!
-      .replace(/-/g, ' ')
-      .replace(/^./, (str) => str.toUpperCase())
+    if (endpoint) {
+      const lastSegment = endpoint.split('/').pop()
+      if (lastSegment) {
+        return lastSegment
+          .replace(/-/g, ' ')
+          .replace(/^./, (str) => str.toUpperCase())
+      }
+    }
+    return endpoint.replace(/-/g, ' ').replace(/^./, (str) => str.toUpperCase())
   }
 
   /**
@@ -47,7 +51,7 @@ export class ApiService<T> {
    * @param path - Ruta adicional (generalmente un ID)
    * @returns URL completa
    */
-  protected getUrl(path: string = ''): string {
+  protected getUrl(path = ''): string {
     return `${API_BASE_URL}${this.endpoint}${path ? '/' + path : ''}`
   }
 
@@ -69,23 +73,23 @@ export class ApiService<T> {
 
         // Personalización de mensaje según el código de estado
         switch (status) {
-          case 400:
-            title = 'Datos incorrectos'
-            break
-          case 401:
-            title = 'No autorizado'
-            break
-          case 403:
-            title = 'Acceso denegado'
-            break
-          case 404:
-            title = 'No encontrado'
-            break
-          case 500:
-            title = 'Error del servidor'
-            break
-          default:
-            title = 'Error de comunicación'
+        case 400:
+          title = 'Datos incorrectos'
+          break
+        case 401:
+          title = 'No autorizado'
+          break
+        case 403:
+          title = 'Acceso denegado'
+          break
+        case 404:
+          title = 'No encontrado'
+          break
+        case 500:
+          title = 'Error del servidor'
+          break
+        default:
+          title = 'Error de comunicación'
         }
 
         // Extraer mensaje del cuerpo de la respuesta si existe
