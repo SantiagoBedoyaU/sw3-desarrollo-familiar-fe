@@ -1,12 +1,15 @@
-import { useArticlesTop } from '../../../shared/hooks/useArticlesTop'
+import { useEffect } from 'react'
+import { useArticleStore } from '../stores/ArticlesStore'
 import ArticlesList from './ArticlesList'
 
 function ArticlesTop() {
-  const { articles, setArticles } = useArticlesTop()
+  const { topArticles, fetchTopArticles } = useArticleStore()
 
-  return (
-    <ArticlesList articles={articles} setArticles={setArticles} />
-  )
+  useEffect(() => {
+    void fetchTopArticles()
+  }, [])
+
+  return <ArticlesList articles={topArticles} />
 }
 
 export default ArticlesTop

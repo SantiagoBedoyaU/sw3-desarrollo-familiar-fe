@@ -3,12 +3,15 @@ import PracticeReport from './PracticeReport'
 export default interface Article {
   _id?: string
   title: string
-  authors: string
+  authors: string[]
   year: string
   summary: string
-  keywords: string
+  keywords: string[]
   primaryThematicAxis: string
-  file: File
+  file?: File
+  fileAddress?: string
+  counter?: number
+  downloadCounter?: number
 
   secondaryThematicAxis?: string
   practiceReportId?: string
@@ -16,4 +19,20 @@ export default interface Article {
   practiceReport?: PracticeReport
   changeableKeywords?: string[]
   changeableAuthors?: string[]
+}
+
+export interface ArticleCreate {
+  _id?: string
+  title: string
+  authors: string
+  year: string
+  summary: string
+  keywords: string
+  primaryThematicAxis: string
+  file: File
+  fileAddress?: string
+  counter?: number
+  downloadCounter?: number
+
+  secondaryThematicAxis?: string
 }

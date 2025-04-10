@@ -1,5 +1,5 @@
 const Config = {
-  LOGIC_URL: 'http://127.0.0.1:3000/',
+  LOGIC_URL: 'http://localhost:8000/api/',
   defaultConfig: {
     headers: {
       'Content-Type': 'application/json',

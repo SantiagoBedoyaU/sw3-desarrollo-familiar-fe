@@ -13,7 +13,7 @@ import Select from '../../../shared/components/common/Select'
 import TextArea from '../../../shared/components/common/TextArea'
 import { thematicOptions } from '../../../shared/constants/cts'
 import Swal from 'sweetalert2'
-import { useArticles } from '../../../shared/hooks/useArticles'
+import { useArticleStore } from '../stores/ArticlesStore'
 
 const primaryThematicOptions = thematicOptions.map((option: string) => ({
   label: option,
@@ -30,23 +30,23 @@ interface ArticleFormProps {
   mode: 'add' | 'edit'
 }
 const ArticleForm: React.FC<ArticleFormProps> = ({ article, mode }) => {
-  const { addArticle, editArticle } = useArticles()
+  const { addArticle, editArticle } = useArticleStore()
   const [open, onClose] = useState(false)
   const [title, setTitle] = useState('')
   const [year, setYear] = useState(new Date().getFullYear().toString())
-  const [authors, setAuthors] = useState('')
+  const [authors, setAuthors] = useState<string[]>([])
   const [summary, setSummary] = useState('')
-  const [keywords, setKeywords] = useState('')
+  const [keywords, setKeywords] = useState<string[]>([])
   const [file, setFile] = useState<File | null>(null)
   const [fileError, setFileError] = useState(false) // Estado para errores del archivo
   const [changeableKeywords, setChangeableKeywords] = useState(
-    article?.changeableKeywords ?? article?.keywords.split(', ') ?? [],
+    article?.changeableKeywords ?? [],
   )
   const [changeableAuthors, setChangeableAuthors] = useState(
-    article?.changeableAuthors ?? article?.authors.split(', ') ?? [],
+    article?.changeableAuthors ?? [],
   )
-  const [primaryThematicAxis, setThematicArea] = useState('')
-  const [secondaryThematicAxis, setThematicArea2] = useState('')
+  const [primaryThematicAxis, setPrimaryThematicAxis] = useState('')
+  const [secondaryThematicAxis, setSecondaryThematicAxis] = useState('')
   const [practiceReportId, setPracticeReportId] = useState('')
   const [practiceReport, setPracticeReport] = useState('')
   const [formErrors, setFormErrors] = useState({
@@ -65,10 +65,10 @@ const ArticleForm: React.FC<ArticleFormProps> = ({ article, mode }) => {
       setYear(article.year)
       setAuthors(article.authors)
       setSummary(article.summary)
-      setThematicArea(article.primaryThematicAxis)
+      setPrimaryThematicAxis(article.primaryThematicAxis)
       setKeywords(article.keywords)
-      setFile(article.file)
-      setThematicArea2(article.secondaryThematicAxis ?? '')
+      // setFile(article?.file ?? null)
+      setSecondaryThematicAxis(article.secondaryThematicAxis ?? '')
       setPracticeReportId(article.practiceReportId ?? '')
       setChangeableAuthors(article.changeableAuthors ?? [])
       setChangeableKeywords(article.changeableKeywords ?? [])
@@ -91,12 +91,12 @@ const ArticleForm: React.FC<ArticleFormProps> = ({ article, mode }) => {
 
   const resetForm = () => {
     setTitle('')
-    setAuthors('')
-    setThematicArea('')
-    setThematicArea2('')
+    setAuthors([])
+    setPrimaryThematicAxis('')
+    setSecondaryThematicAxis('')
     setYear(new Date().getFullYear().toString())
     setSummary('')
-    setKeywords('')
+    setKeywords([])
     setChangeableAuthors([])
     setChangeableKeywords([])
     setPracticeReportId('')
@@ -141,12 +141,11 @@ const ArticleForm: React.FC<ArticleFormProps> = ({ article, mode }) => {
 
     const articleData: Article = {
       title: title.trim(),
-      authors: changeableAuthors.join(', '),
+      authors: changeableAuthors,
       year: year.trim(),
       primaryThematicAxis: primaryThematicAxis,
       summary: summary.trim(),
-      keywords: changeableKeywords.join(', '),
-      file: file,
+      keywords: changeableKeywords,
     }
 
     if (practiceReportId) {
@@ -158,15 +157,17 @@ const ArticleForm: React.FC<ArticleFormProps> = ({ article, mode }) => {
     }
 
     if (mode === 'add') {
-      void addArticle(articleData).then(() => {
-        onClose(false)
-        void Swal.fire({
-          title: 'Artículo agregado',
-          text: 'El artículo ha sido agregado exitosamente.',
-          icon: 'success',
-          confirmButtonText: 'Aceptar',
-        })
-      })
+      void addArticle(
+        {
+          ...articleData,
+          file: file,
+          authors: articleData.authors.join(','),
+          keywords: articleData.keywords.join(',')
+        }
+      )
+      onClose(false)
+
+
     } else if (article?._id) {
       void editArticle(article._id, articleData).then(() => {
         onClose(false)
@@ -261,24 +262,26 @@ const ArticleForm: React.FC<ArticleFormProps> = ({ article, mode }) => {
               placeholder="Ingrese autores separados por comas"
               id="authors"
               name="authors"
-              value={authors}
+              value={authors.join(', ')}
               type="text"
               required={false}
-              onChange={(e) => setAuthors(e.target.value)}
+              onChange={(e) =>
+                setAuthors(
+                  e.target.value.split(',').map((author) => author.trim()),
+                )
+              }
             />
             <button
               type="button"
               className="btn-outline inline-flex gap-2 items-center w-full md:w-fit justify-center py-2 px-4 my-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-50 bg-black hover:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
               onClick={(e) => {
                 e.preventDefault()
-                if (!authors) return
-                const allAuthors = authors.split(',')
-                const uniqueAuthors = allAuthors.filter(
+                const uniqueAuthors = authors.filter(
                   (author) =>
                     !changeableAuthors.includes(author) && author.trim() !== '',
                 )
                 setChangeableAuthors([...changeableAuthors, ...uniqueAuthors])
-                setAuthors('')
+                setAuthors([])
               }}
             >
               <Plus size={16} />
@@ -297,7 +300,7 @@ const ArticleForm: React.FC<ArticleFormProps> = ({ article, mode }) => {
                   )
                 }}
               >
-                <span className="text-gray-800 group-hover:text-gray-800 group-hover:text-md">
+                <span className="text-gray-800 group-hover:text-gray-950 group-hover:text-md">
                   {author.trim() === '' ? 'Autor sin nombre' : author}
                 </span>
                 <span className="ml-2 text-red-500 group-hover:text-red-700 group-hover:text-xl">
@@ -320,7 +323,7 @@ const ArticleForm: React.FC<ArticleFormProps> = ({ article, mode }) => {
               id="primaryThematicAxis"
               name="primaryThematicAxis"
               value={primaryThematicAxis}
-              onChange={(e) => setThematicArea(e.target.value)}
+              onChange={(e) => setPrimaryThematicAxis(e.target.value)}
               required={true}
               options={primaryThematicOptions}
             />
@@ -338,7 +341,7 @@ const ArticleForm: React.FC<ArticleFormProps> = ({ article, mode }) => {
               id="secondaryThematicAxis "
               name="secondaryThematicAxis "
               value={secondaryThematicAxis}
-              onChange={(e) => setThematicArea2(e.target.value)}
+              onChange={(e) => setSecondaryThematicAxis(e.target.value)}
               required={false}
               options={secondaryThematicOptions}
             />
@@ -356,19 +359,21 @@ const ArticleForm: React.FC<ArticleFormProps> = ({ article, mode }) => {
               placeholder="Ingrese palabras clave separadas por comas"
               id="keywords"
               name="keywords"
-              value={keywords}
+              value={keywords.join(', ')}
               type="text"
               required={false}
-              onChange={(e) => setKeywords(e.target.value)}
+              onChange={(e) =>
+                setKeywords(
+                  e.target.value.split(',').map((keyword) => keyword.trim()),
+                )
+              }
             />
             <button
               type="button"
               className="btn-outline inline-flex gap-2 items-center w-full md:w-fit justify-center py-2 px-4 my-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-50 bg-black hover:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
               onClick={(e) => {
                 e.preventDefault()
-                if (!keywords) return
-                const allKeywords = keywords.split(',')
-                const uniqueKeywords = allKeywords.filter(
+                const uniqueKeywords = keywords.filter(
                   (keyword) =>
                     !changeableKeywords.includes(keyword) &&
                     keyword.trim() !== '',
@@ -377,7 +382,7 @@ const ArticleForm: React.FC<ArticleFormProps> = ({ article, mode }) => {
                   ...changeableKeywords,
                   ...uniqueKeywords,
                 ])
-                setKeywords('')
+                setKeywords([])
               }}
             >
               <Plus size={16} />
@@ -433,9 +438,7 @@ const ArticleForm: React.FC<ArticleFormProps> = ({ article, mode }) => {
               required={true}
               accept="application/pdf"
               onChange={handleFileChange}
-              className={`block p-3 w-full md:w-3/4 border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500 text-center ${
-                fileError ? 'border-red-500' : ''
-              }`}
+              className={`block p-3 w-full md:w-3/4 border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500 text-center ${fileError ? 'border-red-500' : ''}`}
             />
             {fileError && (
               <span className="text-red-500">
