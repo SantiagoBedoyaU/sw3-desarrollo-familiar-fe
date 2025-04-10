@@ -73,23 +73,23 @@ export class ApiService<T> {
 
         // Personalización de mensaje según el código de estado
         switch (status) {
-        case 400:
-          title = 'Datos incorrectos'
-          break
-        case 401:
-          title = 'No autorizado'
-          break
-        case 403:
-          title = 'Acceso denegado'
-          break
-        case 404:
-          title = 'No encontrado'
-          break
-        case 500:
-          title = 'Error del servidor'
-          break
-        default:
-          title = 'Error de comunicación'
+          case 400:
+            title = 'Datos incorrectos'
+            break
+          case 401:
+            title = 'No autorizado'
+            break
+          case 403:
+            title = 'Acceso denegado'
+            break
+          case 404:
+            title = 'No encontrado'
+            break
+          case 500:
+            title = 'Error del servidor'
+            break
+          default:
+            title = 'Error de comunicación'
         }
 
         // Extraer mensaje del cuerpo de la respuesta si existe
