@@ -72,6 +72,7 @@ export class ApiService<T> {
         const statusText = axiosError.response.statusText
 
         // Personalización de mensaje según el código de estado
+        /* eslint-disable indent */
         switch (status) {
           case 400:
             title = 'Datos incorrectos'
@@ -91,6 +92,7 @@ export class ApiService<T> {
           default:
             title = 'Error de comunicación'
         }
+        /* eslint-enable indent */
 
         // Extraer mensaje del cuerpo de la respuesta si existe
         if (axiosError.response.data) {
