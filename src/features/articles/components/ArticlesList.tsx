@@ -19,8 +19,8 @@ function ArticlesList({ articles }: Readonly<ArticlesListProps>) {
     setUpdatedArticles((prevArticles) =>
       prevArticles.map((article) =>
         article._id === id
-          ? { ...article, counter: (article.counter ?? 0) + 1 }
-          : article
+          ? { ...updated_article, counter: (updated_article.counter ?? 0) + 1 }
+          : updated_article
       )
     )
   }

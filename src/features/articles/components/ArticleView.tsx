@@ -24,7 +24,7 @@ const ArticleView: React.FC<ArticleViewProps> = ({ article, incrementCounter, in
   const addView = async (_id: string) => {
     try {
       const resArticle = await articleService.addView(_id)
-      if (resArticle) incrementCounter(resArticle._id, resArticle)
+      incrementCounter(resArticle._id, resArticle)
     } catch (error) {
       console.error('Error adding view:', error)
       void Swal.fire({
