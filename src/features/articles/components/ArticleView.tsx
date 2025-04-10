@@ -12,7 +12,7 @@ import downloadArticle from '../utils/AddDownload'
 
 interface ArticleViewProps {
   article: Article
-  incrementCounter: (id: string) => void
+  incrementCounter: (id: string, article: Article) => void
   incrementDownload: (id: string) => void
 }
 
@@ -23,8 +23,8 @@ const ArticleView: React.FC<ArticleViewProps> = ({ article, incrementCounter, in
   }
   const addView = async (_id: string) => {
     try {
-      await articleService.addView(_id)
-      incrementCounter(_id)
+      const resArticle = await articleService.addView(_id)
+      if (resArticle) incrementCounter(resArticle._id, resArticle)
     } catch (error) {
       console.error('Error adding view:', error)
       void Swal.fire({

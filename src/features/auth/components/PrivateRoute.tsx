@@ -49,7 +49,7 @@ function PrivateRoute({ element, requiredRoles }: PrivateRouteProps) {
     }
   }, [token, user, requiredRoles])
 
-  if (redirect) return <Navigate to="/registrarse" />
+  if (redirect) return <Navigate to="/login" />
 
   return element
 }

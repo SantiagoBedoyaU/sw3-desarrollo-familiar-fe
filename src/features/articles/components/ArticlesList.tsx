@@ -15,7 +15,7 @@ function ArticlesList({ articles }: Readonly<ArticlesListProps>) {
   const { deleteArticle, editArticle } = useArticleStore()
   const [updatedArticles, setUpdatedArticles] = useState(articles)
 
-  const incrementCounter = (id: string) => {
+  const incrementCounter = (id: string, updated_article: Article) => {
     setUpdatedArticles((prevArticles) =>
       prevArticles.map((article) =>
         article._id === id

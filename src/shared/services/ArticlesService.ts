@@ -21,6 +21,7 @@ export class ArticleService extends ApiService<Article> {
       return response.data
     } catch (error) {
       return this.handleError(error, 'Error getting articles top')
+      throw error
     }
   }
 
@@ -113,7 +114,7 @@ export class ArticleService extends ApiService<Article> {
     }
   }
 
-  addView = async (id: string): Promise<void> => {
+  addView = async (id: string): Promise<Article> => {
     try {
       const response = await axios.get(this.getUrl(id), Config.defaultConfig)
       if (response.status !== 200) {
@@ -122,9 +123,12 @@ export class ArticleService extends ApiService<Article> {
           title: 'Error',
           text: 'No se pudo añadir la vista al artículo',
         })
+        throw new Error('Failed to add view to the article')
       }
+      return response.data as Article
     } catch (error) {
       console.error('Error adding view:', error)
+      throw error
     }
   }
 }
