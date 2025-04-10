@@ -16,9 +16,13 @@ function ArticlesAllList() {
   if (!articles.length) return <div>No se encontraron articulos disponibles </div>
 
   return (
-    <section>
+    <section className='mt-14'>
       <section className='flex flex-col md:flex-row items-center justify-center md:justify-between'>
-        <h3 className='text-2xl font-bold my-4 text-gray-800 dark:text-white text-center'>Nuestros Articulos</h3>
+        <section className="w-full md:w-fit mb-4 flex flex-col items-center justify-between gap-4 bg-gray-50 p-4 rounded-md shadow-md">
+          <h4 className="text-lg font-bold text-gray-800 mb-2 md:w-fit text-center">
+            <span className="text-blue-600 w-full md:w-fit">Nuestros articulos</span>
+          </h4>
+        </section>
         <button
           onClick={() => void refreshArticles()}
           className="w-full md:w-fit bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition duration-300 ease-in-out mb-2"

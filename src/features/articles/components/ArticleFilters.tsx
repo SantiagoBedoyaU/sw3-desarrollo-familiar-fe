@@ -9,6 +9,7 @@ interface ArticleFiltersProps {
     keywords: string
     primaryThematicAxis: string
     secondaryThematicAxis: string
+    year: string
   }
   setSearchFilters: React.Dispatch<
     React.SetStateAction<{
@@ -17,6 +18,7 @@ interface ArticleFiltersProps {
       keywords: string
       primaryThematicAxis: string
       secondaryThematicAxis: string
+      year: string
     }>
   >
   handleFilterChange: (
@@ -48,8 +50,16 @@ function ArticleFilters({
             onChange={handleFilterChange}
             className="order-2 sm:order-1 w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
+          <input
+            type="number"
+            name="year"
+            placeholder="Año de publicación (YYYY)"
+            value={searchFilters.year}
+            onChange={handleFilterChange}
+            className="order-3 sm:order-2 w-full md:w-fit whitespace-nowrap px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
           <button
-            className='order-1 sm:order-2 w-full md:w-fit'
+            className='order-1 sm:order-3 w-full md:w-fit'
             type="button"
             onClick={
               () => {
@@ -58,6 +68,7 @@ function ArticleFilters({
                   title: '',
                   authors: '',
                   keywords: '',
+                  year: '',
                   primaryThematicAxis: '',
                   secondaryThematicAxis: '',
                 })

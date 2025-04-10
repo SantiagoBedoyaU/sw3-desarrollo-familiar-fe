@@ -13,6 +13,7 @@ const Articles = () => {
     title: '',
     authors: '',
     keywords: '',
+    year: '',
     primaryThematicAxis: '',
     secondaryThematicAxis: '',
   })
@@ -25,6 +26,7 @@ const Articles = () => {
     if (searchFilters.title !== '') count++
     if (searchFilters.authors !== '') count++
     if (searchFilters.keywords !== '') count++
+    if (searchFilters.year !== '') count++
     if (searchFilters.primaryThematicAxis !== '') count++
     if (searchFilters.secondaryThematicAxis !== '') count++
     setCountFilters(count)
@@ -61,12 +63,11 @@ const Articles = () => {
       />
       {countFilters === 0 && (
         <section>
-          <section className="mb-4 flex flex-col items-center justify-between gap-4 bg-gray-50 p-4 rounded-md shadow-md">
+          <section className="mb-4 flex flex-col items-center justify-between gap-4 bg-gray-50 p-1 rounded-md shadow-md">
             <h4 className="text-lg font-bold text-gray-800 mb-2">
               <span className="text-blue-500">Top Artículos destacados</span>
             </h4>
             <ArticlesTop />
-
           </section>
           <ArticlesAllList />
         </section>
