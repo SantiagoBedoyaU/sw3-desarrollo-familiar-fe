@@ -4,6 +4,7 @@ import ArticleView from './ArticleView'
 import { Modal } from '../../../shared/components/common/modal/Modal'
 import { useState } from 'react'
 import { useArticleStore } from '../stores/ArticlesStore'
+import downloadArticle from '../utils/AddDownload'
 
 interface ArticlesListProps {
   articles: Article[]
@@ -11,17 +12,31 @@ interface ArticlesListProps {
 
 function ArticlesList({ articles }: Readonly<ArticlesListProps>) {
   const [isDeleteConfirmOpen, setIsDeleteConfirmOpen] = useState(false)
-  const { deleteArticle, editArticle, downloadArticle } = useArticleStore()
+  const { deleteArticle, editArticle } = useArticleStore()
   const [updatedArticles, setUpdatedArticles] = useState(articles);
 
   const incrementCounter = (id: string) => {
     setUpdatedArticles((prevArticles) =>
       prevArticles.map((article) =>
         article._id === id
-          ? { ...article, counter: (article.counter || 0) + 1 }
+          ? { ...article, counter: (article.counter ?? 0) + 1 }
           : article
       )
     )
+  }
+
+  const incrementDownload = (id: string) => {
+    setUpdatedArticles((prevArticles) =>
+      prevArticles.map((article) =>
+        article._id === id
+          ? { ...article, downloadCounter: (article.downloadCounter ?? 0) + 1 }
+          : article
+      )
+    )
+  }
+
+  const fromListDownload = (article: Article) => {
+    downloadArticle(article, incrementDownload)
   }
   return updatedArticles.map((article) => (
     <section
@@ -102,12 +117,12 @@ function ArticlesList({ articles }: Readonly<ArticlesListProps>) {
             type="button"
             className="md:h-16 flex w-full md:w-fit  items-center justify-center rounded text-sm "
           >
-            <ArticleView article={article} incrementCounter={incrementCounter} />
+            <ArticleView article={article} incrementCounter={incrementCounter} incrementDownload={incrementDownload} />
           </button>
 
           <button
             type="button"
-            onClick={() => article._id && void downloadArticle(article._id)}
+            onClick={() => article._id && fromListDownload(article)}
             className="w-full md:w-fit flex items-center justify-center border border-gray-200 bg-white hover:bg-gray-100 text-gray-800 py-1 px-3 rounded text-sm"
           >
             <Download size={16} className="mr-1" />

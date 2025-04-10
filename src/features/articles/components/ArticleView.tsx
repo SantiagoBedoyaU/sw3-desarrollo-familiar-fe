@@ -8,15 +8,19 @@ import Article from '../../../shared/types/entities/Article'
 import { Eye } from 'lucide-react'
 import Swal from 'sweetalert2'
 import { articleService } from '../../../shared/services/ArticlesService'
+import downloadArticle from '../utils/AddDownload'
 
 interface ArticleViewProps {
   article: Article
   incrementCounter: (id: string) => void
+  incrementDownload: (id: string) => void
 }
 
-const ArticleView: React.FC<ArticleViewProps> = ({ article, incrementCounter }) => {
+const ArticleView: React.FC<ArticleViewProps> = ({ article, incrementCounter, incrementDownload }) => {
   const [open, onClose] = useState(false)
-
+  const viewDownload = async () => {
+    downloadArticle(article, incrementDownload)
+  }
   const addView = async (_id: string) => {
     try {
       await articleService.addView(_id)
@@ -97,17 +101,6 @@ const ArticleView: React.FC<ArticleViewProps> = ({ article, incrementCounter }) 
                 <span className="text-sm">{article.file.name}</span>
                 <button
                   type="button"
-                  onClick={(e) => {
-                    e.preventDefault()
-                    // Implementar lógica de descarga
-                    const link = document.createElement('a')
-                    link.href = URL.createObjectURL(article.file as Blob)
-                    link.download = article.file?.name ?? 'file.pdf'
-                    document.body.appendChild(link)
-                    link.click()
-                    document.body.removeChild(link)
-                    URL.revokeObjectURL(link.href) // Liberar el objeto URL
-                  }}
                   className="text-sm text-blue-600 hover:underline flex items-center"
                 >
                   Descargar
@@ -128,6 +121,10 @@ const ArticleView: React.FC<ArticleViewProps> = ({ article, incrementCounter }) 
 
           <button
             type="button"
+            onClick={() => {
+              void viewDownload()
+              onClose(false)
+            }}
             className="btn-primary inline-flex w-full md:w-fit justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
           >
             Descargar articulo

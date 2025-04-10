@@ -90,18 +90,24 @@ export class ArticleService extends ApiService<Article> {
   }
 
   // download specific article
-  async downloadArticle(_id: string): Promise<void> {
+  async downloadArticle(article: Article): Promise<void> {
     try {
-      const response = await axios.get(this.getUrl(`${_id}/download`), {
+      const response = await axios.get(this.getUrl(`${article._id}/download`), {
         ...Config.defaultConfig,
         responseType: 'blob',
       })
       const url = window.URL.createObjectURL(new Blob([response.data]))
       const link = document.createElement('a')
       link.href = url
-      link.setAttribute('download', `article-${_id}.pdf`)
+      link.setAttribute(
+        'download',
+        `article-${article.title}-${article._id}.pdf`,
+      )
+      link.target = '_blank' // Abre el archivo en una nueva pestaña
       document.body.appendChild(link)
       link.click()
+      document.body.removeChild(link)
+      URL.revokeObjectURL(url) // Limpia el objeto URL para liberar memoria
     } catch (error) {
       this.handleError(error, 'Error downloading article')
     }

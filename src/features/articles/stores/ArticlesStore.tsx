@@ -22,7 +22,6 @@ interface ArticleState {
   addArticle: (article: Omit<ArticleCreate, '_id'>) => Promise<void>
   deleteArticle: (_id: string) => Promise<void>
   editArticle: (_id: string, updatedArticle: Article) => Promise<void>
-  downloadArticle: (_id: string) => Promise<void>
   filterArticles: (searchFilters: {
     title: string
     authors: string
@@ -221,43 +220,6 @@ export const useArticleStore = create<ArticleState>((set, get) => ({
       console.error('Error editing article:', error)
     }
   },
-
-  downloadArticle: async (_id: string) => {
-    try {
-      const { articles } = get()
-      const article = articles.find((article) => article._id === _id)
-
-      if (!article) {
-        throw new Error('Artículo no encontrado')
-      }
-
-      // Simulación de descarga de archivo (replace with actual implementation)
-      // const file = await articleService.download(_id)
-      const file = new File([], 'file.pdf')
-
-      await new Promise((resolve) => setTimeout(resolve, 1000)) // Simulación de espera
-
-      const url = URL.createObjectURL(file)
-      const link = document.createElement('a')
-      link.href = url
-      link.download = article.title // Nombre del archivo a descargar
-      link.target = '_blank' // Abre el archivo en una nueva pestaña
-      document.body.appendChild(link)
-      link.click()
-      document.body.removeChild(link)
-      URL.revokeObjectURL(url) // Limpia el objeto URL para liberar memoria
-    } catch (error) {
-      console.error('Error downloading article:', error)
-      await Swal.fire({
-        title: 'Error',
-        text: 'Ocurrió un error al descargar el artículo.',
-        icon: 'error',
-        confirmButtonText: 'Cerrar',
-        confirmButtonColor: '#4B5563',
-      })
-    }
-  },
-
   // Top articles methods
   fetchTopArticles: async () => {
     // If we already have top articles and aren't in a loading state, do nothing
