@@ -1,8 +1,9 @@
-import { useState } from "react"
+import { useState } from 'react'
 // import bcrypt from "bcryptjs"
-import { userService } from "../../../shared/services/UserService"
-import { SignIn } from "../../../shared/types/entities/User"
-import Swal from "sweetalert2"
+import { userService } from '../../../shared/services/UserService'
+import { SignIn } from '../../../shared/types/entities/User'
+import Swal from 'sweetalert2'
+import { error } from 'console'
 
 function Login() {
   const [formData, setFormData] = useState({
@@ -22,31 +23,29 @@ function Login() {
     // Aquí puedes agregar lógica de autenticación si es necesario
     // const salt = await bcrypt.genSalt(10);
     // const hashedPassword = await bcrypt.hash(formData.password, salt);
-    let credentials = {
+    const credentials = {
       email: formData.email,
       // password: hashedPassword,
       password: formData.password,
     }
     console.log(credentials)
-    userService.signIn(credentials).then((data: SignIn) => {
-      if (data.accessToken == undefined || data.accessToken == null) {
-        Swal.fire({
-          title: 'Error de autenticación',
-          text: 'Credenciales incorrectas.',
-          icon: 'warning',
-          timer: 3000,
-          timerProgressBar: true,
-          showConfirmButton: false,
-          allowOutsideClick: false,
-        })
-      } else {
-        console.log('====================================')
-        console.log(data)
-        console.log('====================================')
-        localStorage.setItem('user', JSON.stringify(data))
-        localStorage.setItem('token', data.accessToken)
-        window.location.href = '/'
-      }
+    await userService.signIn(credentials).then((data: SignIn) => {
+      console.log('====================================')
+      console.log(data)
+      console.log('====================================')
+      localStorage.setItem('user', JSON.stringify(data))
+      localStorage.setItem('token', data.accessToken)
+      window.location.href = '/'
+    }).catch(() => {
+      Swal.fire({
+        title: 'Error de autenticación',
+        text: 'Credenciales incorrectas.',
+        icon: 'warning',
+        timer: 3000,
+        timerProgressBar: true,
+        showConfirmButton: false,
+        allowOutsideClick: false,
+      })
     })
   }
 
@@ -61,7 +60,7 @@ function Login() {
               Inicia Sesión en tu cuenta
             </h1>
             <form className="space-y-4 md:space-y-6"
-              onSubmit={handleSubmit}
+              onSubmit={(e) => void handleSubmit(e)}
               action="#">
               <section>
                 <label htmlFor="email" className="inline-flex gap-2 mb-2 text-sm font-medium text-gray-900 dark:text-white">

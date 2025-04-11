@@ -11,16 +11,12 @@ export class UserService extends ApiService<User> {
   }
 
   async signIn(signInData: Login): Promise<SignIn> {
-    try {
-      const response = await axios.post<SignIn>(
-        `${Config.LOGIC_URL}auth/sign-in`,
-        signInData,
-        Config.defaultConfig,
-      )
-      return response.data
-    } catch (error) {
-      this.handleError(error, 'Error getting filters')
-    }
+    const response = await axios.post<SignIn>(
+      `${Config.LOGIC_URL}auth/sign-in`,
+      signInData,
+      Config.defaultConfig,
+    )
+    return response.data
   }
 }
 export const userService = new UserService()
