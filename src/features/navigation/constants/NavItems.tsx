@@ -5,6 +5,7 @@ import {
   Search,
   GraduationCap,
   User,
+  LayoutDashboard,
 } from 'lucide-react'
 
 export const navItems = [
@@ -33,5 +34,10 @@ export const navItems = [
     title: 'Usuarios',
     href: '/usuarios',
     icon: <User className="h-5 w-5" />,
+  },
+  {
+    title: 'Dashboard',
+    href: '/dashboard',
+    icon: <LayoutDashboard className="h-5 w-5" />,
   },
 ]
