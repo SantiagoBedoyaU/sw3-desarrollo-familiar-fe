@@ -1,5 +1,5 @@
-import React from 'react';
-import { PieChart, Pie, Cell, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+import React from 'react'
+import { PieChart, Pie, Cell, Tooltip, Legend, ResponsiveContainer } from 'recharts'
 
 interface PieChartCardProps {
   title: string;
@@ -30,7 +30,7 @@ export const PieChartCard: React.FC<PieChartCardProps> = ({ title, description, 
               label={({ name, percent }) => `${name}: ${(percent * 100).toFixed(0)}%`}
             >
               {data.map((entry, index) => (
-                <Cell key={`cell-${index}`} fill={colors[index % colors.length]} />
+                <Cell key={`cell-${String(index) + entry}`} fill={colors[index % colors.length]} />
               ))}
             </Pie>
             <Tooltip />
@@ -39,5 +39,5 @@ export const PieChartCard: React.FC<PieChartCardProps> = ({ title, description, 
         </ResponsiveContainer>
       </div>
     </div>
-  );
-};
+  )
+}

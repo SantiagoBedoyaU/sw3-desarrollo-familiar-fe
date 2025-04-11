@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 
 interface DetailCardProps {
   title: string;
@@ -18,5 +18,5 @@ export const DetailCard: React.FC<DetailCardProps> = ({ title, details }) => {
         ))}
       </div>
     </div>
-  );
-};
+  )
+}

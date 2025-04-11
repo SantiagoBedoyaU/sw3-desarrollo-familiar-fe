@@ -1,5 +1,5 @@
-import React from 'react';
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+import React from 'react'
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts'
 
 interface BarChartCardProps {
   title: string;
@@ -33,5 +33,5 @@ export const BarChartCard: React.FC<BarChartCardProps> = ({ title, description, 
         </ResponsiveContainer>
       </div>
     </div>
-  );
-};
+  )
+}

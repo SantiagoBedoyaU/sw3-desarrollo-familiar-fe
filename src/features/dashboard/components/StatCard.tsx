@@ -1,5 +1,5 @@
-import React from 'react';
-import { LucideIcon } from 'lucide-react';
+import React from 'react'
+import { LucideIcon } from 'lucide-react'
 
 interface StatCardProps {
   title: string;
@@ -19,5 +19,5 @@ export const StatCard: React.FC<StatCardProps> = ({ title, value, icon: Icon, ic
         <p className="text-2xl font-bold">{value}</p>
       </div>
     </div>
-  );
-};
+  )
+}

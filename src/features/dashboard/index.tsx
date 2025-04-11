@@ -1,14 +1,11 @@
-// import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
-// import { FileText, Download, Eye, ArrowUpRight } from 'lucide-react';
-
-import { FileText, Download, Eye, ArrowUpRight } from 'lucide-react';
-import { StatCard } from './components/StatCard';
-import { BarChartCard } from './components/BarChartCard';
-import { PieChartCard } from './components/PieChartCard';
-import { useArticleStore } from '../articles/stores/ArticlesStore';
-import { useEffect, useState } from 'react';
-import { reportsService } from '../../shared/services/ReportsService';
-import { ReportArticleStatistics } from '../../shared/types/entities/Reports';
+import { FileText, Download, Eye } from 'lucide-react'
+import { StatCard } from './components/StatCard'
+import { BarChartCard } from './components/BarChartCard'
+import { PieChartCard } from './components/PieChartCard'
+import { useArticleStore } from '../articles/stores/ArticlesStore'
+import { useEffect, useState } from 'react'
+import { reportsService } from '../../shared/services/ReportsService'
+import { ReportArticleStatistics } from '../../shared/types/entities/Reports'
 
 
 export default function Dashboard() {
@@ -21,6 +18,7 @@ export default function Dashboard() {
     }).catch((error) => {
       console.error('Error fetching articles reports:', error)
     })
+    console.log(articlesReports)
   }, [])
 
   useEffect(() => {
@@ -34,7 +32,7 @@ export default function Dashboard() {
     { name: 'Eje 4', value: 2 },
     { name: 'Eje 5', value: 1 },
     { name: 'Eje 6', value: 6 },
-  ];
+  ]
 
   return (
     <div className="bg-gray-50 p-6 rounded-lg">
@@ -70,7 +68,7 @@ export default function Dashboard() {
         />
       </div>
     </div>
-  );
+  )
 }
 //   const articlesData = {
 //     mostViewed: {
