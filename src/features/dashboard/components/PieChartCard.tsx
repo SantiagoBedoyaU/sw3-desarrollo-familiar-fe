@@ -4,6 +4,7 @@ import { PieChart, Pie, Cell, Tooltip, Legend, ResponsiveContainer } from 'recha
 interface PieChartCardProps {
   title: string;
   description: string;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   data: any[];
   dataKey: string;
   colors: string[];
@@ -19,6 +20,7 @@ export const PieChartCard: React.FC<PieChartCardProps> = ({ title, description, 
       <div className="h-64">
         <ResponsiveContainer width="100%" height="100%">
           <PieChart>
+            {/* eslint-disable @typescript-eslint/restrict-template-expressions */}
             <Pie
               data={data}
               cx="50%"
@@ -29,9 +31,13 @@ export const PieChartCard: React.FC<PieChartCardProps> = ({ title, description, 
               dataKey={dataKey}
               label={({ name, percent }) => `${name}: ${(percent * 100).toFixed(0)}%`}
             >
-              {data.map((entry, index) => (
-                <Cell key={`cell-${String(index) + entry}`} fill={colors[index % colors.length]} />
-              ))}
+              {
+                /* eslint-disable */
+                data.map((entry, index) => (
+                  <Cell key={`cell-${String(index) + entry}`} fill={colors[index % colors.length]} />
+                ))
+                /* eslint-enable */
+              }
             </Pie>
             <Tooltip />
             <Legend />

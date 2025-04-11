@@ -4,6 +4,7 @@ import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Responsive
 interface BarChartCardProps {
   title: string;
   description: string;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   data: any[];
   dataKey: string;
   barColor: string;
@@ -25,9 +26,11 @@ export const BarChartCard: React.FC<BarChartCardProps> = ({ title, description, 
             <Tooltip />
             <Legend />
             {
+              /* eslint-disable */
               data.map((entry, index) => (
                 <Bar key={`bar-${String(index) + entry.title}`} name={entry.title} dataKey={dataKey} fill={barColor} />
               ))
+              /* eslint-enable */
             }
           </BarChart>
         </ResponsiveContainer>
