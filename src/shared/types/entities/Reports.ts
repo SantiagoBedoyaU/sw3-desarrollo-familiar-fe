@@ -21,8 +21,7 @@ export interface ReportArticleStatistics {
 
 export interface ReportArticleThematic {
   _id: string
-  count:number
+  count: number
 }
 
-
-export type ReportArticleThematics = ReportArticleThematic[];
+export type ReportArticleThematics = ReportArticleThematic[]
