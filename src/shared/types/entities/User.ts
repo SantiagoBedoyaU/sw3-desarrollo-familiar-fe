@@ -6,3 +6,13 @@ export default interface User {
   role: number
   __v: number
 }
+
+export interface Login {
+  email: string
+  password: string
+}
+
+export interface SignIn {
+  accessToken: string
+  userRole: number
+}
