@@ -29,28 +29,49 @@ function Login() {
       // password: hashedPassword,
       password: formData.password,
     }
-    console.log(credentials)
-    await userService.signIn(credentials).then((data: SignIn) => {
-      console.log('====================================')
-      console.log(data)
-      console.log('====================================')
-      localStorage.setItem('signIn', JSON.stringify(data))
-      localStorage.setItem('token', data.accessToken)
-      checkAuth()
-      window.location.href = '/'
-    }).catch(() => {
+
+    if (!credentials.email || !credentials.password) {
       void Swal.fire({
         title: 'Error de autenticación',
-        text: 'Credenciales incorrectas.',
+        text: 'Por favor completa todos los campos.',
         icon: 'warning',
         timer: 3000,
         timerProgressBar: true,
         showConfirmButton: false,
         allowOutsideClick: false,
       })
-    })
-  }
+      return
+    }
 
+    const signIn: SignIn | null = localStorage.getItem('signIn') ? JSON.parse(localStorage.getItem('signIn') as string) : null
+    if (signIn?.userRole === 1) {
+      await userService.signIn(credentials).then((data: SignIn) => {
+        console.log('====================================')
+        console.log(data)
+        console.log('====================================')
+        localStorage.setItem('signIn', JSON.stringify(data))
+        localStorage.setItem('token', data.accessToken)
+        checkAuth()
+        window.location.href = '/'
+      }).catch(() => {
+        void Swal.fire({
+          title: 'Error de autenticación',
+          text: 'Credenciales incorrectas.',
+          icon: 'warning',
+          timer: 3000,
+          timerProgressBar: true,
+          showConfirmButton: false,
+          allowOutsideClick: false,
+        })
+      })
+    } else {
+      void Swal.fire({
+        icon: 'error',
+        title: 'Error de autorización',
+        text: 'No tienes permiso para eliminar usuarios.',
+      })
+    }
+  }
   return (
 
 

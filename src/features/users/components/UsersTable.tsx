@@ -1,7 +1,7 @@
 import { Pencil, Trash2 } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { Modal } from '../../../shared/components/common/modal/Modal'
-import User from '../../../shared/types/entities/User'
+import User, { SignIn } from '../../../shared/types/entities/User'
 import { userService } from '../../../shared/services/UserService'
 import Swal from 'sweetalert2'
 
@@ -32,22 +32,31 @@ export default function UsersTable() {
   }, [])
 
   const handleDelete = (_id: string) => {
-    userService.delete(_id).then(() => {
-      void Swal.fire({
-        icon: 'success',
-        title: 'Usuario eliminado correctamente',
-        showConfirmButton: false,
-        timer: 1500,
+    const signIn: SignIn | null = localStorage.getItem('signIn') ? JSON.parse(localStorage.getItem('signIn') as string) : null
+    if (signIn?.userRole === 1) {
+      userService.delete(_id).then(() => {
+        void Swal.fire({
+          icon: 'success',
+          title: 'Usuario eliminado correctamente',
+          showConfirmButton: false,
+          timer: 1500,
+        })
+        setUsers(users.filter((user) => user._id !== _id))
+      }).catch((error: unknown) => {
+        console.error('Error al eliminar el usuario', error)
+        void Swal.fire({
+          icon: 'error',
+          title: 'Error al eliminar el usuario',
+          text: 'No se pudo eliminar el usuario. Por favor, inténtalo de nuevo más tarde.',
+        })
       })
-      setUsers(users.filter((user) => user._id !== _id))
-    }).catch((error: unknown) => {
-      console.error('Error al eliminar el usuario', error)
+    } else {
       void Swal.fire({
         icon: 'error',
-        title: 'Error al eliminar el usuario',
-        text: 'No se pudo eliminar el usuario. Por favor, inténtalo de nuevo más tarde.',
+        title: 'Error de autorización',
+        text: 'No tienes permiso para eliminar usuarios.',
       })
-    })
+    }
     setIsDeleteConfirmOpen(false)
   }
 
