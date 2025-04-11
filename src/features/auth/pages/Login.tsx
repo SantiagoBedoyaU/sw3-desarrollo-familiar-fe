@@ -3,7 +3,6 @@ import { useState } from 'react'
 import { userService } from '../../../shared/services/UserService'
 import { SignIn } from '../../../shared/types/entities/User'
 import Swal from 'sweetalert2'
-import { error } from 'console'
 
 function Login() {
   const [formData, setFormData] = useState({
