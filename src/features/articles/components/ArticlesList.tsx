@@ -2,9 +2,11 @@ import { Download, Edit2, Trash2 } from 'lucide-react'
 import Article from '../../../shared/types/entities/Article'
 import ArticleView from './ArticleView'
 import { Modal } from '../../../shared/components/common/modal/Modal'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useArticleStore } from '../stores/ArticlesStore'
 import downloadArticle from '../utils/AddDownload'
+import useAuthStore from '../../../app/stores/useAuthStore'
+import { SignIn } from '../../../shared/types/entities/User'
 
 interface ArticlesListProps {
   articles: Article[]
@@ -15,7 +17,13 @@ function ArticlesList({ articles }: Readonly<ArticlesListProps>) {
   const [isDeleteConfirmOpen, setIsDeleteConfirmOpen] = useState(false)
   const { deleteArticle, editArticle } = useArticleStore()
   const [updatedArticles, setUpdatedArticles] = useState(articles)
-
+  const { checkAuth } = useAuthStore()
+  const [userRole, setUserRole] = useState(false)
+  useEffect(() => {
+    const signInString = localStorage.getItem('signIn')
+    const signIn: SignIn | null = signInString ? JSON.parse(signInString) as SignIn : null
+    setUserRole(signIn?.userRole === 1 || signIn?.userRole === 2)
+  }, [checkAuth])
   const incrementCounter = (id: string, updated_article: Article) => {
     setUpdatedArticles((prevArticles) =>
       prevArticles.map((article) =>
@@ -92,7 +100,7 @@ function ArticlesList({ articles }: Readonly<ArticlesListProps>) {
           <p>{article.counter} vista{article.counter === 1 ? '' : 's'} </p>
           <p>{article.downloadCounter} descarga{article.downloadCounter === 1 ? '' : 's'}</p>
         </section>
-        <section className="flex flex-col sm:flex-row md:col-span-4 items-center justify-between md:justify-center gap-2">
+        {userRole && <section className="flex flex-col sm:flex-row md:col-span-4 items-center justify-between md:justify-center gap-2">
           <button
             type="button"
             onClick={() => article._id && void editArticle(article._id, article)}
@@ -110,7 +118,7 @@ function ArticlesList({ articles }: Readonly<ArticlesListProps>) {
             <Trash2 size={16} className="mr-1" />
             <span>Eliminar</span>
           </button>
-        </section>
+        </section>}
 
 
         <section className="flex flex-col sm:flex-row md:col-span-4 items-center justify-between md:flex-col md:justify-center gap-2 relative">

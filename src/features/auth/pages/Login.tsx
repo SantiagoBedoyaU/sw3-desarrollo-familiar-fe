@@ -7,6 +7,7 @@ import useAuthStore from '../../../app/stores/useAuthStore'
 
 function Login() {
   const { checkAuth } = useAuthStore()
+  const [isSubmitting, setIsSubmitting] = useState(false)
   const [formData, setFormData] = useState({
     email: '',
     password: '',
@@ -21,6 +22,7 @@ function Login() {
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault()
+    setIsSubmitting(true)
     // Aquí puedes agregar lógica de autenticación si es necesario
     // const salt = await bcrypt.genSalt(10);
     // const hashedPassword = await bcrypt.hash(formData.password, salt);
@@ -43,35 +45,23 @@ function Login() {
       return
     }
 
-    const signInString = localStorage.getItem('signIn')
-    const signIn: SignIn | null = signInString ? JSON.parse(signInString) as SignIn : null
-    if (signIn?.userRole === 1) {
-      await userService.signIn(credentials).then((data: SignIn) => {
-        console.log('====================================')
-        console.log(data)
-        console.log('====================================')
-        localStorage.setItem('signIn', JSON.stringify(data))
-        localStorage.setItem('token', data.accessToken)
-        checkAuth()
-        window.location.href = '/'
-      }).catch(() => {
-        void Swal.fire({
-          title: 'Error de autenticación',
-          text: 'Credenciales incorrectas.',
-          icon: 'warning',
-          timer: 3000,
-          timerProgressBar: true,
-          showConfirmButton: false,
-          allowOutsideClick: false,
-        })
-      })
-    } else {
+    await userService.signIn(credentials).then((data: SignIn) => {
+      setIsSubmitting(false)
+      localStorage.setItem('signIn', JSON.stringify(data))
+      localStorage.setItem('token', data.accessToken)
+      checkAuth()
+      window.location.href = '/'
+    }).catch(() => {
       void Swal.fire({
-        icon: 'error',
-        title: 'Error de autorización',
-        text: 'No tienes permiso para eliminar usuarios.',
+        title: 'Error de autenticación',
+        text: 'Credenciales incorrectas.',
+        icon: 'warning',
+        timer: 3000,
+        timerProgressBar: true,
+        showConfirmButton: false,
+        allowOutsideClick: false,
       })
-    }
+    })
   }
   return (
 
@@ -129,7 +119,11 @@ function Login() {
                 </section> */}
               <button type="submit" className="w-full  bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center p-4 bg-gray-800 dark:bg-blue-600 hover:bg-gray-700 dark:hover:bg-blue-500 text-white  uppercase  cursor-pointer transition dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">
                 <p>
-                  Ingresar
+                  {isSubmitting ? (
+                    <svg className="animate-spin h-5 w-5 mr-3 inline-block" viewBox="0 0 24 24">
+                      <path fill="none" d="M0 0h24v24H0z" />
+                      <path d="M12 4V1L8 5l4 4V4zm0 16v3l4-4-4-4v3zm8-8h3l-4-4-4 4h3v2h2v-2zm-16 0H1l4 4 4-4H4v2H2v-2z" />
+                    </svg>) : 'Ingresar'}
                 </p>
               </button>
               <p className="text-sm font-normal text-gray-500 dark:text-gray-400">

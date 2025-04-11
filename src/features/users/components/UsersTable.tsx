@@ -51,12 +51,6 @@ export default function UsersTable() {
           text: 'No se pudo eliminar el usuario. Por favor, inténtalo de nuevo más tarde.',
         })
       })
-    } else {
-      void Swal.fire({
-        icon: 'error',
-        title: 'Error de autorización',
-        text: 'No tienes permiso para eliminar usuarios.',
-      })
     }
     setIsDeleteConfirmOpen(false)
   }
