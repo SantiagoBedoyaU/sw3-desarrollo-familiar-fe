@@ -7,18 +7,20 @@ import Login from '../../features/auth/pages/Login'
 import NotFound from '../../shared/components/layout/NotFound'
 import PrivateRoute from '../../features/auth/components/PrivateRoute'
 import Users from '../../features/users'
-// import PrivateRoute from '@/shared/components/PrivateRoute'
-// import PracticeReports from '@/features/practiceReports'
+import Dashboard from '../../features/dashboard'
 
 const AppRoutes = () => {
   return (
     <Routes>
       <Route path="/" element={<Home />} />
-      {/* <Route path="/informes-practicas" element={<PrivateRoute element={<PracticeReports />} />} /> */}
       <Route path="/articulos" element={<Articles />} />
       <Route
         path="/usuarios"
         element={<PrivateRoute element={<Users />} requiredRoles={[1]} />}
+      />
+      <Route
+        path="/dashboard"
+        element={<PrivateRoute element={<Dashboard />} requiredRoles={[1]} />}
       />
       <Route path="/registrarse" element={<Register />} />
       <Route path="/login" element={<Login />} />

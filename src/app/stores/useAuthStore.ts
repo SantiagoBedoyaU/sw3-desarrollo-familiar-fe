@@ -30,6 +30,8 @@ const useAuthStore = create<AuthStore>((set) => ({
       isAuthenticated: false,
       // hasPurchasedCourses: false,
     })
+    window.location.reload()
+    localStorage.removeItem('signIn')
     localStorage.removeItem('token')
   },
 }))

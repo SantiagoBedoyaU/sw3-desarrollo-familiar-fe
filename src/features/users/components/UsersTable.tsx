@@ -1,43 +1,21 @@
 import { Pencil, Trash2 } from 'lucide-react'
-// import {
-//   DropdownMenu,
-//   DropdownMenuContent,
-//   DropdownMenuItem,
-//   DropdownMenuTrigger,
-// } from '../../components/dropdown/DropdownMenu'
 import { useEffect, useState } from 'react'
 import { Modal } from '../../../shared/components/common/modal/Modal'
-import User from '../../../shared/types/entities/User'
-
-const sample_users: User[] = [
-  {
-    _id: '1',
-    email: 'admin@text.com',
-    name: 'admin',
-    role: 1,
-    password: '123456789',
-    __v: 0,
-  },
-  {
-    _id: '1',
-    email: 'juju@gmail.com',
-    name: 'admin',
-    role: 1,
-    password: '123456789',
-    __v: 0,
-  },
-]
+import User, { SignIn } from '../../../shared/types/entities/User'
+import { userService } from '../../../shared/services/UserService'
+import Swal from 'sweetalert2'
 
 const headersTable = ['Nombre', 'Email', 'Rol', 'Acciones']
 
 const fetchUsers = async () => {
   // Simulated API call
-  await new Promise((resolve) => setTimeout(resolve, 1000))
-  return sample_users
+  return userService.getAll().then((response) => {
+    return response.data
+  })
 }
 
 export default function UsersTable() {
-  const [selectedUser, setSelectedUser] = useState<User>(sample_users[0])
+  const [selectedUser, setSelectedUser] = useState<User>({} as User)
   const [users, setUsers] = useState<User[]>([])
   const [isDeleteConfirmOpen, setIsDeleteConfirmOpen] = useState(false)
 
@@ -54,7 +32,26 @@ export default function UsersTable() {
   }, [])
 
   const handleDelete = (_id: string) => {
-    setUsers(users.filter((user) => user._id !== _id))
+    const signInString = localStorage.getItem('signIn')
+    const signIn: SignIn | null = signInString ? JSON.parse(signInString) as SignIn : null
+    if (signIn?.userRole === 1) {
+      userService.delete(_id).then(() => {
+        void Swal.fire({
+          icon: 'success',
+          title: 'Usuario eliminado correctamente',
+          showConfirmButton: false,
+          timer: 1500,
+        })
+        setUsers(users.filter((user) => user._id !== _id))
+      }).catch((error: unknown) => {
+        console.error('Error al eliminar el usuario', error)
+        void Swal.fire({
+          icon: 'error',
+          title: 'Error al eliminar el usuario',
+          text: 'No se pudo eliminar el usuario. Por favor, inténtalo de nuevo más tarde.',
+        })
+      })
+    }
     setIsDeleteConfirmOpen(false)
   }
 
@@ -72,7 +69,7 @@ export default function UsersTable() {
           {users.map((user) => (
             <tr
               key={user._id}
-              className="text-sm sm:text-base bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700"
+              className="text-sm sm:text-base bg-white dark:bg-gray-800 sectionide-y sectionide-gray-200 dark:sectionide-gray-700"
               onClick={() => setSelectedUser(user)}
             >
               <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white ">

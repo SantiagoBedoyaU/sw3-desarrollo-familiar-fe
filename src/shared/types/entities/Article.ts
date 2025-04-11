@@ -1,7 +1,7 @@
 import PracticeReport from './PracticeReport'
 
 export default interface Article {
-  _id?: string
+  _id: string
   title: string
   authors: string[]
   year: string
@@ -33,6 +33,7 @@ export interface ArticleCreate {
   fileAddress?: string
   counter?: number
   downloadCounter?: number
+  practiceReport: string
 
   secondaryThematicAxis?: string
 }
