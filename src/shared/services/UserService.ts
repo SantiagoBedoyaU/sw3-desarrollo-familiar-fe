@@ -1,13 +1,13 @@
 import axios from 'axios'
 import { ApiService } from './ApiService'
 import Config from '../../app/config/Config'
-import User, { Login, SignIn } from '../types/entities/User'
+import User, { Login, SignIn, UserCreate } from '../types/entities/User'
 // import FormData from 'form-data'
 // import Swal from 'sweetalert2'
 
 export class UserService extends ApiService<User> {
   constructor() {
-    super('research-articles')
+    super('users')
   }
 
   async signIn(signInData: Login): Promise<SignIn> {
@@ -16,6 +16,18 @@ export class UserService extends ApiService<User> {
       signInData,
       Config.defaultConfig,
     )
+    return response.data
+  }
+
+  async create(user: UserCreate): Promise<User> {
+    const headers = {
+      ...Config.defaultConfig.headers,
+      Authorization: `Bearer ${localStorage.getItem('token') ?? ''}`,
+    }
+
+    const response = await axios.post<User>(this.getUrl(), user, {
+      headers,
+    })
     return response.data
   }
 }

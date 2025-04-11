@@ -7,6 +7,13 @@ export default interface User {
   __v: number
 }
 
+export interface UserCreate {
+  name: string
+  email: string
+  password: string
+  role: number
+}
+
 export interface Login {
   email: string
   password: string

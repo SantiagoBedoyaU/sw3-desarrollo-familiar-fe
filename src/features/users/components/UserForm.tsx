@@ -4,11 +4,16 @@ import Swal from 'sweetalert2'
 import Label from '../../../shared/components/common/Label'
 import Input from '../../../shared/components/common/Input'
 import Select from '../../../shared/components/common/Select'
-import User from '../../../shared/types/entities/User'
+import { UserCreate } from '../../../shared/types/entities/User'
+import { userService } from '../../../shared/services/UserService'
 
-const UserForm: React.FC = () => {
+interface UserFormProps {
+  close: (open: boolean) => void
+}
+
+const UserForm: React.FC<UserFormProps> = ({ close }) => {
   // Initial form state aligned with the User interface
-  const [formData, setFormData] = useState<Omit<User, '_id' | '__v'>>({
+  const [formData, setFormData] = useState<UserCreate>({
     name: '',
     email: '',
     password: '',
@@ -61,7 +66,7 @@ const UserForm: React.FC = () => {
     return !Object.values(errors).some(Boolean)
   }
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
 
     if (!validateForm()) {
@@ -70,42 +75,44 @@ const UserForm: React.FC = () => {
 
     setIsSubmitting(true)
 
-    // Simulate API call
-    setTimeout(() => {
-      // Create unique ID
-      const generatedId = `${Math.random().toString(36).substring(2)}${Date.now().toString(36)}`
 
-      // Complete user object matching the User interface
-      const completeUser: User = {
-        _id: generatedId,
-        ...formData,
-        __v: 0,
-      }
+    // Complete user object matching the User interface
+    const completeUser: UserCreate = {
+      ...formData,
+    }
 
-      console.log('New user created:', completeUser)
-
-      void Swal.fire({
+    await userService.create(completeUser).then(async () => {
+      await Swal.fire({
         title: 'Usuario creado exitosamente',
         text: `${formData.name} ha sido registrado como ${formData.role === 1 ? 'Administrador' : 'Usuario'}.`,
         icon: 'success',
         confirmButtonText: 'Aceptar',
       })
-
-      // Reset form after successful submission
-      setFormData({
-        name: '',
-        email: '',
-        password: '',
-        role: 1,
+      window.location.reload()
+    }).catch(() => {
+      void Swal.fire({
+        title: 'Error',
+        text: 'No se pudo crear el usuario. Por favor, inténtelo de nuevo más tarde.',
+        icon: 'error',
+        confirmButtonText: 'Aceptar',
       })
-      setIsSubmitting(false)
-    }, 1500)
+      window.location.reload()
+    })
+    // Reset form after successful submission
+    setFormData({
+      name: '',
+      email: '',
+      password: '',
+      role: 1,
+    })
+    setIsSubmitting(false)
+    close(false)
   }
 
   return (
     <section className="w-full max-w-md mx-auto ">
       <form
-        onSubmit={handleSubmit}
+        onSubmit={(e) => void handleSubmit(e)}
         className="space-y-6 bg-white rounded-lg shadow-md p-1"
       >
         <section className="space-y-4">
@@ -188,7 +195,9 @@ const UserForm: React.FC = () => {
               optionDefaultText="Seleccione un rol"
               options={[
                 { value: '1', label: 'Administrador', key: 'admin' },
-                { value: '2', label: 'Usuario', key: 'user' },
+                { value: '2', label: 'Docente', key: 'docente' },
+                { value: '3', label: 'Estudiante', key: 'estudiante' },
+                { value: '4', label: 'Visitante', key: 'visitante' },
               ]}
             />
           </section>

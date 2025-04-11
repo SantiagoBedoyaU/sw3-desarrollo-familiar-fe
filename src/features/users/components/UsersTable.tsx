@@ -1,43 +1,21 @@
 import { Pencil, Trash2 } from 'lucide-react'
-// import {
-//   DropdownMenu,
-//   DropdownMenuContent,
-//   DropdownMenuItem,
-//   DropdownMenuTrigger,
-// } from '../../components/dropdown/DropdownMenu'
 import { useEffect, useState } from 'react'
 import { Modal } from '../../../shared/components/common/modal/Modal'
 import User from '../../../shared/types/entities/User'
-
-const sample_users: User[] = [
-  {
-    _id: '1',
-    email: 'admin@text.com',
-    name: 'admin',
-    role: 1,
-    password: '123456789',
-    __v: 0,
-  },
-  {
-    _id: '1',
-    email: 'juju@gmail.com',
-    name: 'admin',
-    role: 1,
-    password: '123456789',
-    __v: 0,
-  },
-]
+import { userService } from '../../../shared/services/UserService'
+import Swal from 'sweetalert2'
 
 const headersTable = ['Nombre', 'Email', 'Rol', 'Acciones']
 
 const fetchUsers = async () => {
   // Simulated API call
-  await new Promise((resolve) => setTimeout(resolve, 1000))
-  return sample_users
+  return userService.getAll().then((response) => {
+    return response.data
+  })
 }
 
 export default function UsersTable() {
-  const [selectedUser, setSelectedUser] = useState<User>(sample_users[0])
+  const [selectedUser, setSelectedUser] = useState<User>({} as User)
   const [users, setUsers] = useState<User[]>([])
   const [isDeleteConfirmOpen, setIsDeleteConfirmOpen] = useState(false)
 
@@ -54,7 +32,22 @@ export default function UsersTable() {
   }, [])
 
   const handleDelete = (_id: string) => {
-    setUsers(users.filter((user) => user._id !== _id))
+    userService.delete(_id).then(() => {
+      void Swal.fire({
+        icon: 'success',
+        title: 'Usuario eliminado correctamente',
+        showConfirmButton: false,
+        timer: 1500,
+      })
+      setUsers(users.filter((user) => user._id !== _id))
+    }).catch((error: unknown) => {
+      console.error('Error al eliminar el usuario', error)
+      void Swal.fire({
+        icon: 'error',
+        title: 'Error al eliminar el usuario',
+        text: 'No se pudo eliminar el usuario. Por favor, inténtalo de nuevo más tarde.',
+      })
+    })
     setIsDeleteConfirmOpen(false)
   }
 

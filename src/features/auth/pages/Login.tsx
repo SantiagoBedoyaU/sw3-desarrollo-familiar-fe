@@ -3,8 +3,10 @@ import { useState } from 'react'
 import { userService } from '../../../shared/services/UserService'
 import { SignIn } from '../../../shared/types/entities/User'
 import Swal from 'sweetalert2'
+import useAuthStore from '../../../app/stores/useAuthStore'
 
 function Login() {
+  const { checkAuth } = useAuthStore()
   const [formData, setFormData] = useState({
     email: '',
     password: '',
@@ -32,8 +34,9 @@ function Login() {
       console.log('====================================')
       console.log(data)
       console.log('====================================')
-      localStorage.setItem('user', JSON.stringify(data))
+      localStorage.setItem('signIn', JSON.stringify(data))
       localStorage.setItem('token', data.accessToken)
+      checkAuth()
       window.location.href = '/'
     }).catch(() => {
       Swal.fire({
