@@ -14,4 +14,15 @@ export interface ArticleReport {
 export interface ReportArticleStatistics {
   mostDownloaded: ArticleReport
   mostInteracted: ArticleReport
+  totalViews: number
+  totalDownloads: number
+  totalArticles: number
 }
+
+export interface ReportArticleThematic {
+  _id: string
+  count:number
+}
+
+
+export type ReportArticleThematics = ReportArticleThematic[];

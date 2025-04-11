@@ -6,18 +6,33 @@ interface PieChartCardProps {
   description: string;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   data: any[];
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  dataOrder: string[]
   dataKey: string;
   colors: string[];
 }
 
-export const PieChartCard: React.FC<PieChartCardProps> = ({ title, description, data, dataKey, colors }) => {
+export const PieChartCard: React.FC<PieChartCardProps> = ({ title, description, data, dataOrder, dataKey, colors }) => {
   return (
-    <div className="border border-gray-200 rounded-lg p-4 bg-white shadow-sm">
-      <div className="pb-2">
+    <section className="border border-gray-200 rounded-lg p-4 bg-white shadow-sm">
+      <section className="pb-2">
         <h3 className="text-lg font-bold">{title}</h3>
         <p className="text-sm text-gray-500">{description}</p>
-      </div>
-      <div className="h-64">
+      </section>
+      <section className='flex flex-wrap mb-4 gap-1.5'>
+        {
+          dataOrder.map((item, index) => {
+            return (
+              <section key={item} className="flex items-center mb-2">
+                <section className="w-4 h-4 mr-2" style={{ backgroundColor: colors[index % colors.length] }}></section>
+                <span>{item}</span>
+              </section>
+            )
+          }
+          )
+        }
+      </section>
+      <section className="h-64">
         <ResponsiveContainer width="100%" height="100%">
           <PieChart>
             {/* eslint-disable @typescript-eslint/restrict-template-expressions */}
@@ -43,7 +58,7 @@ export const PieChartCard: React.FC<PieChartCardProps> = ({ title, description, 
             <Legend />
           </PieChart>
         </ResponsiveContainer>
-      </div>
-    </div>
+      </section>
+    </section>
   )
 }

@@ -1,6 +1,9 @@
 import axios from 'axios'
 import Config from '../../app/config/Config'
-import { ReportArticleStatistics } from '../types/entities/Reports'
+import {
+  ReportArticleStatistics,
+  ReportArticleThematics,
+} from '../types/entities/Reports'
 
 export class ReportsService {
   private readonly endpoint: string
@@ -8,8 +11,17 @@ export class ReportsService {
     this.endpoint = Config.LOGIC_URL + 'reports'
   }
   async getArticlesReports(): Promise<ReportArticleStatistics> {
-    const response = await axios.post(`${this.endpoint}/research-articles`, {
-      method: 'GET',
+    const response = await axios.get(`${this.endpoint}/research-articles`, {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${localStorage.getItem('token') ?? ''}`,
+      },
+    })
+    return response.data
+  }
+
+  async getArticlesThematics(): Promise<ReportArticleThematics> {
+    const response = await axios.get(`${this.endpoint}/thematic-axis`, {
       headers: {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${localStorage.getItem('token') ?? ''}`,

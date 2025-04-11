@@ -58,14 +58,14 @@ const ArticleView: React.FC<ArticleViewProps> = ({ article, incrementCounter, in
         className="max-w-md sm:max-w-xl md:max-w-2xl m-auto h-screen"
       >
         <DialogHeader>
-          <div className="flex justify-between items-center">
+          <section className="flex justify-between items-center">
             <DialogTitle>
               <p className="text-lg font-bold">{article.title}</p>
             </DialogTitle>
-          </div>
+          </section>
         </DialogHeader>
 
-        <div className="space-y-4 py-2 flex flex-col justify-center w-full h-full overflow-auto">
+        <section className="space-y-4 py-2 flex flex-col justify-center w-full h-full overflow-auto">
           <section>
             <h3 className="text-md font-bold text-left">Resumen</h3>
             <p className="text-sm text-left p-2 text-gray-700">
@@ -128,7 +128,7 @@ const ArticleView: React.FC<ArticleViewProps> = ({ article, incrementCounter, in
               <h3 className="text-md text-left font-bold">
                 Informe relacionado
               </h3>
-              <div className="flex items-center gap-2">
+              <section className="flex items-center gap-2">
                 <span className="text-sm">{article.file.name}</span>
                 <button
                   type="button"
@@ -136,12 +136,12 @@ const ArticleView: React.FC<ArticleViewProps> = ({ article, incrementCounter, in
                 >
                   Descargar
                 </button>
-              </div>
+              </section>
             </section>
           )}
-        </div>
+        </section>
 
-        <div className="flex justify-between mt-4 gap-4 py-4 mx-1">
+        <section className="flex justify-between mt-4 gap-4 py-4 mx-1">
           <button
             type="button"
             className="btn-outline inline-flex w-full md:w-fit justify-center py-2 px-4 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
@@ -169,7 +169,7 @@ const ArticleView: React.FC<ArticleViewProps> = ({ article, incrementCounter, in
             ) : 'Descargar articulo'}
 
           </button>
-        </div>
+        </section>
       </DialogContent>
     </Dialog>
   )

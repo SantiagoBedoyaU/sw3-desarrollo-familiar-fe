@@ -4,9 +4,9 @@ import { useArticleStore } from '../stores/ArticlesStore'
 function ArticlesFilterList() {
   const { isLoadingFilters, error, filteredArticles } =
     useArticleStore()
-  if (isLoadingFilters) return <div>Cargando articulos...</div>
-  if (error) return <div>Error: {error.message}</div>
-  if (!filteredArticles.length) return <div>No se encontraron articulos disponibles </div>
+  if (isLoadingFilters) return <section>Cargando articulos...</section>
+  if (error) return <section>Error: {error.message}</section>
+  if (!filteredArticles.length) return <section>No se encontraron articulos disponibles </section>
   return <section>
     <section className="mb-4 flex flex-col items-center justify-between gap-4 bg-gray-50 p-4 rounded-md shadow-md">
       <h4 className="text-lg font-bold text-gray-800 mb-2">

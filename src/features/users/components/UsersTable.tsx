@@ -69,7 +69,7 @@ export default function UsersTable() {
           {users.map((user) => (
             <tr
               key={user._id}
-              className="text-sm sm:text-base bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700"
+              className="text-sm sm:text-base bg-white dark:bg-gray-800 sectionide-y sectionide-gray-200 dark:sectionide-gray-700"
               onClick={() => setSelectedUser(user)}
             >
               <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white ">

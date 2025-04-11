@@ -11,9 +11,9 @@ function ArticlesAllList() {
     void fetchArticles()
   }, [fetchArticles])
 
-  if (isLoading) return <div>Cargando articulos...</div>
-  if (error) return <div>Error: {error.message}</div>
-  if (!articles.length) return <div>No se encontraron articulos disponibles </div>
+  if (isLoading) return <section>Cargando articulos...</section>
+  if (error) return <section>Error: {error.message}</section>
+  if (!articles.length) return <section>No se encontraron articulos disponibles </section>
 
   return (
     <section className='mt-14'>
