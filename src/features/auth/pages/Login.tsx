@@ -39,7 +39,7 @@ function Login() {
       checkAuth()
       window.location.href = '/'
     }).catch(() => {
-      Swal.fire({
+      void Swal.fire({
         title: 'Error de autenticación',
         text: 'Credenciales incorrectas.',
         icon: 'warning',
