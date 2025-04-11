@@ -22,7 +22,7 @@ function ArticlesTop() {
       <section className="flex flex-col items-center justify-center h-full p-4 text-center text-gray-500">
         <h2 className="text-2xl font-bold mb-4">No hay artículos destacados</h2>
         <p className="text-lg">No se encontraron artículos destacados en este momento.</p>
-        <button type='button' onClick={refreshArticles}>
+        <button type='button' onClick={() => void refreshArticles()}>
           <span className="text-blue-500 hover:text-blue-700 underline" >
             Actualizar
           </span>

@@ -5,7 +5,7 @@ function ArticlesFilterList() {
   // const { articles, loading, error, refreshArticles } = useArticles()
   const { isLoadingFilters, error, filteredArticles } =
     useArticleStore()
-  const displayArticles = filteredArticles.length > 0 ? filteredArticles : [];
+  const displayArticles = filteredArticles.length > 0 ? filteredArticles : []
 
 
   if (isLoadingFilters) return <div>Cargando articulos...</div>

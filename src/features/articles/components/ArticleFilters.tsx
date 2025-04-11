@@ -144,7 +144,7 @@ function ArticleFilters({
         <section className="mb-6 md:mb-2 sm:col-span-full md:col-span-1">
           <button
             type="button"
-            onClick={() => void filterArticles(searchFilters)}
+            onClick={() => filterArticles(searchFilters)}
             className="flex items-center justify-center w-full bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-md transition duration-300"
           >
             <Search size={16} className="inline-block mr-2" />
