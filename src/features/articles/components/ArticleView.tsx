@@ -152,11 +152,12 @@ const ArticleView: React.FC<ArticleViewProps> = ({ article, incrementCounter, in
 
           <button
             type="button"
-            onClick={async () => {
+            onClick={() => {
               setIsSubmittingArticle(true)
-              await viewDownload()
-              setIsSubmittingArticle(false)
-              onClose(false)
+              void viewDownload().then(() => {
+                setIsSubmittingArticle(false)
+                onClose(false)
+              })
             }}
             disabled={isSubmittingArticle}
             className="btn-primary inline-flex w-full md:w-fit justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
