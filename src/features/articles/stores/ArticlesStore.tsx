@@ -197,9 +197,9 @@ export const useArticleStore = create<ArticleState>((set, get) => ({
         articles: state.articles.map((article) =>
           article._id === _id ? { ...updatedArticle } : article,
         ),
-        filteredArticles: state.filteredArticles.filter((article) =>
-          article._id === _id ? { ...updatedArticle } : article,
-        ),
+        // filteredArticles: state.filteredArticles.filter((article) =>
+        //   article._id === _id ? { ...updatedArticle } : article,
+        // ),
         // Also update in top articles if present
         topArticles: state.topArticles.map((article) =>
           article._id === _id ? { ...updatedArticle } : article,
