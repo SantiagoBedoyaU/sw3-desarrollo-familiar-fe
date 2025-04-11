@@ -138,7 +138,7 @@ function ArticlesList({ articles }: Readonly<ArticlesListProps>) {
                 setIsSubmittingDownload(false)
               })
             }}
-            className={"w-full md:w-fit flex items-center justify-center border border-gray-200 bg-white hover:bg-gray-100 text-gray-900 rounded text-sm " + (isSubmittingDownload ? "cursor-not-allowed py-1 px-3" : "")}
+            className={'w-full md:w-fit flex items-center justify-center border border-gray-200 bg-white hover:bg-gray-100 text-gray-900 rounded text-sm ' + (isSubmittingDownload ? 'cursor-not-allowed py-1 px-3' : '')}
           >
 
             {isSubmittingDownload ? (
