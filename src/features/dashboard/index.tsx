@@ -22,7 +22,7 @@ export default function Dashboard() {
   }, [])
 
   useEffect(() => {
-    fetchTopArticles()
+    void fetchTopArticles()
   }, [fetchTopArticles])
 
   const axisData = [
