@@ -27,7 +27,7 @@ function ArticlesAllList() {
           onClick={() => void refreshArticles()}
           className="w-full md:w-fit bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition duration-300 ease-in-out mb-2"
         >
-          Refresh Articles
+          Refrescar Articulos
         </button>
       </section>
       {/* Lista de artículos */}

@@ -13,7 +13,8 @@ interface ArticlesListProps {
 }
 
 function ArticlesList({ articles }: Readonly<ArticlesListProps>) {
-  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [isSubmittingDelete, setIsSubmittingDelete] = useState(false)
+  const [isSubmittingDownload, setIsSubmittingDownload] = useState(false)
   const [isDeleteConfirmOpen, setIsDeleteConfirmOpen] = useState(false)
   const { deleteArticle, editArticle } = useArticleStore()
   const [updatedArticles, setUpdatedArticles] = useState(articles)
@@ -44,8 +45,8 @@ function ArticlesList({ articles }: Readonly<ArticlesListProps>) {
     )
   }
 
-  const fromListDownload = (article: Article) => {
-    void downloadArticle(article, incrementDownload)
+  const fromListDownload = async (article: Article) => {
+    await downloadArticle(article, incrementDownload)
   }
   return updatedArticles.map((article) => (
     <section
@@ -131,11 +132,24 @@ function ArticlesList({ articles }: Readonly<ArticlesListProps>) {
 
           <button
             type="button"
-            onClick={() => article._id && fromListDownload(article)}
-            className="w-full md:w-fit flex items-center justify-center border border-gray-200 bg-white hover:bg-gray-100 text-gray-800 py-1 px-3 rounded text-sm"
+            onClick={async () => {
+              setIsSubmittingDownload(true)
+              await fromListDownload(article)
+              setIsSubmittingDownload(false)
+            }}
+            className={"w-full md:w-fit flex items-center justify-center border border-gray-200 bg-white hover:bg-gray-100 text-gray-900 rounded text-sm " + (isSubmittingDownload ? 'cursor-not-allowed py-1 px-3' : '')}
           >
-            <Download size={16} className="mr-1" />
-            <span>Descargar</span>
+
+            {isSubmittingDownload ? (
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-cloud-arrow-down-fill" viewBox="0 0 16 16">
+                <path d="M8 2a5.53 5.53 0 0 0-3.594 1.342c-.766.66-1.321 1.52-1.464 2.383C1.266 6.095 0 7.555 0 9.318 0 11.366 1.708 13 3.781 13h8.906C14.502 13 16 11.57 16 9.773c0-1.636-1.242-2.969-2.834-3.194C12.923 3.999 10.69 2 8 2zm2.354 6.854l-2 2a.5.5 0 0 1-.708 0l-2-2a.5.5 0 1 1 .708-.708L7.5 9.293V5.5a.5.5 0 0 1 1 0v3.793l1.146-1.147a.5.5 0 0 1 .708.708z" />
+              </svg>
+            ) :
+              <section className='w-full md:w-fit flex items-center justify-center border border-gray-200 bg-white hover:bg-gray-100 text-gray-800 py-1 px-3 rounded text-sm'>
+                <Download size={16} className="mr-1" />
+                <span>Descargar</span>
+              </section>
+            }
           </button>
         </section>
 
@@ -169,17 +183,17 @@ function ArticlesList({ articles }: Readonly<ArticlesListProps>) {
           <button
             type="button"
             onClick={() => {
-              setIsSubmitting(true)
+              setIsSubmittingDelete(true)
               void deleteArticle(article._id).then(() => {
                 setIsDeleteConfirmOpen(false)
-                setIsSubmitting(false)
+                setIsSubmittingDelete(false)
                 window.location.reload()
               })
             }}
-            disabled={isSubmitting}
+            disabled={isSubmittingDelete}
             className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
           >
-            {isSubmitting ? 'Eliminando...' : 'Eliminar'}
+            {isSubmittingDelete ? 'Eliminando...' : 'Eliminar'}
           </button>
         </section>
       </Modal>
