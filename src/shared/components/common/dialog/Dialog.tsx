@@ -22,7 +22,7 @@ export const Dialog = ({ children, className, open, setOpen }: DialogProps) => {
       {
         // eslint-disable-next-line react-x/no-children-map
         React.Children.map(children, (child) => {
-          // eslint-disable-next-line react-x/no-clone-element
+
           if (React.isValidElement(child)) {
             return React.cloneElement(child, { open, setOpen })
           }

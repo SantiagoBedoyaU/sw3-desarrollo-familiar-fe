@@ -17,7 +17,7 @@ function App() {
 
   return (
     <BrowserRouter>
-      <section className="w-full bg-blue-50">
+      <section className="bg-blue-50 w-max md:w-min mx-auto min-h-screen min-w-screen">
         {isAuthPage ? (
           <AppRoutes />
         ) : (

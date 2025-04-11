@@ -43,8 +43,8 @@ function UsersHeader() {
               </section>
             </DialogDescription>
           </DialogHeader>
-          <UserForm />
-        </DialogContent>
+          <UserForm close={setOpen} />
+        </DialogContent >
       </Dialog>
     </section>
   )

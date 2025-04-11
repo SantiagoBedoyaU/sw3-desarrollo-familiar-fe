@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef, JSX } from 'react'
 import { Navigate } from 'react-router-dom'
-import User from '../../../shared/types/entities/User'
+import { SignIn } from '../../../shared/types/entities/User'
 import Swal from 'sweetalert2'
 
 interface PrivateRouteProps {
@@ -14,8 +14,8 @@ function PrivateRoute({ element, requiredRoles }: PrivateRouteProps) {
 
   // Verificamos el token y opcionalmente obtenemos el usuario
   const token = localStorage.getItem('token')
-  const userString = localStorage.getItem('user')
-  const user: User | null = userString ? (JSON.parse(userString) as User) : null
+  const signInSring = localStorage.getItem('signIn')
+  const signIn: SignIn | null = signInSring ? (JSON.parse(signInSring) as SignIn) : null
 
   useEffect(() => {
     // Verificamos si no hay token
@@ -32,9 +32,10 @@ function PrivateRoute({ element, requiredRoles }: PrivateRouteProps) {
     }
 
     // Verificamos si se requieren roles específicos
-    if (requiredRoles && requiredRoles.length > 0 && user) {
+    if (requiredRoles && requiredRoles.length > 0 && signIn) {
       // Comprobamos si el rol del usuario está en el array de roles permitidos
-      const hasPermission = requiredRoles.includes(user.role)
+      const hasPermission = requiredRoles.includes(signIn.userRole)
+
 
       if (!hasPermission) {
         void Swal.fire({
@@ -47,9 +48,10 @@ function PrivateRoute({ element, requiredRoles }: PrivateRouteProps) {
         setRedirect(true)
       }
     }
-  }, [token, user, requiredRoles])
 
-  if (redirect) return <Navigate to="/registrarse" />
+  }, [token, signIn, requiredRoles])
+
+  if (redirect) return <Navigate to="/login" />
 
   return element
 }

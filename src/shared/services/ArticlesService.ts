@@ -12,14 +12,17 @@ export class ArticleService extends ApiService<Article> {
   }
 
   // Métodos específicos para articulos
-  // async getTopArticles(): Promise<ResponseEntity<Article>> {
-  //   try {
-  //     const response = await axios.get(this.getUrl('top'), Config.defaultConfig)
-  //     return response.data
-  //   } catch (error) {
-  //     return this.handleError(error, 'Error getting articles top')
-  //   }
-  // }
+  async getTopArticles(): Promise<Article[]> {
+    try {
+      const response = await axios.get(
+        this.getUrl('top-5'),
+        Config.defaultConfig,
+      )
+      return response.data
+    } catch (error) {
+      return this.handleError(error, 'Error getting articles top')
+    }
+  }
 
   async getFilters(queryString: string): Promise<ResponseEntity<Article>> {
     try {
@@ -43,8 +46,6 @@ export class ArticleService extends ApiService<Article> {
     formData.append('secondaryThematicAxis', data.secondaryThematicAxis)
     formData.append('keywords', data.keywords)
     formData.append('summary', data.summary)
-    console.log(data.file)
-
     const cleanName = data.file.name
       .normalize('NFD')
       .replace(/[\u0300-\u036f]/g, '') // quita acentos
@@ -58,6 +59,9 @@ export class ArticleService extends ApiService<Article> {
 
     const options = {
       method: 'POST',
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token') ?? ''}`,
+      },
       body: formData,
     }
 
@@ -87,20 +91,44 @@ export class ArticleService extends ApiService<Article> {
   }
 
   // download specific article
-  async downloadArticle(_id: string): Promise<void> {
+  async downloadArticle(article: Article): Promise<void> {
     try {
-      const response = await axios.get(this.getUrl(`${_id}/download`), {
+      const response = await axios.get(this.getUrl(`${article._id}/download`), {
         ...Config.defaultConfig,
         responseType: 'blob',
       })
       const url = window.URL.createObjectURL(new Blob([response.data]))
       const link = document.createElement('a')
       link.href = url
-      link.setAttribute('download', `article-${_id}.pdf`)
+      link.setAttribute(
+        'download',
+        `article-${article.title}-${article._id}.pdf`,
+      )
+      link.target = '_blank' // Abre el archivo en una nueva pestaña
       document.body.appendChild(link)
       link.click()
+      document.body.removeChild(link)
+      URL.revokeObjectURL(url) // Limpia el objeto URL para liberar memoria
     } catch (error) {
       this.handleError(error, 'Error downloading article')
+    }
+  }
+
+  addView = async (id: string): Promise<Article> => {
+    try {
+      const response = await axios.get(this.getUrl(id), Config.defaultConfig)
+      if (response.status !== 200) {
+        void Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: 'No se pudo añadir la vista al artículo',
+        })
+        throw new Error('Failed to add view to the article')
+      }
+      return response.data as Article
+    } catch (error) {
+      console.error('Error adding view:', error)
+      throw error
     }
   }
 }

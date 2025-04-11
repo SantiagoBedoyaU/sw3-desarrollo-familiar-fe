@@ -4,20 +4,30 @@ import ArticleFilters from './components/ArticleFilters'
 import ArticlesTop from './components/ArticlesTop'
 import ArticlesAllList from './components/ArticlesAllList'
 import ArticlesFilterList from './components/ArticlesFilterList'
-import { useArticleStore } from './stores/ArticlesStore'
+import useAuthStore from '../../app/stores/useAuthStore'
+import { SignIn } from '../../shared/types/entities/User'
+// import { useArticleStore } from './stores/ArticlesStore'
 
 const Articles = () => {
-  const { filteredArticles } = useArticleStore()
+  // const { filteredArticles } = useArticleStore()
   // Estado para los filtros de búsqueda
+  const { checkAuth } = useAuthStore()
+  const [userRole, setUserRole] = useState(false)
   const [searchFilters, setSearchFilters] = useState({
     title: '',
     authors: '',
     keywords: '',
+    year: '',
     primaryThematicAxis: '',
     secondaryThematicAxis: '',
   })
-
   const [countFilters, setCountFilters] = useState(0)
+
+  useEffect(() => {
+    const signInString = localStorage.getItem('signIn')
+    const signIn: SignIn | null = signInString ? JSON.parse(signInString) as SignIn : null
+    setUserRole(signIn?.userRole === 1 || signIn?.userRole === 2)
+  }, [checkAuth])
 
   // Memoiza manageCount para evitar warning en useEffect
   const manageCount = useCallback(() => {
@@ -25,6 +35,7 @@ const Articles = () => {
     if (searchFilters.title !== '') count++
     if (searchFilters.authors !== '') count++
     if (searchFilters.keywords !== '') count++
+    if (searchFilters.year !== '') count++
     if (searchFilters.primaryThematicAxis !== '') count++
     if (searchFilters.secondaryThematicAxis !== '') count++
     setCountFilters(count)
@@ -48,7 +59,7 @@ const Articles = () => {
   return (
     <section className="max-w-4xl mx-auto p-6 bg-white shadow-lg rounded-lg">
       <section className="md:relative md:flex md:items-center md:justify-between mb-4">
-        <ArticleForm mode="add" />
+        {userRole && <ArticleForm mode="add" />}
         <h2 className="text-2xl font-bold text-center mb-6 text-gray-800">
           Filtrar artículos de investigación
         </h2>
@@ -61,18 +72,17 @@ const Articles = () => {
       />
       {countFilters === 0 && (
         <section>
-          <section className="mb-4 flex flex-col items-center justify-between gap-4 bg-gray-50 p-4 rounded-md shadow-md">
+          <section className="mb-4 flex flex-col items-center justify-between gap-4 bg-gray-50 p-1 rounded-md shadow-md">
             <h4 className="text-lg font-bold text-gray-800 mb-2">
               <span className="text-blue-500">Top Artículos destacados</span>
             </h4>
             <ArticlesTop />
-
           </section>
           <ArticlesAllList />
         </section>
       )}
 
-      {filteredArticles.length > 0 && (
+      {countFilters > 0 && (
         <ArticlesFilterList />
       )}
     </section>
