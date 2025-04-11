@@ -46,8 +46,6 @@ export class ArticleService extends ApiService<Article> {
     formData.append('secondaryThematicAxis', data.secondaryThematicAxis)
     formData.append('keywords', data.keywords)
     formData.append('summary', data.summary)
-    console.log(data.file)
-
     const cleanName = data.file.name
       .normalize('NFD')
       .replace(/[\u0300-\u036f]/g, '') // quita acentos
@@ -61,6 +59,9 @@ export class ArticleService extends ApiService<Article> {
 
     const options = {
       method: 'POST',
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token') ?? ''}`,
+      },
       body: formData,
     }
 

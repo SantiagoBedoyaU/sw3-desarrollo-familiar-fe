@@ -30,6 +30,7 @@ interface ArticleFormProps {
   mode: 'add' | 'edit'
 }
 const ArticleForm: React.FC<ArticleFormProps> = ({ article, mode }) => {
+  const [isSubmitting, setIsSubmitting] = useState(false)
   const { addArticle, editArticle } = useArticleStore()
   const [open, onClose] = useState(false)
   const [title, setTitle] = useState('')
@@ -127,9 +128,9 @@ const ArticleForm: React.FC<ArticleFormProps> = ({ article, mode }) => {
     return !Object.values(errors).some(Boolean)
   }
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-
+    setIsSubmitting(true)
     if (!validateForm()) {
       return
     }
@@ -158,7 +159,7 @@ const ArticleForm: React.FC<ArticleFormProps> = ({ article, mode }) => {
     }
 
     if (mode === 'add') {
-      void addArticle(
+      await addArticle(
         {
           ...articleData,
           file: file,
@@ -166,17 +167,16 @@ const ArticleForm: React.FC<ArticleFormProps> = ({ article, mode }) => {
           keywords: articleData.keywords.join(',')
         }
       ).then(
-        void Swal.fire({
-          title: 'Artículo agregado',
-          text: 'El artículo ha sido agregado exitosamente.',
-          icon: 'success',
-          confirmButtonText: 'Aceptar',
-        })
-      ).then(() => {
-        setTimeout(() => {
+        async () => {
+          await Swal.fire({
+            title: 'Artículo agregado',
+            text: 'El artículo ha sido agregado exitosamente.',
+            icon: 'success',
+            confirmButtonText: 'Aceptar',
+          })
           window.location.reload()
-        }, 3000)
-      })
+        }
+      )
       onClose(false)
 
     } else if (article?._id) {
@@ -193,7 +193,14 @@ const ArticleForm: React.FC<ArticleFormProps> = ({ article, mode }) => {
 
     resetForm()
   }
-
+  let buttonText = '';
+  if (isSubmitting) {
+    buttonText = 'Cargando...';
+  } else if (mode === 'add') {
+    buttonText = 'Agregar';
+  } else {
+    buttonText = 'Guardar cambios';
+  }
   return (
     <Dialog
       open={open}
@@ -224,7 +231,7 @@ const ArticleForm: React.FC<ArticleFormProps> = ({ article, mode }) => {
           </DialogDescription>
         </DialogHeader>
         <form
-          onSubmit={handleSubmit}
+          onSubmit={(e) => handleSubmit(e)}
           className="space-y-5 mt-4 px-1 md:px-4 h-[83vh]"
         >
           <section className="md:flex md:items-center md:justify-between md:space-x-4">
@@ -506,9 +513,10 @@ const ArticleForm: React.FC<ArticleFormProps> = ({ article, mode }) => {
             </button>
             <button
               type="submit"
+              disabled={isSubmitting}
               className="inline-flex w-full md:w-fit justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
             >
-              {mode === 'add' ? 'Agregar' : 'Guardar cambios'}
+              {buttonText}
             </button>
           </section>
         </form>
