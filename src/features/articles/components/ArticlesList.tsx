@@ -11,6 +11,7 @@ interface ArticlesListProps {
 }
 
 function ArticlesList({ articles }: Readonly<ArticlesListProps>) {
+  const [isSubmitting, setIsSubmitting] = useState(false)
   const [isDeleteConfirmOpen, setIsDeleteConfirmOpen] = useState(false)
   const { deleteArticle, editArticle } = useArticleStore()
   const [updatedArticles, setUpdatedArticles] = useState(articles)
@@ -160,14 +161,17 @@ function ArticlesList({ articles }: Readonly<ArticlesListProps>) {
           <button
             type="button"
             onClick={() => {
+              setIsSubmitting(true)
               void deleteArticle(article._id).then(() => {
+                setIsDeleteConfirmOpen(false)
+                setIsSubmitting(false)
                 window.location.reload()
               })
-              setIsDeleteConfirmOpen(false)
             }}
+            disabled={isSubmitting}
             className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
           >
-            Eliminar
+            {isSubmitting ? 'Eliminando...' : 'Eliminar'}
           </button>
         </section>
       </Modal>
