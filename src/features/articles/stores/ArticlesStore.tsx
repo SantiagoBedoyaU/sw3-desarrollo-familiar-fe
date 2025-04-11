@@ -147,14 +147,7 @@ export const useArticleStore = create<ArticleState>((set, get) => ({
   addArticle: async (article: Omit<ArticleCreate, '_id'>) => {
     const newArticle = await articleService.create(article)
     set((state) => ({
-      articles: [
-        ...state.articles,
-        {
-          ...newArticle,
-          keywords: newArticle.keywords,
-          authors: newArticle.authors
-        },
-      ],
+      articles: [...state.articles, newArticle],
     }))
   },
 
@@ -173,6 +166,7 @@ export const useArticleStore = create<ArticleState>((set, get) => ({
       })
       set((state) => ({
         articles: state.articles.filter((article) => article._id !== _id),
+        filteredArticles: state.filteredArticles.filter((article) => article._id !== _id),
         topArticles: state.topArticles.filter((article) => article._id !== _id),
       }))
     } catch (error) {
@@ -201,6 +195,9 @@ export const useArticleStore = create<ArticleState>((set, get) => ({
       // if (updated) {
       set((state) => ({
         articles: state.articles.map((article) =>
+          article._id === _id ? { ...updatedArticle } : article,
+        ),
+        filteredArticles: state.filteredArticles.filter((article) =>
           article._id === _id ? { ...updatedArticle } : article,
         ),
         // Also update in top articles if present
@@ -288,7 +285,6 @@ export const useArticleStore = create<ArticleState>((set, get) => ({
       }
     })
     const queryString = params.toString()
-
     set({ isLoadingFilters: true })
     articleService.getFilters(queryString).then((response) => {
       const articles = response.data

@@ -21,7 +21,6 @@ export class ArticleService extends ApiService<Article> {
       return response.data
     } catch (error) {
       return this.handleError(error, 'Error getting articles top')
-      throw error
     }
   }
 

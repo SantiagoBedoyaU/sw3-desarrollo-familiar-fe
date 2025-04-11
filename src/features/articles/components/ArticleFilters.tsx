@@ -101,12 +101,12 @@ function ArticleFilters({
           />
         </section>
         {/* Selects */}
-        {(['primaryThematicAxis', 'secondaryThematicAxis '] as const).map(
+        {(['primaryThematicAxis', 'secondaryThematicAxis'] as const).map(
           (name) => (
             <section key={name} className="relative">
               <select
                 name={name}
-                value={searchFilters[name as keyof typeof searchFilters]}
+                value={searchFilters[name]}
                 onChange={handleFilterChange}
                 className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 appearance-none"
               >
@@ -144,7 +144,7 @@ function ArticleFilters({
         <section className="mb-6 md:mb-2 sm:col-span-full md:col-span-1">
           <button
             type="button"
-            onClick={() => filterArticles(searchFilters)}
+            onClick={() => void filterArticles(searchFilters)}
             className="flex items-center justify-center w-full bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-md transition duration-300"
           >
             <Search size={16} className="inline-block mr-2" />

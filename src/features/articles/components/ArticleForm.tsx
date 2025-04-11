@@ -165,9 +165,18 @@ const ArticleForm: React.FC<ArticleFormProps> = ({ article, mode }) => {
           authors: articleData.authors.join(','),
           keywords: articleData.keywords.join(',')
         }
+      ).then(
+        void Swal.fire({
+          title: 'Artículo agregado',
+          text: 'El artículo ha sido agregado exitosamente.',
+          icon: 'success',
+          confirmButtonText: 'Aceptar',
+        })
       )
+      setTimeout(() => {
+        window.location.reload()
+      }, 2000)
       onClose(false)
-
 
     } else if (article?._id) {
       void editArticle(article._id, articleData).then(() => {
@@ -332,15 +341,15 @@ const ArticleForm: React.FC<ArticleFormProps> = ({ article, mode }) => {
 
           <section className="md:flex md:items-center md:justify-between md:space-x-4">
             <Label
-              htmlFor="secondaryThematicAxis "
+              htmlFor="secondaryThematicAxis"
               error={false}
               text="Eje secundario (opcional)"
             />
             <Select
               error={false}
               optionDefaultText="Seleccione un eje secundario"
-              id="secondaryThematicAxis "
-              name="secondaryThematicAxis "
+              id="secondaryThematicAxis"
+              name="secondaryThematicAxis"
               value={secondaryThematicAxis}
               onChange={(e) => setSecondaryThematicAxis(e.target.value)}
               required={false}
