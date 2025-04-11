@@ -32,13 +32,12 @@ const ArticleView: React.FC<ArticleViewProps> = ({ article, setUpdatedArticles }
     )
   }
   const viewDownloadPractice = async () => {
-    console.log(article);
-
+    console.log(article)
     if (article.practiceReportId) {
       await practiceService.downloadPractice(article.practiceReportId)
     } else {
       console.error('Practice report is undefined')
-      Swal.fire({
+      void Swal.fire({
         icon: 'error',
         title: 'Error',
         text: 'No se pudo descargar el informe relacionado',

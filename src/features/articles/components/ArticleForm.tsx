@@ -3,7 +3,7 @@ import { Dialog } from '../../../shared/components/common/dialog/Dialog'
 import { DialogContent } from '../../../shared/components/common/dialog/DialogContent'
 import { DialogHeader } from '../../../shared/components/common/dialog/DialogHeader'
 import { DialogTitle } from '../../../shared/components/common/dialog/DialogTitle'
-import Article from '../../../shared/types/entities/Article'
+import Article, { ArticleCreate } from '../../../shared/types/entities/Article'
 import { DialogTrigger } from '../../../shared/components/common/dialog/DialogTrigger'
 import { Plus } from 'lucide-react'
 import { DialogDescription } from '../../../shared/components/common/dialog/DialogDescription'
@@ -150,33 +150,24 @@ const ArticleForm: React.FC<ArticleFormProps> = ({ article, mode }) => {
       setFileError(true)
       return
     }
-
-    const articleData: Article = {
-      _id: article?._id ?? '',
+    const articleData: ArticleCreate = {
       title: title.trim(),
-      authors: changeableAuthors,
+      authors: changeableAuthors.join(','),
       year: year.trim(),
       primaryThematicAxis: primaryThematicAxis,
       summary: summary.trim(),
-      keywords: changeableKeywords,
-    }
-
-    if (practiceReportId) {
-      articleData.practiceReportId = practiceReportId
-    }
-
-    if (secondaryThematicAxis) {
-      articleData.secondaryThematicAxis = secondaryThematicAxis
+      keywords: changeableKeywords.join(','),
+      file: file,
+      practiceReport: practiceReportId ?? ''
     }
 
     if (mode === 'add') {
+      if (secondaryThematicAxis) {
+        articleData.secondaryThematicAxis = secondaryThematicAxis
+      }
+
       await addArticle(
-        {
-          ...articleData,
-          file: file,
-          authors: articleData.authors.join(','),
-          keywords: articleData.keywords.join(',')
-        }
+        articleData,
       ).then(
         async () => {
           await Swal.fire({
@@ -191,6 +182,23 @@ const ArticleForm: React.FC<ArticleFormProps> = ({ article, mode }) => {
       onClose(false)
 
     } else if (article?._id) {
+
+      const articleData: Article = {
+        _id: article?._id ?? '',
+        title: title.trim(),
+        authors: changeableAuthors,
+        year: year.trim(),
+        primaryThematicAxis: primaryThematicAxis,
+        summary: summary.trim(),
+        keywords: changeableKeywords,
+      }
+
+      if (secondaryThematicAxis) {
+        articleData.secondaryThematicAxis = secondaryThematicAxis
+      }
+      if (practiceReportId) {
+        articleData.practiceReportId = practiceReportId
+      }
       void editArticle(article._id, articleData).then(() => {
         onClose(false)
         void Swal.fire({
