@@ -257,10 +257,9 @@ export class ApiService<T> {
       // if (!confirmed) {
       //   return
       // }
-      const headers = {
-        ...(DEFAULT_CONFIG.headers ?? {}),
+      const headers = Object.assign(DEFAULT_CONFIG.headers ?? {}, {
         Authorization: `Bearer ${localStorage.getItem('token') ?? ''}`,
-      }
+      })
 
       await this.handleResponse(
         axios.delete(this.getUrl(id), { headers }),

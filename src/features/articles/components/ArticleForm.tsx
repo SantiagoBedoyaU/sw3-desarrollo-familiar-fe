@@ -193,13 +193,13 @@ const ArticleForm: React.FC<ArticleFormProps> = ({ article, mode }) => {
 
     resetForm()
   }
-  let buttonText = '';
+  let buttonText = ''
   if (isSubmitting) {
-    buttonText = 'Cargando...';
+    buttonText = 'Cargando...'
   } else if (mode === 'add') {
-    buttonText = 'Agregar';
+    buttonText = 'Agregar'
   } else {
-    buttonText = 'Guardar cambios';
+    buttonText = 'Guardar cambios'
   }
   return (
     <Dialog
@@ -231,7 +231,7 @@ const ArticleForm: React.FC<ArticleFormProps> = ({ article, mode }) => {
           </DialogDescription>
         </DialogHeader>
         <form
-          onSubmit={(e) => handleSubmit(e)}
+          onSubmit={(e) => void handleSubmit(e)}
           className="space-y-5 mt-4 px-1 md:px-4 h-[83vh]"
         >
           <section className="md:flex md:items-center md:justify-between md:space-x-4">
