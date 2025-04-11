@@ -14,6 +14,8 @@ import TextArea from '../../../shared/components/common/TextArea'
 import { thematicOptions } from '../../../shared/constants/cts'
 import Swal from 'sweetalert2'
 import { useArticleStore } from '../stores/ArticlesStore'
+import { practiceService } from '../../../shared/services/PraticeReportService'
+import PracticeReport from '../../../shared/types/entities/PracticeReport'
 
 const primaryThematicOptions = thematicOptions.map((option: string) => ({
   label: option,
@@ -59,6 +61,15 @@ const ArticleForm: React.FC<ArticleFormProps> = ({ article, mode }) => {
     keywords: false,
     // changeableAuthors: false,
   })
+
+  const [practiceReports, setPracticeReports] = useState<PracticeReport[]>([])
+  useEffect(() => {
+    void practiceService.getAll().then(
+      (res) => {
+        setPracticeReports(res.data)
+      }
+    )
+  }, [])
 
   useEffect(() => {
     if (article && mode === 'edit') {
@@ -480,25 +491,15 @@ const ArticleForm: React.FC<ArticleFormProps> = ({ article, mode }) => {
               required={false}
               options={[
                 {
+                  label: 'Seleccione un informe relacionado',
                   value: '',
-                  label: 'Seleccione un informe de práctica',
-                  key: '',
+                  key: 'no_practice_report',
                 },
-                {
-                  value: 'Informe 1',
-                  label: 'Informe 1',
-                  key: 'informe1',
-                },
-                {
-                  value: 'Informe 2',
-                  label: 'Informe 2',
-                  key: 'informe2',
-                },
-                {
-                  value: 'Informe 3',
-                  label: 'Informe 3',
-                  key: 'informe3',
-                },
+                ...practiceReports.map((item) => ({
+                  label: item.title,
+                  value: item._id,
+                  key: item._id + 'practice_report_ar',
+                })),
               ]}
             />
           </section>

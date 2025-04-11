@@ -9,23 +9,51 @@ import { Eye } from 'lucide-react'
 import Swal from 'sweetalert2'
 import { articleService } from '../../../shared/services/ArticlesService'
 import downloadArticle from '../utils/AddDownload'
+import { practiceService } from '../../../shared/services/PraticeReportService'
 
 interface ArticleViewProps {
   article: Article
-  incrementCounter: (id: string, article: Article) => void
-  incrementDownload: (id: string) => void
+  setUpdatedArticles: React.Dispatch<React.SetStateAction<Article[]>>
 }
 
-const ArticleView: React.FC<ArticleViewProps> = ({ article, incrementCounter, incrementDownload }) => {
+const ArticleView: React.FC<ArticleViewProps> = ({ article, setUpdatedArticles }) => {
   const [isSubmittingArticle, setIsSubmittingArticle] = useState(false)
+  const [isSubmittingPractice, setIsSubmittingPractice] = useState(false)
   const [open, onClose] = useState(false)
   const viewDownload = async () => {
-    await downloadArticle(article, incrementDownload)
+    await downloadArticle(article)
+    const id = article._id
+    setUpdatedArticles((prevArticles) =>
+      prevArticles.map((article) =>
+        article._id === id
+          ? { ...article, downloadCounter: (article.downloadCounter ?? 0) + 1 }
+          : article
+      )
+    )
+  }
+  const viewDownloadPractice = async () => {
+    console.log(article);
+
+    if (article.practiceReportId) {
+      await practiceService.downloadPractice(article.practiceReportId)
+    } else {
+      console.error('Practice report is undefined')
+      Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: 'No se pudo descargar el informe relacionado',
+      })
+    }
   }
   const addView = async (_id: string) => {
     try {
       const resArticle = await articleService.addView(_id)
-      incrementCounter(resArticle._id, resArticle)
+      // incrementCounter(resArticle._id, resArticle)
+      setUpdatedArticles((prevArticles) =>
+        prevArticles.map((article) =>
+          article._id === resArticle._id ? { ...resArticle, counter: (resArticle.counter ?? 0) + 1 } : article
+        )
+      )
     } catch (error) {
       console.error('Error adding view:', error)
       void Swal.fire({
@@ -123,18 +151,29 @@ const ArticleView: React.FC<ArticleViewProps> = ({ article, incrementCounter, in
             </section>
           </section>
 
-          {article.file && (
+          {article.practiceReportId && (
             <section>
               <h3 className="text-md text-left font-bold">
                 Informe relacionado
               </h3>
               <section className="flex items-center gap-2">
-                <span className="text-sm">{article.file.name}</span>
+                <span className="text-sm">{article.practiceReport?.title}</span>
                 <button
                   type="button"
                   className="text-sm text-blue-600 hover:underline flex items-center"
+                  onClick={() => {
+                    setIsSubmittingPractice(true)
+                    void viewDownloadPractice().then(() => {
+                      setIsSubmittingPractice(false)
+                      onClose(false)
+                    })
+                  }}
                 >
-                  Descargar
+                  {isSubmittingPractice ? (
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-cloud-arrow-down-fill" viewBox="0 0 16 16">
+                      <path d="M8 2a5.53 5.53 0 0 0-3.594 1.342c-.766.66-1.321 1.52-1.464 2.383C1.266 6.095 0 7.555 0 9.318 0 11.366 1.708 13 3.781 13h8.906C14.502 13 16 11.57 16 9.773c0-1.636-1.242-2.969-2.834-3.194C12.923 3.999 10.69 2 8 2zm2.354 6.854l-2 2a.5.5 0 0 1-.708 0l-2-2a.5.5 0 1 1 .708-.708L7.5 9.293V5.5a.5.5 0 0 1 1 0v3.793l1.146-1.147a.5.5 0 0 1 .708.708z" />
+                    </svg>
+                  ) : 'Descargar informe'}
                 </button>
               </section>
             </section>
@@ -158,6 +197,7 @@ const ArticleView: React.FC<ArticleViewProps> = ({ article, incrementCounter, in
                 setIsSubmittingArticle(false)
                 onClose(false)
               })
+
             }}
             disabled={isSubmittingArticle}
             className="btn-primary inline-flex w-full md:w-fit justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"

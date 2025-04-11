@@ -145,10 +145,11 @@ export const useArticleStore = create<ArticleState>((set, get) => ({
   },
 
   addArticle: async (article: Omit<ArticleCreate, '_id'>) => {
-    const newArticle = await articleService.create(article)
-    set((state) => ({
-      articles: [...state.articles, newArticle],
-    }))
+    await articleService.create(article)
+    // const newArticle = await articleService.create(article)
+    // set((state) => ({
+    //   articles: [...state.articles, newArticle],
+    // }))
   },
 
   deleteArticle: async (_id: string) => {
@@ -164,11 +165,11 @@ export const useArticleStore = create<ArticleState>((set, get) => ({
         })
         return false
       })
-      set((state) => ({
-        articles: state.articles.filter((article) => article._id !== _id),
-        filteredArticles: state.filteredArticles.filter((article) => article._id !== _id),
-        topArticles: state.topArticles.filter((article) => article._id !== _id),
-      }))
+      // set((state) => ({
+      //   articles: state.articles.filter((article) => article._id !== _id),
+      //   filteredArticles: state.filteredArticles.filter((article) => article._id !== _id),
+      //   topArticles: state.topArticles.filter((article) => article._id !== _id),
+      // }))
     } catch (error) {
       console.error('Error deleting article:', error)
     }

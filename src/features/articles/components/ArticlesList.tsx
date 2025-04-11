@@ -25,17 +25,10 @@ function ArticlesList({ articles }: Readonly<ArticlesListProps>) {
     const signIn: SignIn | null = signInString ? JSON.parse(signInString) as SignIn : null
     setUserRole(signIn?.userRole === 1 || signIn?.userRole === 2)
   }, [checkAuth])
-  const incrementCounter = (id: string, updated_article: Article) => {
-    setUpdatedArticles((prevArticles) =>
-      prevArticles.map((article) =>
-        article._id === id
-          ? { ...updated_article, counter: (updated_article.counter ?? 0) + 1 }
-          : updated_article
-      )
-    )
-  }
 
-  const incrementDownload = (id: string) => {
+  const fromListDownload = async (article: Article) => {
+    await downloadArticle(article)
+    const id = article._id
     setUpdatedArticles((prevArticles) =>
       prevArticles.map((article) =>
         article._id === id
@@ -43,10 +36,6 @@ function ArticlesList({ articles }: Readonly<ArticlesListProps>) {
           : article
       )
     )
-  }
-
-  const fromListDownload = async (article: Article) => {
-    await downloadArticle(article, incrementDownload)
   }
   return updatedArticles.map((article) => (
     <section
@@ -127,7 +116,7 @@ function ArticlesList({ articles }: Readonly<ArticlesListProps>) {
             type="button"
             className="md:h-16 flex w-full md:w-fit  items-center justify-center rounded text-sm "
           >
-            <ArticleView article={article} incrementCounter={incrementCounter} incrementDownload={incrementDownload} />
+            <ArticleView article={article} setUpdatedArticles={setUpdatedArticles} />
           </button>
 
           <button

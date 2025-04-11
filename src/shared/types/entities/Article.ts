@@ -33,6 +33,7 @@ export interface ArticleCreate {
   fileAddress?: string
   counter?: number
   downloadCounter?: number
+  practiceReport: string
 
   secondaryThematicAxis?: string
 }
