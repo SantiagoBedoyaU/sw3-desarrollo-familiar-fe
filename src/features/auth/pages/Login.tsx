@@ -43,8 +43,8 @@ function Login() {
       return
     }
 
-    const signInString = localStorage.getItem('signIn');
-    const signIn: SignIn | null = signInString ? JSON.parse(signInString) as SignIn : null;
+    const signInString = localStorage.getItem('signIn')
+    const signIn: SignIn | null = signInString ? JSON.parse(signInString) as SignIn : null
     if (signIn?.userRole === 1) {
       await userService.signIn(credentials).then((data: SignIn) => {
         console.log('====================================')

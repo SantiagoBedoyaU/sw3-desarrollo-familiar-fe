@@ -32,8 +32,8 @@ export default function UsersTable() {
   }, [])
 
   const handleDelete = (_id: string) => {
-    const signInString = localStorage.getItem('signIn');
-    const signIn: SignIn | null = signInString ? JSON.parse(signInString) as SignIn : null;
+    const signInString = localStorage.getItem('signIn')
+    const signIn: SignIn | null = signInString ? JSON.parse(signInString) as SignIn : null
     if (signIn?.userRole === 1) {
       userService.delete(_id).then(() => {
         void Swal.fire({
