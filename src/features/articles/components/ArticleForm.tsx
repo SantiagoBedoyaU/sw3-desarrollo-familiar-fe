@@ -172,10 +172,11 @@ const ArticleForm: React.FC<ArticleFormProps> = ({ article, mode }) => {
           icon: 'success',
           confirmButtonText: 'Aceptar',
         })
-      )
-      setTimeout(() => {
-        window.location.reload()
-      }, 2000)
+      ).then(() => {
+        setTimeout(() => {
+          window.location.reload()
+        }, 3000)
+      })
       onClose(false)
 
     } else if (article?._id) {

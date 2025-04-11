@@ -9,7 +9,7 @@ function ArticlesAllList() {
 
   useEffect(() => {
     void fetchArticles()
-  }, [])
+  }, [fetchArticles])
 
   if (isLoading) return <div>Cargando articulos...</div>
   if (error) return <div>Error: {error.message}</div>
@@ -31,13 +31,11 @@ function ArticlesAllList() {
         </button>
       </section>
       {/* Lista de artículos */}
-      {
-        articles.length > 0 && (
-          <section className="space-y-4">
-            <ArticlesList articles={articles} />
-          </section>
-        )
-      }
+
+      <section className="space-y-4">
+        <ArticlesList articles={articles} />
+      </section>
+
     </section>
   )
 }
