@@ -158,7 +158,7 @@ const ArticleForm: React.FC<ArticleFormProps> = ({ article, mode }) => {
       summary: summary.trim(),
       keywords: changeableKeywords.join(','),
       file: file,
-      practiceReport: practiceReportId ?? ''
+      practiceReport: practiceReportId
     }
 
     if (mode === 'add') {
@@ -184,7 +184,7 @@ const ArticleForm: React.FC<ArticleFormProps> = ({ article, mode }) => {
     } else if (article?._id) {
 
       const articleData: Article = {
-        _id: article?._id ?? '',
+        _id: article._id,
         title: title.trim(),
         authors: changeableAuthors,
         year: year.trim(),
