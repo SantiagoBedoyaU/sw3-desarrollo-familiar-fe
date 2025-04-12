@@ -299,14 +299,12 @@ const ArticleForm: React.FC<ArticleFormProps> = ({ article, mode }) => {
               placeholder="Ingrese autores separados por comas"
               id="authors"
               name="authors"
-              value={authors.join(', ')}
+              value={authors.join(',')}
               type="text"
               required={false}
-              onChange={(e) =>
-                setAuthors(
-                  e.target.value.split(',').map((author) => author.trim()),
-                )
-              }
+              onChange={(e) => setAuthors(
+                e.target.value.split(','),
+              )}
             />
             <button
               type="button"
@@ -315,7 +313,7 @@ const ArticleForm: React.FC<ArticleFormProps> = ({ article, mode }) => {
                 e.preventDefault()
                 const uniqueAuthors = authors.filter(
                   (author) =>
-                    !changeableAuthors.includes(author) && author.trim() !== '',
+                    !changeableAuthors.includes(author.trim()) && author.trim() !== '',
                 )
                 setChangeableAuthors([...changeableAuthors, ...uniqueAuthors])
                 setAuthors([])
@@ -396,12 +394,12 @@ const ArticleForm: React.FC<ArticleFormProps> = ({ article, mode }) => {
               placeholder="Ingrese palabras clave separadas por comas"
               id="keywords"
               name="keywords"
-              value={keywords.join(', ')}
+              value={keywords.join(',')}
               type="text"
               required={false}
               onChange={(e) =>
                 setKeywords(
-                  e.target.value.split(',').map((keyword) => keyword.trim()),
+                  e.target.value.split(','),
                 )
               }
             />
@@ -412,7 +410,7 @@ const ArticleForm: React.FC<ArticleFormProps> = ({ article, mode }) => {
                 e.preventDefault()
                 const uniqueKeywords = keywords.filter(
                   (keyword) =>
-                    !changeableKeywords.includes(keyword) &&
+                    !changeableKeywords.includes(keyword.trim()) &&
                     keyword.trim() !== '',
                 )
                 setChangeableKeywords([

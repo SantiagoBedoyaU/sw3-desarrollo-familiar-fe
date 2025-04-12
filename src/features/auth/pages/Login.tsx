@@ -46,7 +46,6 @@ function Login() {
     }
 
     await userService.signIn(credentials).then((data: SignIn) => {
-      setIsSubmitting(false)
       localStorage.setItem('signIn', JSON.stringify(data))
       localStorage.setItem('token', data.accessToken)
       checkAuth()
@@ -62,6 +61,8 @@ function Login() {
         allowOutsideClick: false,
       })
     })
+    setIsSubmitting(false)
+
   }
   return (
 

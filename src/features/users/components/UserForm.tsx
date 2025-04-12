@@ -95,8 +95,9 @@ const UserForm: React.FC<UserFormProps> = ({ close }) => {
         text: 'No se pudo crear el usuario. Por favor, inténtelo de nuevo más tarde.',
         icon: 'error',
         confirmButtonText: 'Aceptar',
+      }).then(() => {
+        window.location.reload()
       })
-      window.location.reload()
     })
     // Reset form after successful submission
     setFormData({
