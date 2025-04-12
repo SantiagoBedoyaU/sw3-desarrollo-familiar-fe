@@ -33,8 +33,8 @@ const ArticleView: React.FC<ArticleViewProps> = ({ article, setUpdatedArticles }
   }
   const viewDownloadPractice = async () => {
     console.log(article)
-    if (article.practiceReportId) {
-      await practiceService.downloadPractice(article.practiceReportId)
+    if (article.practiceReport) {
+      await practiceService.downloadPractice(article.practiceReport)
     } else {
       console.error('Practice report is undefined')
       void Swal.fire({
