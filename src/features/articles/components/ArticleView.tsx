@@ -143,8 +143,8 @@ const ArticleView: React.FC<ArticleViewProps> = ({ article, setUpdatedArticles }
             <h3 className="text-md font-bold text-left my-4">Ejes temáticos</h3>
             <section className='text-left w-fit flex flex-col items-center list-disc gap-1 md:gap-2 max-h-72 overflow-auto md:pl-1'>
               <ul className='flex flex-col gap-1 md:gap-2'>
-                <li className="text-sm text-left">{article.primaryThematicAxis}</li>
-                {article.secondaryThematicAxis !== "undefined" && (
+                <li className='text-sm text-left'>{article.primaryThematicAxis}</li>
+                {article.secondaryThematicAxis !== 'undefined' && (
                   <li className="text-sm text-left ">{article.secondaryThematicAxis}</li>
                 )}
               </ul>
