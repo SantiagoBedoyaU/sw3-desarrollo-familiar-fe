@@ -19,7 +19,7 @@ const UserForm: React.FC<UserFormProps> = ({ close }) => {
     // password: '',
     role: 0,
   })
-  const [showPassword, setShowPassword] = useState(false)
+  // const [showPassword, setShowPassword] = useState(false)
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [formErrors, setFormErrors] = useState({
     name: false,
