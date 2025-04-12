@@ -61,13 +61,12 @@ function ArticlesList({ articles }: Readonly<ArticlesListProps>) {
           </section>
         )}
       </section>
-      <section className=" w-full md:w-fit  sm:col-span-1 text-sm text-center text-gray-600 flex flex-col items-center gap-2 md:gap-4">
+      {Array.isArray(article.authors) && <section className=" w-full md:w-fit  sm:col-span-1 text-sm text-center text-gray-600 flex flex-col items-center gap-2 md:gap-4">
         <span className="underline font-medium w-full ">
           Autor{article.authors.length > 1 ? 'es' : ''}
         </span>
         <ul className="w-fit flex flex-wrap flex-row justify-center items-center list-disc gap-1 md:gap-2 max-h-72 overflow-auto md:pl-1">
-          {Array.isArray(article.authors) &&
-            article.authors.length > 1 &&
+          {
             article.authors.map((author: string) => {
               const trimmed = author.trim()
               return (
@@ -81,7 +80,7 @@ function ArticlesList({ articles }: Readonly<ArticlesListProps>) {
             })}
         </ul>
       </section>
-
+      }
 
 
       <section className="grid grid-cols-1 col-span-1 sm:col-span-2 sm:grid-cols-2 justify-center gap-4 text-sm text-gray-600 md:mr-4">

@@ -16,15 +16,15 @@ const UserForm: React.FC<UserFormProps> = ({ close }) => {
   const [formData, setFormData] = useState<UserCreate>({
     name: '',
     email: '',
-    password: '',
-    role: 1,
+    // password: '',
+    role: 0,
   })
   const [showPassword, setShowPassword] = useState(false)
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [formErrors, setFormErrors] = useState({
     name: false,
     email: false,
-    password: false,
+    // password: false,
   })
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -59,7 +59,7 @@ const UserForm: React.FC<UserFormProps> = ({ close }) => {
       email:
         !formData.email.trim() ||
         !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email),
-      password: !formData.password.trim() || formData.password.length < 6,
+      // password: !formData.password.trim() || formData.password.length < 6,
     }
 
     setFormErrors(errors)
@@ -103,7 +103,7 @@ const UserForm: React.FC<UserFormProps> = ({ close }) => {
     setFormData({
       name: '',
       email: '',
-      password: '',
+      // password: '',
       role: 1,
     })
     setIsSubmitting(false)
@@ -151,7 +151,7 @@ const UserForm: React.FC<UserFormProps> = ({ close }) => {
             />
           </section>
 
-          <section className="relative h-fit">
+          {/* <section className="relative h-fit">
             <button
               type="button"
               className="absolute right-3 -top-1/2 md:top-1/2 transform -translate-y-1/2 w-fit z-30"
@@ -182,7 +182,7 @@ const UserForm: React.FC<UserFormProps> = ({ close }) => {
                 errorString="La contraseña debe tener al menos 6 caracteres"
               />
             </section>
-          </section>
+          </section> */}
 
           <section className="md:flex md:items-center md:justify-between md:space-x-4">
             <Label htmlFor="role" text="Rol" error={false} />
