@@ -82,9 +82,7 @@ function ArticlesList({ articles }: Readonly<ArticlesListProps>) {
       </section>
       }
 
-
       <section className="grid grid-cols-1 col-span-1 sm:col-span-2 sm:grid-cols-2 justify-center gap-4 text-sm text-gray-600 md:mr-4">
-
         <section className="flex flex-col sm:flex-row md:col-span-4 items-center justify-between md:justify-center gap-2">
           <p>{article.counter} vista{article.counter === 1 ? '' : 's'} </p>
           <p>{article.downloadCounter} descarga{article.downloadCounter === 1 ? '' : 's'}</p>
