@@ -80,7 +80,7 @@ const ArticleForm: React.FC<ArticleFormProps> = ({ article, mode }) => {
       setKeywords(article.keywords)
       // setFile(article?.file ?? null)
       setSecondaryThematicAxis(article.secondaryThematicAxis ?? '')
-      setPracticeReportId(article.practiceReportId ?? '')
+      setPracticeReportId(article.practiceReport ?? '')
       setChangeableAuthors(article.changeableAuthors ?? [])
       setChangeableKeywords(article.changeableKeywords ?? [])
     } else {
@@ -197,7 +197,7 @@ const ArticleForm: React.FC<ArticleFormProps> = ({ article, mode }) => {
         articleData.secondaryThematicAxis = secondaryThematicAxis
       }
       if (practiceReportId) {
-        articleData.practiceReportId = practiceReportId
+        articleData.practiceReport = practiceReportId
       }
       void editArticle(article._id, articleData).then(() => {
         onClose(false)

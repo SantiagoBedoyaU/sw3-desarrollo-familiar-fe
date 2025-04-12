@@ -14,9 +14,7 @@ export default interface Article {
   downloadCounter?: number
 
   secondaryThematicAxis?: string
-  practiceReportId?: string
-
-  practiceReport?: PracticeReport
+  practiceReport?: string
   changeableKeywords?: string[]
   changeableAuthors?: string[]
 }
