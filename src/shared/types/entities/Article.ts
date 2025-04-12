@@ -1,4 +1,4 @@
-import PracticeReport from './PracticeReport'
+// import PracticeReport from './PracticeReport'
 
 export default interface Article {
   _id: string
