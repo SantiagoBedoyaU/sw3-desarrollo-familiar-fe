@@ -151,13 +151,13 @@ const ArticleView: React.FC<ArticleViewProps> = ({ article, setUpdatedArticles }
             </section>
           </section>
 
-          {article.practiceReportId && (
+          {article.practiceReport && (
             <section>
               <h3 className="text-md text-left font-bold">
                 Informe relacionado
               </h3>
               <section className="flex items-center gap-2">
-                <span className="text-sm">{article.practiceReport?.title}</span>
+                {/* <span className="text-sm">{article.practiceReport}</span> */}
                 <button
                   type="button"
                   className="text-sm text-blue-600 hover:underline flex items-center"
