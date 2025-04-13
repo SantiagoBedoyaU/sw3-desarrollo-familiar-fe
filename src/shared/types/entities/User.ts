@@ -10,7 +10,7 @@ export default interface User {
 export interface UserCreate {
   name: string
   email: string
-  password: string
+  // password: string
   role: number
 }
 

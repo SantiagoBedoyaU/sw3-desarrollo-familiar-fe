@@ -33,8 +33,8 @@ const ArticleView: React.FC<ArticleViewProps> = ({ article, setUpdatedArticles }
   }
   const viewDownloadPractice = async () => {
     console.log(article)
-    if (article.practiceReportId) {
-      await practiceService.downloadPractice(article.practiceReportId)
+    if (article.practiceReport) {
+      await practiceService.downloadPractice(article.practiceReport)
     } else {
       console.error('Practice report is undefined')
       void Swal.fire({
@@ -47,7 +47,6 @@ const ArticleView: React.FC<ArticleViewProps> = ({ article, setUpdatedArticles }
   const addView = async (_id: string) => {
     try {
       const resArticle = await articleService.addView(_id)
-      // incrementCounter(resArticle._id, resArticle)
       setUpdatedArticles((prevArticles) =>
         prevArticles.map((article) =>
           article._id === resArticle._id ? { ...resArticle, counter: (resArticle.counter ?? 0) + 1 } : article
@@ -106,7 +105,7 @@ const ArticleView: React.FC<ArticleViewProps> = ({ article, setUpdatedArticles }
           {Array.isArray(article.keywords) &&
             <section>
               <h3 className="text-md text-left font-bold">Palabra{article.keywords.length > 1 && 's'} clave{article.keywords.length > 1 && 's'}</h3>
-              <p className="text-sm">{<ul className="w-fit flex flex-wrap flex-row justify-center items-center list-disc gap-1 md:gap-2 max-h-72 overflow-auto md:pl-1">
+              <p className="text-sm">{<ul className="w-fit flex flex-wrap flex-row justify-center items-center list-disc gap-1 md:gap-8 max-h-72 overflow-auto md:pl-1">
                 {
                   article.keywords.map((keyword: string) => {
                     const trimmed = keyword.trim()
@@ -124,7 +123,7 @@ const ArticleView: React.FC<ArticleViewProps> = ({ article, setUpdatedArticles }
           {Array.isArray(article.authors) &&
             <section>
               <h3 className="text-md font-bold text-left">Autor{article.authors.length > 1 && 'es'}</h3>
-              <p className="text-sm"><ul className="w-fit flex flex-wrap flex-row justify-center items-center list-disc gap-1 md:gap-2 max-h-72 overflow-auto md:pl-1">
+              <p className="text-sm"><ul className="w-fit flex flex-wrap flex-row justify-center items-center list-disc gap-1 md:gap-10 max-h-72 overflow-auto md:pl-1">
                 {
                   article.authors.map((author: string) => {
                     const trimmed = author.trim()
@@ -142,21 +141,23 @@ const ArticleView: React.FC<ArticleViewProps> = ({ article, setUpdatedArticles }
 
           <section className='text-left'>
             <h3 className="text-md font-bold text-left my-4">Ejes temáticos</h3>
-            <section className='text-left w-fit flex flex-col justify-center items-center list-disc gap-1 md:gap-2 max-h-72 overflow-auto md:pl-1'>
-              <p className="text-sm">{article.primaryThematicAxis}</p>
-              {article.secondaryThematicAxis && (
-                <p className="text-sm">{article.secondaryThematicAxis}</p>
-              )}
+            <section className='text-left w-fit flex flex-col items-center list-disc gap-1 md:gap-2 max-h-72 overflow-auto md:pl-1'>
+              <ul className='flex flex-col gap-1 md:gap-2'>
+                <li className='text-sm text-left'>{article.primaryThematicAxis}</li>
+                {article.secondaryThematicAxis !== 'undefined' && (
+                  <li className="text-sm text-left ">{article.secondaryThematicAxis}</li>
+                )}
+              </ul>
             </section>
           </section>
 
-          {article.practiceReportId && (
+          {article.practiceReport && (
             <section>
               <h3 className="text-md text-left font-bold">
                 Informe relacionado
               </h3>
               <section className="flex items-center gap-2">
-                <span className="text-sm">{article.practiceReport?.title}</span>
+                {/* <span className="text-sm">{article.practiceReport}</span> */}
                 <button
                   type="button"
                   className="text-sm text-blue-600 hover:underline flex items-center"

@@ -11,7 +11,7 @@ export const Modal = ({ isOpen, onClose, children }: ModalProps) => {
   if (!isOpen) return null
 
   return (
-    <section className="fixed inset-0 z-50 flex items-center justify-center h-screen my-auto w-screen">
+    <section className="fixed inset-0 z-50 flex items-center justify-center h-screen my-auto w-screen px-10">
       <button
         type="button"
         className="fixed inset-0 bg-gray-400 opacity-50"

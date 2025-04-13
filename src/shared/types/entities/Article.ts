@@ -1,4 +1,4 @@
-import PracticeReport from './PracticeReport'
+// import PracticeReport from './PracticeReport'
 
 export default interface Article {
   _id: string
@@ -14,9 +14,7 @@ export default interface Article {
   downloadCounter?: number
 
   secondaryThematicAxis?: string
-  practiceReportId?: string
-
-  practiceReport?: PracticeReport
+  practiceReport?: string
   changeableKeywords?: string[]
   changeableAuthors?: string[]
 }

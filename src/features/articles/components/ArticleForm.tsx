@@ -51,7 +51,6 @@ const ArticleForm: React.FC<ArticleFormProps> = ({ article, mode }) => {
   const [primaryThematicAxis, setPrimaryThematicAxis] = useState('')
   const [secondaryThematicAxis, setSecondaryThematicAxis] = useState('')
   const [practiceReportId, setPracticeReportId] = useState('')
-  const [practiceReport, setPracticeReport] = useState('')
   const [formErrors, setFormErrors] = useState({
     title: false,
     year: false,
@@ -81,7 +80,7 @@ const ArticleForm: React.FC<ArticleFormProps> = ({ article, mode }) => {
       setKeywords(article.keywords)
       // setFile(article?.file ?? null)
       setSecondaryThematicAxis(article.secondaryThematicAxis ?? '')
-      setPracticeReportId(article.practiceReportId ?? '')
+      setPracticeReportId(article.practiceReport ?? '')
       setChangeableAuthors(article.changeableAuthors ?? [])
       setChangeableKeywords(article.changeableKeywords ?? [])
     } else {
@@ -112,7 +111,6 @@ const ArticleForm: React.FC<ArticleFormProps> = ({ article, mode }) => {
     setChangeableAuthors([])
     setChangeableKeywords([])
     setPracticeReportId('')
-    setPracticeReport('')
     setFileError(false)
     setFile(null)
     setFormErrors({
@@ -176,13 +174,15 @@ const ArticleForm: React.FC<ArticleFormProps> = ({ article, mode }) => {
             icon: 'success',
             confirmButtonText: 'Aceptar',
           })
+          setIsSubmitting(false)
           window.location.reload()
         }
+      ).catch(
+        () => setIsSubmitting(false)
       )
       onClose(false)
 
     } else if (article?._id) {
-
       const articleData: Article = {
         _id: article._id,
         title: title.trim(),
@@ -197,7 +197,7 @@ const ArticleForm: React.FC<ArticleFormProps> = ({ article, mode }) => {
         articleData.secondaryThematicAxis = secondaryThematicAxis
       }
       if (practiceReportId) {
-        articleData.practiceReportId = practiceReportId
+        articleData.practiceReport = practiceReportId
       }
       void editArticle(article._id, articleData).then(() => {
         onClose(false)
@@ -209,7 +209,7 @@ const ArticleForm: React.FC<ArticleFormProps> = ({ article, mode }) => {
         })
       })
     }
-
+    setIsSubmitting(false)
     resetForm()
   }
   let buttonText = ''
@@ -263,6 +263,7 @@ const ArticleForm: React.FC<ArticleFormProps> = ({ article, mode }) => {
               name="title"
               minLength={3}
               value={title}
+              maxLength={255}
               type="text"
               required={false}
               onChange={(e) => setTitle(e.target.value)}
@@ -281,7 +282,7 @@ const ArticleForm: React.FC<ArticleFormProps> = ({ article, mode }) => {
               type="number"
               pattern="\d{4}"
               min={1950}
-              max={new Date().getFullYear() + 1}
+              max={new Date().getFullYear()}
               required={false}
               onChange={(e) => setYear(e.target.value)}
             />
@@ -299,23 +300,22 @@ const ArticleForm: React.FC<ArticleFormProps> = ({ article, mode }) => {
               placeholder="Ingrese autores separados por comas"
               id="authors"
               name="authors"
-              value={authors.join(', ')}
+              value={authors.join(',')}
               type="text"
               required={false}
-              onChange={(e) =>
-                setAuthors(
-                  e.target.value.split(',').map((author) => author.trim()),
-                )
-              }
+              onChange={(e) => setAuthors(
+                e.target.value.split(','),
+              )}
             />
             <button
               type="button"
               className="btn-outline inline-flex gap-2 items-center w-full md:w-fit justify-center py-2 px-4 my-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-50 bg-black hover:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
               onClick={(e) => {
                 e.preventDefault()
-                const uniqueAuthors = authors.filter(
+                const myAuthors = authors.map((author) => author.trim())
+                const uniqueAuthors = myAuthors.filter(
                   (author) =>
-                    !changeableAuthors.includes(author) && author.trim() !== '',
+                    !changeableAuthors.includes(author) && author !== '',
                 )
                 setChangeableAuthors([...changeableAuthors, ...uniqueAuthors])
                 setAuthors([])
@@ -396,12 +396,12 @@ const ArticleForm: React.FC<ArticleFormProps> = ({ article, mode }) => {
               placeholder="Ingrese palabras clave separadas por comas"
               id="keywords"
               name="keywords"
-              value={keywords.join(', ')}
+              value={keywords.join(',')}
               type="text"
               required={false}
               onChange={(e) =>
                 setKeywords(
-                  e.target.value.split(',').map((keyword) => keyword.trim()),
+                  e.target.value.split(','),
                 )
               }
             />
@@ -410,10 +410,11 @@ const ArticleForm: React.FC<ArticleFormProps> = ({ article, mode }) => {
               className="btn-outline inline-flex gap-2 items-center w-full md:w-fit justify-center py-2 px-4 my-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-50 bg-black hover:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
               onClick={(e) => {
                 e.preventDefault()
-                const uniqueKeywords = keywords.filter(
+                const myKeywords = keywords.map((keyword) => keyword.trim())
+                const uniqueKeywords = myKeywords.filter(
                   (keyword) =>
                     !changeableKeywords.includes(keyword) &&
-                    keyword.trim() !== '',
+                    keyword !== '',
                 )
                 setChangeableKeywords([
                   ...changeableKeywords,
@@ -494,8 +495,8 @@ const ArticleForm: React.FC<ArticleFormProps> = ({ article, mode }) => {
               error={false}
               id="practiceReport"
               name="practiceReport"
-              value={practiceReport}
-              onChange={(e) => setPracticeReport(e.target.value)}
+              value={practiceReportId}
+              onChange={(e) => setPracticeReportId(e.target.value)}
               required={false}
               options={[
                 {

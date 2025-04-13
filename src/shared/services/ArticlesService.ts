@@ -77,11 +77,15 @@ export class ArticleService extends ApiService<Article> {
       console.log(article)
 
       return article
-    } catch (err) {
+    } catch (err: unknown) {
       console.error('Error:', err)
       void Swal.fire({
         title: 'Error',
-        text: 'Ocurrió un error al agregar el artículo.',
+        text:
+          'Ocurrió un error al agregar el artículo. ' +
+          (err instanceof Error
+            ? err.message
+            : 'Inténtalo de nuevo más tarde.'),
         icon: 'error',
         confirmButtonText: 'Cerrar',
         confirmButtonColor: '#4B5563',
