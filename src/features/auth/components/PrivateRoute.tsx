@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef, JSX } from 'react'
 import { Navigate } from 'react-router-dom'
-import { SignIn } from '../../../shared/types/entities/User'
+import { SignIn } from '../../users/entities/User'
 import Swal from 'sweetalert2'
 
 interface PrivateRouteProps {
@@ -15,7 +15,9 @@ function PrivateRoute({ element, requiredRoles }: PrivateRouteProps) {
   // Verificamos el token y opcionalmente obtenemos el usuario
   const token = localStorage.getItem('token')
   const signInSring = localStorage.getItem('signIn')
-  const signIn: SignIn | null = signInSring ? (JSON.parse(signInSring) as SignIn) : null
+  const signIn: SignIn | null = signInSring
+    ? (JSON.parse(signInSring) as SignIn)
+    : null
 
   useEffect(() => {
     // Verificamos si no hay token
@@ -36,7 +38,6 @@ function PrivateRoute({ element, requiredRoles }: PrivateRouteProps) {
       // Comprobamos si el rol del usuario está en el array de roles permitidos
       const hasPermission = requiredRoles.includes(signIn.userRole)
 
-
       if (!hasPermission) {
         void Swal.fire({
           title: 'Acceso denegado',
@@ -48,7 +49,6 @@ function PrivateRoute({ element, requiredRoles }: PrivateRouteProps) {
         setRedirect(true)
       }
     }
-
   }, [token, signIn, requiredRoles])
 
   if (redirect) return <Navigate to="/login" />

@@ -1,8 +1,8 @@
 import { Pencil, Trash2 } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { Modal } from '../../../shared/components/common/modal/Modal'
-import User, { SignIn } from '../../../shared/types/entities/User'
-import { userService } from '../../../shared/services/UserService'
+import User, { SignIn } from '../entities/User'
+import { userService } from '../../auth/services/UserService'
 import Swal from 'sweetalert2'
 
 const headersTable = ['Nombre', 'Email', 'Rol', 'Acciones']
@@ -33,24 +33,29 @@ export default function UsersTable() {
 
   const handleDelete = (_id: string) => {
     const signInString = localStorage.getItem('signIn')
-    const signIn: SignIn | null = signInString ? JSON.parse(signInString) as SignIn : null
+    const signIn: SignIn | null = signInString
+      ? (JSON.parse(signInString) as SignIn)
+      : null
     if (signIn?.userRole === 1) {
-      userService.delete(_id).then(() => {
-        void Swal.fire({
-          icon: 'success',
-          title: 'Usuario eliminado correctamente',
-          showConfirmButton: false,
-          timer: 1500,
+      userService
+        .delete(_id)
+        .then(() => {
+          void Swal.fire({
+            icon: 'success',
+            title: 'Usuario eliminado correctamente',
+            showConfirmButton: false,
+            timer: 1500,
+          })
+          setUsers(users.filter((user) => user._id !== _id))
         })
-        setUsers(users.filter((user) => user._id !== _id))
-      }).catch((error: unknown) => {
-        console.error('Error al eliminar el usuario', error)
-        void Swal.fire({
-          icon: 'error',
-          title: 'Error al eliminar el usuario',
-          text: 'No se pudo eliminar el usuario. Por favor, inténtalo de nuevo más tarde.',
+        .catch((error: unknown) => {
+          console.error('Error al eliminar el usuario', error)
+          void Swal.fire({
+            icon: 'error',
+            title: 'Error al eliminar el usuario',
+            text: 'No se pudo eliminar el usuario. Por favor, inténtalo de nuevo más tarde.',
+          })
         })
-      })
     }
     setIsDeleteConfirmOpen(false)
   }

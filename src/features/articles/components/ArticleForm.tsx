@@ -3,7 +3,7 @@ import { Dialog } from '../../../shared/components/common/dialog/Dialog'
 import { DialogContent } from '../../../shared/components/common/dialog/DialogContent'
 import { DialogHeader } from '../../../shared/components/common/dialog/DialogHeader'
 import { DialogTitle } from '../../../shared/components/common/dialog/DialogTitle'
-import Article, { ArticleCreate } from '../../../shared/types/entities/Article'
+import Article, { ArticleCreate } from '../entities/Article'
 import { DialogTrigger } from '../../../shared/components/common/dialog/DialogTrigger'
 import { Plus } from 'lucide-react'
 import { DialogDescription } from '../../../shared/components/common/dialog/DialogDescription'
@@ -14,8 +14,8 @@ import TextArea from '../../../shared/components/common/TextArea'
 import { thematicOptions } from '../../../shared/constants/cts'
 import Swal from 'sweetalert2'
 import { useArticleStore } from '../stores/ArticlesStore'
-import { practiceService } from '../../../shared/services/PraticeReportService'
-import PracticeReport from '../../../shared/types/entities/PracticeReport'
+import { practiceService } from '../../practiceReports/services/PraticeReportService'
+import PracticeReport from '../../practiceReports/entities/PracticeReport'
 
 const primaryThematicOptions = thematicOptions.map((option: string) => ({
   label: option,
@@ -63,11 +63,9 @@ const ArticleForm: React.FC<ArticleFormProps> = ({ article, mode }) => {
 
   const [practiceReports, setPracticeReports] = useState<PracticeReport[]>([])
   useEffect(() => {
-    void practiceService.getAll().then(
-      (res) => {
-        setPracticeReports(res.data)
-      }
-    )
+    void practiceService.getAll().then((res) => {
+      setPracticeReports(res.data)
+    })
   }, [])
 
   useEffect(() => {
@@ -156,7 +154,7 @@ const ArticleForm: React.FC<ArticleFormProps> = ({ article, mode }) => {
       summary: summary.trim(),
       keywords: changeableKeywords.join(','),
       file: file,
-      practiceReport: practiceReportId
+      practiceReport: practiceReportId,
     }
 
     if (mode === 'add') {
@@ -164,10 +162,8 @@ const ArticleForm: React.FC<ArticleFormProps> = ({ article, mode }) => {
         articleData.secondaryThematicAxis = secondaryThematicAxis
       }
 
-      await addArticle(
-        articleData,
-      ).then(
-        async () => {
+      await addArticle(articleData)
+        .then(async () => {
           await Swal.fire({
             title: 'Artículo agregado',
             text: 'El artículo ha sido agregado exitosamente.',
@@ -176,12 +172,9 @@ const ArticleForm: React.FC<ArticleFormProps> = ({ article, mode }) => {
           })
           setIsSubmitting(false)
           window.location.reload()
-        }
-      ).catch(
-        () => setIsSubmitting(false)
-      )
+        })
+        .catch(() => setIsSubmitting(false))
       onClose(false)
-
     } else if (article?._id) {
       const articleData: Article = {
         _id: article._id,
@@ -303,9 +296,7 @@ const ArticleForm: React.FC<ArticleFormProps> = ({ article, mode }) => {
               value={authors.join(',')}
               type="text"
               required={false}
-              onChange={(e) => setAuthors(
-                e.target.value.split(','),
-              )}
+              onChange={(e) => setAuthors(e.target.value.split(','))}
             />
             <button
               type="button"
@@ -399,11 +390,7 @@ const ArticleForm: React.FC<ArticleFormProps> = ({ article, mode }) => {
               value={keywords.join(',')}
               type="text"
               required={false}
-              onChange={(e) =>
-                setKeywords(
-                  e.target.value.split(','),
-                )
-              }
+              onChange={(e) => setKeywords(e.target.value.split(','))}
             />
             <button
               type="button"
@@ -413,8 +400,7 @@ const ArticleForm: React.FC<ArticleFormProps> = ({ article, mode }) => {
                 const myKeywords = keywords.map((keyword) => keyword.trim())
                 const uniqueKeywords = myKeywords.filter(
                   (keyword) =>
-                    !changeableKeywords.includes(keyword) &&
-                    keyword !== '',
+                    !changeableKeywords.includes(keyword) && keyword !== '',
                 )
                 setChangeableKeywords([
                   ...changeableKeywords,

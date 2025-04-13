@@ -6,6 +6,7 @@ import {
   GraduationCap,
   User,
   LayoutDashboard,
+  SchoolIcon,
 } from 'lucide-react'
 
 export const navItems = [
@@ -39,5 +40,10 @@ export const navItems = [
     title: 'Dashboard',
     href: '/dashboard',
     icon: <LayoutDashboard className="h-5 w-5" />,
+  },
+  {
+    title: 'Instituciones',
+    href: '/instituciones',
+    icon: <SchoolIcon />,
   },
 ]

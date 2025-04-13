@@ -5,7 +5,7 @@ import ArticlesTop from './components/ArticlesTop'
 import ArticlesAllList from './components/ArticlesAllList'
 import ArticlesFilterList from './components/ArticlesFilterList'
 import useAuthStore from '../../app/stores/useAuthStore'
-import { SignIn } from '../../shared/types/entities/User'
+import { SignIn } from '../users/entities/User'
 // import { useArticleStore } from './stores/ArticlesStore'
 
 const Articles = () => {
@@ -25,7 +25,9 @@ const Articles = () => {
 
   useEffect(() => {
     const signInString = localStorage.getItem('signIn')
-    const signIn: SignIn | null = signInString ? JSON.parse(signInString) as SignIn : null
+    const signIn: SignIn | null = signInString
+      ? (JSON.parse(signInString) as SignIn)
+      : null
     setUserRole(signIn?.userRole === 1 || signIn?.userRole === 2)
   }, [checkAuth])
 
@@ -82,9 +84,7 @@ const Articles = () => {
         </section>
       )}
 
-      {countFilters > 0 && (
-        <ArticlesFilterList />
-      )}
+      {countFilters > 0 && <ArticlesFilterList />}
     </section>
   )
 }

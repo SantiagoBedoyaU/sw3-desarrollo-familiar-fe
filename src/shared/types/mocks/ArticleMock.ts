@@ -1,4 +1,4 @@
-import Article from '../entities/Article'
+import Article from '../../../features/articles/entities/Article'
 
 const ArticleMock: Article[] = [
   {

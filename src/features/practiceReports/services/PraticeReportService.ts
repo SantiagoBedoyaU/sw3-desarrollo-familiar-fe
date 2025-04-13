@@ -1,7 +1,7 @@
 import axios from 'axios'
-import PracticeReport from '../types/entities/PracticeReport'
-import { ApiService } from './ApiService'
-import Config from '../../app/config/Config'
+import PracticeReport from '../entities/PracticeReport'
+import { ApiService } from '../../../shared/services/ApiService'
+import Config from '../../../app/config/Config'
 
 export class PracticeReportService extends ApiService<PracticeReport> {
   constructor() {

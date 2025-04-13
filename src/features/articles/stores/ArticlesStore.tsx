@@ -1,7 +1,7 @@
 import { create } from 'zustand'
 import Swal from 'sweetalert2'
-import Article, { ArticleCreate } from '../../../shared/types/entities/Article'
-import { articleService } from '../../../shared/services/ArticlesService'
+import Article, { ArticleCreate } from '../entities/Article'
+import { articleService } from '../services/ArticlesService'
 import { ResponseEntity } from '../../../shared/types/reactTypes/ResponseEntity'
 // import ArticleMock from '../../../shared/types/mocks/ArticleMock'
 
@@ -250,8 +250,7 @@ export const useArticleStore = create<ArticleState>((set, get) => ({
       set({ isLoadingTop: true })
 
       // In your actual implementation, replace this with your API call
-      const topArticles = await articleService
-        .getTopArticles()
+      const topArticles = await articleService.getTopArticles()
 
       if (topArticles.length === 0) {
         await Swal.fire({
@@ -287,23 +286,29 @@ export const useArticleStore = create<ArticleState>((set, get) => ({
     })
     const queryString = params.toString()
     set({ isLoadingFilters: true })
-    articleService.getFilters(queryString).then((response) => {
-      const articles = response.data
-      set({ filteredArticles: articles })
-      if (articles.length === 0) {
-        void Swal.fire({
-          title: 'Sin artículos disponibles',
-          text: 'No hay artículos disponibles en este momento.',
-          icon: 'info',
-          confirmButtonText: 'Cerrar',
-          confirmButtonColor: '#4B5563',
+    articleService
+      .getFilters(queryString)
+      .then((response) => {
+        const articles = response.data
+        set({ filteredArticles: articles })
+        if (articles.length === 0) {
+          void Swal.fire({
+            title: 'Sin artículos disponibles',
+            text: 'No hay artículos disponibles en este momento.',
+            icon: 'info',
+            confirmButtonText: 'Cerrar',
+            confirmButtonColor: '#4B5563',
+          })
+        }
+        set({ isLoadingFilters: false })
+      })
+      .catch((error: unknown) => {
+        console.error('Error filtering articles:', error)
+        set({
+          error: error instanceof Error ? error : new Error('Unknown error'),
+          isLoadingFilters: false,
         })
-      }
-      set({ isLoadingFilters: false })
-    }).catch((error: unknown) => {
-      console.error('Error filtering articles:', error)
-      set({ error: error instanceof Error ? error : new Error('Unknown error'), isLoadingFilters: false })
-    })
+      })
   },
 
   clearFilters() {

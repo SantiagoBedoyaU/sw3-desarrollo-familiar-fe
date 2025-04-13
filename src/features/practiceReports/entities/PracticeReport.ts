@@ -1,4 +1,4 @@
-import Article from './Article'
+import Article from '../../articles/entities/Article'
 
 export default interface PracticeReport {
   _id: string
