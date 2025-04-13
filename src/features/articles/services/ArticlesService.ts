@@ -1,8 +1,8 @@
 import axios from 'axios'
-import Article, { ArticleCreate } from '../types/entities/Article'
-import { ApiService } from './ApiService'
-import Config from '../../app/config/Config'
-import { ResponseEntity } from '../types/reactTypes/ResponseEntity'
+import Article, { ArticleCreate } from '../entities/Article'
+import { ApiService } from '../../../shared/services/ApiService'
+import Config from '../../../app/config/Config'
+import { ResponseEntity } from '../../../shared/types/reactTypes/ResponseEntity'
 import FormData from 'form-data'
 import Swal from 'sweetalert2'
 

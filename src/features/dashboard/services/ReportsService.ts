@@ -1,9 +1,9 @@
 import axios from 'axios'
-import Config from '../../app/config/Config'
+import Config from '../../../app/config/Config'
 import {
   ReportArticleStatistics,
   ReportArticleThematics,
-} from '../types/entities/Reports'
+} from '../entities/Reports'
 
 export class ReportsService {
   private readonly endpoint: string

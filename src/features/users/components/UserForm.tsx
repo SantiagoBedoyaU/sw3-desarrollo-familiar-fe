@@ -4,8 +4,8 @@ import Swal from 'sweetalert2'
 import Label from '../../../shared/components/common/Label'
 import Input from '../../../shared/components/common/Input'
 import Select from '../../../shared/components/common/Select'
-import { UserCreate } from '../../../shared/types/entities/User'
-import { userService } from '../../../shared/services/UserService'
+import { UserCreate } from '../entities/User'
+import { userService } from '../../auth/services/UserService'
 
 interface UserFormProps {
   close: (open: boolean) => void
@@ -75,30 +75,32 @@ const UserForm: React.FC<UserFormProps> = ({ close }) => {
 
     setIsSubmitting(true)
 
-
     // Complete user object matching the User interface
     const completeUser: UserCreate = {
       ...formData,
     }
 
-    await userService.create(completeUser).then(async () => {
-      await Swal.fire({
-        title: 'Usuario creado exitosamente',
-        text: `${formData.name} ha sido registrado como ${formData.role === 1 ? 'Administrador' : 'Usuario'}.`,
-        icon: 'success',
-        confirmButtonText: 'Aceptar',
-      })
-      window.location.reload()
-    }).catch(() => {
-      void Swal.fire({
-        title: 'Error',
-        text: 'No se pudo crear el usuario. Por favor, inténtelo de nuevo más tarde.',
-        icon: 'error',
-        confirmButtonText: 'Aceptar',
-      }).then(() => {
+    await userService
+      .create(completeUser)
+      .then(async () => {
+        await Swal.fire({
+          title: 'Usuario creado exitosamente',
+          text: `${formData.name} ha sido registrado como ${formData.role === 1 ? 'Administrador' : 'Usuario'}.`,
+          icon: 'success',
+          confirmButtonText: 'Aceptar',
+        })
         window.location.reload()
       })
-    })
+      .catch(() => {
+        void Swal.fire({
+          title: 'Error',
+          text: 'No se pudo crear el usuario. Por favor, inténtelo de nuevo más tarde.',
+          icon: 'error',
+          confirmButtonText: 'Aceptar',
+        }).then(() => {
+          window.location.reload()
+        })
+      })
     // Reset form after successful submission
     setFormData({
       name: '',

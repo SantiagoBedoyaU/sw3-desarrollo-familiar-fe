@@ -1,7 +1,7 @@
 import axios from 'axios'
-import { ApiService } from './ApiService'
-import Config from '../../app/config/Config'
-import User, { Login, SignIn, UserCreate } from '../types/entities/User'
+import { ApiService } from '../../../shared/services/ApiService'
+import Config from '../../../app/config/Config'
+import User, { Login, SignIn, UserCreate } from '../../users/entities/User'
 // import FormData from 'form-data'
 // import Swal from 'sweetalert2'
 
