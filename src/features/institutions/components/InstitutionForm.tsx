@@ -16,7 +16,7 @@ const InstitutionForm = () => {
 
   return (
     <form
-      onSubmit={handleSubmit}
+      onSubmit={(e) => void handleSubmit(e)}
       className="flex flex-col gap-2 w-full md:w-auto"
     >
       <label className="text-sm font-medium text-gray-700">

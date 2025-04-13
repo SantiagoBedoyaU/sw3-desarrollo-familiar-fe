@@ -9,7 +9,7 @@ const Institutions = () => {
   const [search, setSearch] = useState('')
 
   useEffect(() => {
-    fetchInstitutions()
+    void fetchInstitutions()
   }, [fetchInstitutions])
 
   const filtered = institutions.filter((institution) =>
@@ -18,15 +18,12 @@ const Institutions = () => {
 
   return (
     <section className="max-w-3xl mx-auto px-4 py-8 bg-white shadow rounded-lg mt-4">
-      {/* Título */}
       <h2 className="text-2xl font-bold text-gray-800 mb-6">
         Instituciones educativas
       </h2>
 
-      {/* Formulario para agregar institución */}
       <InstitutionForm />
 
-      {/* Input de búsqueda */}
       <section className="my-6">
         <label
           htmlFor="search"
@@ -47,7 +44,6 @@ const Institutions = () => {
         />
       </section>
 
-      {/* Lista de instituciones */}
       <InstitutionsList institutions={filtered} />
     </section>
   )

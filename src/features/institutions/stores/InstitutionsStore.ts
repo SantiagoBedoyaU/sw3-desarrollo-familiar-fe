@@ -34,17 +34,49 @@ export const useInstitutionStore = create<InstitutionState>((set) => ({
       }))
     } catch (error) {
       console.error('Error adding institution:', error)
+      await Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: 'No se pudo agregar la institución.',
+      })
     }
   },
 
   deleteInstitution: async (_id) => {
     try {
+      const result = await Swal.fire({
+        title: '¿Estás seguro?',
+        text: 'Esta acción eliminará la institución de forma permanente.',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#d33',
+        cancelButtonColor: '#3085d6',
+        confirmButtonText: 'Sí, eliminar',
+        cancelButtonText: 'Cancelar',
+      })
+
+      if (!result.isConfirmed) return
+
       await institutionService.delete(_id)
+
       set((state) => ({
         institutions: state.institutions.filter((i) => i._id !== _id),
       }))
+
+      await Swal.fire({
+        icon: 'success',
+        title: 'Eliminado',
+        text: 'La institución fue eliminada correctamente.',
+        timer: 1500,
+        showConfirmButton: false,
+      })
     } catch (error) {
       console.error('Error deleting institution:', error)
+      await Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: 'No se pudo eliminar la institución.',
+      })
     }
   },
 }))

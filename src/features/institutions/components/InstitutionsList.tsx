@@ -25,7 +25,8 @@ const InstitutionsList = ({ institutions }: Props) => {
                 {institution.name}
               </span>
               <button
-                onClick={() => deleteInstitution(institution._id)}
+                type="button"
+                onClick={() => void deleteInstitution(institution._id)}
                 className="text-sm text-red-600 hover:underline"
               >
                 Eliminar

@@ -1,7 +1,6 @@
 import axios from 'axios'
 import { ApiService } from '../../../shared/services/ApiService'
 import Institution, { InstitutionCreate } from '../entities/Institution'
-import Config from '../../../app/config/Config'
 
 export class InstitutionService extends ApiService<Institution> {
   constructor() {
