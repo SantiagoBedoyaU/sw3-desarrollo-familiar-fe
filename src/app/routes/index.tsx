@@ -9,12 +9,14 @@ import PrivateRoute from '../../features/auth/components/PrivateRoute'
 import Users from '../../features/users'
 import Dashboard from '../../features/dashboard'
 import Institutions from '../../features/institutions'
+import PracticeReports from '../../features/practiceReports'
 
 const AppRoutes = () => {
   return (
     <Routes>
       <Route path="/" element={<Home />} />
       <Route path="/articulos" element={<Articles />} />
+      <Route path="/informes-practicas" element={<PracticeReports />} />
       <Route
         path="/instituciones"
         element={
