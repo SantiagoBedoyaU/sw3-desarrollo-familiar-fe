@@ -97,6 +97,10 @@ export class PracticeReportService extends ApiService<PracticeReport> {
     formData.append('secondaryThematicAxis', data.secondaryThematicAxis ?? '')
     formData.append('keywords', data.keywords.join(','))
     formData.append('summary', data.summary)
+
+    if (data.researchArticle) {
+      formData.append('researchArticle', data.researchArticle)
+    }
     if (!data.file) {
       throw new Error('File is undefined')
     }

@@ -17,6 +17,9 @@ const PracticeReports = () => {
     authors: '',
     keywords: '',
     year: '',
+    period: '',
+    semester: '',
+    institution: '',
     primaryThematicAxis: '',
     secondaryThematicAxis: '',
   })
@@ -38,6 +41,8 @@ const PracticeReports = () => {
     if (searchFilters.year !== '') count++
     if (searchFilters.primaryThematicAxis !== '') count++
     if (searchFilters.secondaryThematicAxis !== '') count++
+    if (searchFilters.semester !== '') count++
+    if (searchFilters.institution !== '') count++
     setCountFilters(count)
   }, [searchFilters])
 
@@ -53,6 +58,12 @@ const PracticeReports = () => {
       ...prev,
       [name]: value,
     }))
+    if (name === 'year' || name === 'semester') {
+      setSearchFilters((prev) => ({
+        ...prev,
+        period: prev.year + '-' + prev.semester,
+      }))
+    }
   }
 
   return (

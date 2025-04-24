@@ -8,9 +8,10 @@ interface BarChartCardProps {
   data: any[];
   dataKey: string;
   barColor: string;
+  nameKey?: string;
 }
 
-export const BarChartCard: React.FC<BarChartCardProps> = ({ title, description, data, dataKey, barColor }) => {
+export const BarChartCard: React.FC<BarChartCardProps> = ({ title, description, data, dataKey, barColor, nameKey }) => {
   return (
     <section className="border border-gray-200 rounded-lg p-4 bg-white shadow-sm">
       <section className="pb-2">
@@ -25,13 +26,7 @@ export const BarChartCard: React.FC<BarChartCardProps> = ({ title, description, 
             <YAxis dataKey="title" type="category" width={100} />
             <Tooltip />
             <Legend />
-            {
-              /* eslint-disable */
-              data.map((entry, index) => (
-                <Bar key={`bar-${String(index) + entry.title}`} name={entry.title} dataKey={dataKey} fill={barColor} />
-              ))
-              /* eslint-enable */
-            }
+            <Bar dataKey={dataKey} fill={barColor} name={nameKey} />
           </BarChart>
         </ResponsiveContainer>
       </section>

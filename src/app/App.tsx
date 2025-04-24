@@ -17,11 +17,11 @@ function App() {
 
   return (
     <BrowserRouter>
-      <section className="bg-blue-50 w-max md:w-min mx-auto min-h-screen min-w-screen">
+      <section className="bg-blue-50 mx-auto h-screen w-screen">
         {isAuthPage ? (
           <AppRoutes />
         ) : (
-          <section className="flex flex-col min-h-screen">
+          <section className="flex flex-col min-h-screen w-screen">
             <Header />
             <main className="flex-1">
               <AppRoutes />

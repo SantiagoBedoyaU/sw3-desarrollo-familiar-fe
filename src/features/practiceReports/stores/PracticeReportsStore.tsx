@@ -23,8 +23,10 @@ interface PracticeReportState {
     title: string
     authors: string
     keywords: string
+    period: string
     primaryThematicAxis: string
     secondaryThematicAxis: string
+    institution: string
   }) => void
   clearFilters: () => void
 

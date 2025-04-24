@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Dialog } from '../../../shared/components/common/dialog/Dialog'
 import { DialogContent } from '../../../shared/components/common/dialog/DialogContent'
 import { DialogHeader } from '../../../shared/components/common/dialog/DialogHeader'
@@ -9,6 +9,9 @@ import { Eye } from 'lucide-react'
 import Swal from 'sweetalert2'
 import { practiceService } from '../services/PraticeReportService'
 import downloadPracticeReport from '../utils/AddDownload'
+import { institutionService } from '../../institutions/services/InstitutionService'
+import { articleService } from '../../articles/services/ArticlesService'
+import Article from '../../articles/entities/Article'
 
 interface PracticeReportViewProps {
   practiceReport: PracticeReport
@@ -21,6 +24,30 @@ const PracticeReportView: React.FC<PracticeReportViewProps> = ({
 }) => {
   const [isSubmittingReport, setIsSubmittingReport] = useState(false)
   const [open, setOpen] = useState(false)
+  const [institution, setInstitution] = useState('')
+  const [isSubmittingArticle, setIsSubmittingArticle] = useState(false)
+  const [article, setArticle] = useState<Article>({} as Article)
+
+  useEffect(() => {
+    void institutionService.getById(practiceReport.institution).then(res => {
+      setInstitution(res.name)
+    })
+  }, [practiceReport.institution])
+
+  useEffect(() => {
+    if (practiceReport.researchArticle) {
+      void articleService.getAll().then(res => {
+        const foundArticle = res.data.find(
+          article => article._id === practiceReport.researchArticle
+        )
+        if (foundArticle) {
+          setArticle(foundArticle)
+        } else {
+          console.error('Article not found')
+        }
+      })
+    }
+  }, [practiceReport.researchArticle, practiceReport._id])
 
   const viewDownload = async () => {
     await downloadPracticeReport(practiceReport)
@@ -34,6 +61,18 @@ const PracticeReportView: React.FC<PracticeReportViewProps> = ({
     )
   }
 
+  const viewDownloadArticle = async () => {
+    if (practiceReport.researchArticle && article) {
+      await articleService.downloadArticle(article)
+    } else {
+      console.error('Practice report is undefined')
+      void Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: 'No se pudo descargar el informe relacionado',
+      })
+    }
+  }
   const addView = async (_id: string) => {
     try {
       const resReport = await practiceService.addView(_id)
@@ -91,7 +130,7 @@ const PracticeReportView: React.FC<PracticeReportViewProps> = ({
           </section>
 
           <section className="flex gap-6">
-            <h3 className="text-md font-bold text-left">Año publicación</h3>
+            <h3 className="text-md font-bold text-left">Publicación</h3>
             <p className="text-sm text-left">{practiceReport.period}</p>
           </section>
 
@@ -134,6 +173,52 @@ const PracticeReportView: React.FC<PracticeReportViewProps> = ({
               )}
             </ul>
           </section>
+
+          {
+            institution && <section className='text-left flex flex-col gap-2'>
+              <h3 className="text-md font-bold text-left">Institución</h3>
+              <p className="text-sm text-left">{institution}</p>
+            </section>
+          }
+
+
+          {practiceReport.researchArticle && (
+            <section>
+              <h3 className="text-md text-left font-bold">
+                Articulo relacionado
+              </h3>
+              <section className="flex items-center gap-2">
+                {/* <span className="text-sm">{article.practiceReport}</span> */}
+                <button
+                  type="button"
+                  className="text-sm text-blue-600 hover:underline flex items-center"
+                  onClick={() => {
+                    setIsSubmittingArticle(true)
+                    void viewDownloadArticle().then(() => {
+                      setIsSubmittingArticle(false)
+                      setOpen(false)
+                    })
+                  }}
+                >
+                  {isSubmittingArticle ? (
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="16"
+                      height="16"
+                      fill="currentColor"
+                      className="bi bi-cloud-arrow-down-fill"
+                      viewBox="0 0 16 16"
+                    >
+                      <path d="M8 2a5.53 5.53 0 0 0-3.594 1.342c-.766.66-1.321 1.52-1.464 2.383C1.266 6.095 0 7.555 0 9.318 0 11.366 1.708 13 3.781 13h8.906C14.502 13 16 11.57 16 9.773c0-1.636-1.242-2.969-2.834-3.194C12.923 3.999 10.69 2 8 2zm2.354 6.854l-2 2a.5.5 0 0 1-.708 0l-2-2a.5.5 0 1 1 .708-.708L7.5 9.293V5.5a.5.5 0 0 1 1 0v3.793l1.146-1.147a.5.5 0 0 1 .708.708z" />
+                    </svg>
+                  ) : (
+                    'Descargar informe'
+                  )}
+                </button>
+              </section>
+            </section>
+          )}
+
 
         </section>
 

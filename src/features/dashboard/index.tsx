@@ -87,6 +87,7 @@ export default function Dashboard() {
           description="Top 5 artículos por número de vistas"
           data={topArticles}
           dataKey="counter"
+          nameKey="Numero de Vistas"
           barColor="#0088FE"
         />
 

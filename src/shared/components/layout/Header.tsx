@@ -9,7 +9,7 @@ function Header() {
 
   return (
     <header className="bg-[#5395c1] text-white shadow-md w-full">
-      <section className="flex justify-between items-center px-4 py-2">
+      <section className="flex justify-between items-center px-4 py-2 md:px-0.5 mx-2 md:gap-4">
         {/* Logo */}
         <a href="/" className="flex items-center gap-2">
           <img src="/icon.jpg" alt="logo" className="h-10 w-10 rounded-full" />
@@ -29,14 +29,14 @@ function Header() {
         </button>
 
         {/* Desktop nav */}
-        <section className="hidden md:flex flex-1 justify-center">
+        <section className="hidden md:flex md:flex-1 md:justify-center">
           <NavigationWrapper />
         </section>
 
         {/* Auth options */}
-        <section className="hidden md:flex items-center gap-3">
+        <section className="hidden md:flex items-center gap-3 ">
           {isAuthenticated ? (
-            <>
+            <section className='flex items-center gap-3'>
               <a
                 href="/perfil"
                 className="flex items-center gap-1 hover:underline"
@@ -52,9 +52,9 @@ function Header() {
                 <LogOut className="h-5 w-5" />
                 Salir
               </button>
-            </>
+            </section>
           ) : (
-            <>
+            <section className="flex items-center gap-3">
               <a
                 href="/login"
                 className="flex items-center gap-1 hover:underline"
@@ -69,7 +69,7 @@ function Header() {
                 <CircleUserRound className="h-5 w-5" />
                 Registrarse
               </a>
-            </>
+            </section>
           )}
         </section>
       </section>

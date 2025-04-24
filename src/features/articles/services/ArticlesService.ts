@@ -46,7 +46,9 @@ export class ArticleService extends ApiService<Article> {
     formData.append('secondaryThematicAxis', data.secondaryThematicAxis)
     formData.append('keywords', data.keywords)
     formData.append('summary', data.summary)
-    formData.append('practiceReport', data.practiceReport)
+    if (data.practiceReport) {
+      formData.append('practiceReport', data.practiceReport)
+    }
     const cleanName = data.file.name
       .normalize('NFD')
       .replace(/[\u0300-\u036f]/g, '') // quita acentos

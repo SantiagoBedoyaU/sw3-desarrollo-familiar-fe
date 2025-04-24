@@ -17,7 +17,9 @@ function PracticeReportsTop() {
 
   return (
     countPracticeReports > 0 ? (
-      <PracticeReportsList practiceReports={topPracticeReports} />
+      <section className='sm:col-span-2 md:col-span-4 grid grid-cols-1 gap-4'>
+        <PracticeReportsList practiceReports={topPracticeReports} />
+      </section>
     ) : (
       <section className="flex flex-col items-center justify-center h-full p-4 text-center text-gray-500">
         <h2 className="text-2xl font-bold mb-4">No hay informes prácticos destacados</h2>
