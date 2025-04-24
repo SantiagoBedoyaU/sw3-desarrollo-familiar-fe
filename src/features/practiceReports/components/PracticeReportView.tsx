@@ -62,7 +62,7 @@ const PracticeReportView: React.FC<PracticeReportViewProps> = ({
   }
 
   const viewDownloadArticle = async () => {
-    if (practiceReport.researchArticle && article) {
+    if (practiceReport.researchArticle && article._id) {
       await articleService.downloadArticle(article)
     } else {
       console.error('Practice report is undefined')

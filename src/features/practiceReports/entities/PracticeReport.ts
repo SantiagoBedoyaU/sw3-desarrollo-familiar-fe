@@ -1,4 +1,3 @@
-
 export default interface PracticeReport {
   _id: string
   title: string

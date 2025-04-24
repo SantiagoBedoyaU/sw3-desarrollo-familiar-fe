@@ -46,7 +46,7 @@ interface PracticeReportFormProps {
 }
 
 const PracticeReportForm: React.FC<PracticeReportFormProps> = ({ practiceReport, mode }) => {
-  const [institutions, setInstitutions] = useState<{ label: string; value: string; key: string }[]>([]);
+  const [institutions, setInstitutions] = useState<{ label: string; value: string; key: string }[]>([])
 
   useEffect(() => {
     void institutionService.getAll().then(res => {
@@ -54,10 +54,10 @@ const PracticeReportForm: React.FC<PracticeReportFormProps> = ({ practiceReport,
         label: institution.name,
         value: institution._id,
         key: institution._id,
-      }));
-      setInstitutions(institutionOptions);
-    });
-  }, []);
+      }))
+      setInstitutions(institutionOptions)
+    })
+  }, [])
 
   const [isSubmitting, setIsSubmitting] = useState(false)
   const { addPracticeReport, editPracticeReport } = usePracticeReportStore()
@@ -86,10 +86,10 @@ const PracticeReportForm: React.FC<PracticeReportFormProps> = ({ practiceReport,
   }, [])
 
   useEffect(() => {
-    console.log('====================================');
-    console.log(institution);
-    console.log('====================================');
-  }, [institution]);
+    console.log('====================================')
+    console.log(institution)
+    console.log('====================================')
+  }, [institution])
 
   useEffect(() => {
     if (practiceReport && mode === 'edit') {
@@ -200,11 +200,11 @@ const PracticeReportForm: React.FC<PracticeReportFormProps> = ({ practiceReport,
     }
   }
 
-  let buttonText = 'Guardar cambios';
+  let buttonText = 'Guardar cambios'
   if (isSubmitting) {
-    buttonText = 'Cargando...';
+    buttonText = 'Cargando...'
   } else if (mode === 'add') {
-    buttonText = 'Agregar';
+    buttonText = 'Agregar'
   }
 
   return (
@@ -223,7 +223,7 @@ const PracticeReportForm: React.FC<PracticeReportFormProps> = ({ practiceReport,
           <DialogDescription>Completa los detalles del informe. El eje secundario es opcional.</DialogDescription>
         </DialogHeader>
 
-        <form onSubmit={handleSubmit} className="space-y-5 mt-4 px-1 md:px-4 h-[83vh]">
+        <form onSubmit={(e) => void handleSubmit(e)} className="space-y-5 mt-4 px-1 md:px-4 h-[83vh]">
           <section className="md:flex md:items-center md:justify-between md:space-x-4">
             <Label htmlFor="title" error={formErrors.title} text="Título*" />
             <Input
@@ -328,8 +328,7 @@ const PracticeReportForm: React.FC<PracticeReportFormProps> = ({ practiceReport,
               onChange={e => setPrimaryThematicAxis(e.target.value)}
               options={[
                 { label: 'Seleccione un eje temático', value: '', key: 'no_primary_area' },
-                ...primaryThematicOptions.filter(option => option.value !== secondaryThematicAxis) ??
-                { label: 'Ninguno', value: '', key: 'no_primary_area' }
+                ...primaryThematicOptions.filter(option => option.value !== secondaryThematicAxis)
               ]}
             />
           </section>
@@ -345,8 +344,7 @@ const PracticeReportForm: React.FC<PracticeReportFormProps> = ({ practiceReport,
               onChange={e => setSecondaryThematicAxis(e.target.value)}
               options={[
                 { label: 'Seleccione un eje temático secundario', value: '', key: 'no_secondary_area' },
-                ...secondaryThematicOptions.filter(option => option.value !== primaryThematicAxis) ??
-                { label: 'Ninguno', value: '', key: 'no_secondary_area' },
+                ...secondaryThematicOptions.filter(option => option.value !== primaryThematicAxis)
               ]}
             />
           </section>

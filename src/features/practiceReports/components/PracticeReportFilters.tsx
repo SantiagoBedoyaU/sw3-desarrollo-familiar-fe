@@ -58,7 +58,7 @@ function PracticeReportFilters({
       }
     }
 
-    fetchInstitutions()
+    void fetchInstitutions()
   }, [])
 
   return (

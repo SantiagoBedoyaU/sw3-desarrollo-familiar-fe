@@ -6,7 +6,7 @@ interface PieChartCardProps {
   description: string;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   data: any[];
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+
   dataOrder: string[]
   dataKey: string;
   colors: string[];
