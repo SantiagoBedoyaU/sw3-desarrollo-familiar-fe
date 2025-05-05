@@ -5,7 +5,7 @@ import { DialogHeader } from '../../../shared/components/common/dialog/DialogHea
 import { DialogTitle } from '../../../shared/components/common/dialog/DialogTitle'
 import Article, { ArticleCreate } from '../entities/Article'
 import { DialogTrigger } from '../../../shared/components/common/dialog/DialogTrigger'
-import { Plus } from 'lucide-react'
+import { Edit2, Plus } from 'lucide-react'
 import { DialogDescription } from '../../../shared/components/common/dialog/DialogDescription'
 import Input from '../../../shared/components/common/Input'
 import Label from '../../../shared/components/common/Label'
@@ -221,8 +221,9 @@ const ArticleForm: React.FC<ArticleFormProps> = ({ article, mode }) => {
     >
       <DialogTrigger setOpen={onClose} className="w-full">
         <section className="flex w-full md:w-fit items-center justify-center gap-2 p-2 border rounded-lg text-white bg-blue-500 border-gray-50 hover:bg-gray-600 hover:border-gray-800">
-          <Plus className="md:mr-2 h-4 w-4" />
-          <p>{mode === 'add' ? 'Agregar' : 'Editar'} articulo</p>
+          {mode === 'add' && <Plus className="md:mr-2 h-4 w-4" />}
+          {mode === 'edit' && <Edit2 size={16} />}
+          <p>{mode === 'add' ? 'Agregar articulo' : 'Editar'}</p>
         </section>
       </DialogTrigger>
       <DialogContent

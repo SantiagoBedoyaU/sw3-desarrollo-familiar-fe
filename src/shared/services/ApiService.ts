@@ -227,26 +227,6 @@ export class ApiService<T> {
   // }
 
   /**
-   * Actualiza un registro existente
-   * @param id - Identificador del registro
-   * @param data - Datos parciales para actualizar
-   * @returns Entidad actualizada
-   */
-  async update(id: string, data: Partial<T>): Promise<T> {
-    try {
-      return await this.handleResponse<T>(
-        axios.put(this.getUrl(id), data, DEFAULT_CONFIG),
-        `${this.entityName} actualizado correctamente`,
-      )
-    } catch (error) {
-      return this.handleError(
-        error,
-        `Error al actualizar ${this.entityName} #${id}`,
-      )
-    }
-  }
-
-  /**
    * Elimina un registro
    * @param id - Identificador del registro
    * @returns Void
