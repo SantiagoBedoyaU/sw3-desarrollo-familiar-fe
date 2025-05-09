@@ -1,15 +1,15 @@
-import { useEffect, useState } from "react"
-import Article, { ArticleUpdate } from "../entities/Article"
-import { useArticleStore } from "../stores/ArticlesStore"
-import Swal from "sweetalert2"
-import Input from "../../../shared/components/common/Input"
-import Label from "../../../shared/components/common/Label"
-import { Plus } from "lucide-react"
-import Select from "../../../shared/components/common/Select"
-import TextArea from "../../../shared/components/common/TextArea"
-import { thematicOptions } from "../../../shared/constants/cts"
-import { practiceService } from "../../practiceReports/services/PraticeReportService"
-import PracticeReport from "../../practiceReports/entities/PracticeReport"
+import { useEffect, useState } from 'react'
+import Article, { ArticleUpdate } from '../entities/Article'
+import { useArticleStore } from '../stores/ArticlesStore'
+import Swal from 'sweetalert2'
+import Input from '../../../shared/components/common/Input'
+import Label from '../../../shared/components/common/Label'
+import { Plus } from 'lucide-react'
+import Select from '../../../shared/components/common/Select'
+import TextArea from '../../../shared/components/common/TextArea'
+import { thematicOptions } from '../../../shared/constants/cts'
+import { practiceService } from '../../practiceReports/services/PraticeReportService'
+import PracticeReport from '../../practiceReports/entities/PracticeReport'
 
 const primaryThematicOptions = thematicOptions.map((option: string) => ({
   label: option,
@@ -26,27 +26,27 @@ interface ArticleEditProps {
   onClose: (value: boolean) => void
   setUpdatedArticles: (articles: Article[]) => void
 }
-function ArticleEdit({ article, onClose, setUpdatedArticles }: Readonly<ArticleEditProps>) {
+function ArticleEdit({ article, onClose }: Readonly<ArticleEditProps>) {
 
   const [isSubmitting, setIsSubmitting] = useState(false)
   const { editArticle } = useArticleStore()
 
 
-  const [title, setTitle] = useState(article.title ?? '')
-  const [year, setYear] = useState(article.year ?? new Date().getFullYear().toString())
+  const [title, setTitle] = useState(article.title)
+  const [year, setYear] = useState(article.year)
   const [authors, setAuthors] = useState<string[]>([])
-  const [summary, setSummary] = useState(article.summary ?? '')
+  const [summary, setSummary] = useState(article.summary)
   const [keywords, setKeywords] = useState<string[]>([])
   const [file, setFile] = useState<File | null>(article.file ?? null) // Estado para el archivo
-  const [fileName, setFileName] = useState(article.fileAddress ?? '') // Estado para el nombre del archivo
+  const [fileName, setFileName] = useState(article.fileAddress) // Estado para el nombre del archivo
   const [fileError, setFileError] = useState(false) // Estado para errores del archivo
   const [changeableKeywords, setChangeableKeywords] = useState(
-    article?.keywords ?? [],
+    article.keywords,
   )
   const [changeableAuthors, setChangeableAuthors] = useState(
-    article?.authors ?? [],
+    article.authors,
   )
-  const [primaryThematicAxis, setPrimaryThematicAxis] = useState(article.primaryThematicAxis ?? '')
+  const [primaryThematicAxis, setPrimaryThematicAxis] = useState(article.primaryThematicAxis)
   const [secondaryThematicAxis, setSecondaryThematicAxis] = useState(article.secondaryThematicAxis ?? '')
   const [practiceReportId, setPracticeReportId] = useState('')
   const [formErrors, setFormErrors] = useState({
@@ -66,23 +66,17 @@ function ArticleEdit({ article, onClose, setUpdatedArticles }: Readonly<ArticleE
     })
   }, [])
 
-  useEffect(() => {
-    console.log('====================================');
-    console.log(article);
-    console.log('====================================');
-  }, [])
-
   // Función para extraer el nombre del archivo de una ruta
   const extractFileNameFromPath = (path: string): string => {
-    if (!path) return '';
-    return path.split('/').pop() || '';
-  };
+    if (!path) return ''
+    return path.split('/').pop() ?? ''
+  }
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
+    const file = e.target.files?.[0]
     if (file && file.type === 'application/pdf') {
       // Extraer el nombre del archivo actual de fileAddress
-      const currentFileName = extractFileNameFromPath(article.fileAddress || '');
+      const currentFileName = extractFileNameFromPath(article.fileAddress ?? '')
 
       // Si el nombre del nuevo archivo es igual al actual, mostrar una advertencia
       if (file.name === currentFileName) {
@@ -91,17 +85,17 @@ function ArticleEdit({ article, onClose, setUpdatedArticles }: Readonly<ArticleE
           text: 'El nombre del archivo es el mismo que el actual. Considera renombrarlo para evitar problemas.',
           icon: 'warning',
           confirmButtonText: 'Entendido',
-        });
+        })
       }
 
-      setFile(file);
-      setFileName(file.name);
-      setFileError(false);
+      setFile(file)
+      setFileName(file.name)
+      setFileError(false)
     } else {
-      setFile(null);
-      setFileName('');
+      setFile(null)
+      setFileName('')
       if (!fileName) {
-        setFileError(true);
+        setFileError(true)
       }
     }
   }
@@ -157,7 +151,7 @@ function ArticleEdit({ article, onClose, setUpdatedArticles }: Readonly<ArticleE
       return
     }
 
-    if (article?._id) {
+    if (article._id) {
 
       const articleData: ArticleUpdate = {
         _id: article._id,
@@ -175,7 +169,7 @@ function ArticleEdit({ article, onClose, setUpdatedArticles }: Readonly<ArticleE
       if (practiceReportId) {
         articleData.practiceReport = practiceReportId
       }
-      void editArticle(article._id, articleData).then(() => {
+      await editArticle(article._id, articleData).then(() => {
         onClose(false)
         void Swal.fire({
           title: 'Artículo editado',

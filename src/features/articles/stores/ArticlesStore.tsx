@@ -186,13 +186,13 @@ export const useArticleStore = create<ArticleState>((set, get) => ({
             icon: 'error',
             confirmButtonText: 'Cerrar',
             confirmButtonColor: '#4B5563',
-          });
-          return null;
-        });
-      return updated;
+          })
+          return null
+        })
+      return updated
     } catch (error) {
-      console.error('Error editing article:', error);
-      return null; // Ensure a return value in the catch block
+      console.error('Error editing article:', error)
+      return null // Ensure a return value in the catch block
     }
   },
   // Top articles methods
