@@ -1,22 +1,22 @@
 export default interface EducationalMaterial {
   _id: string
   title: string
-  type: 'document' | 'image' | 'resource' | 'other'
+  type: 'DOCUMENT' | 'IMAGE' | 'RESOURCE' | 'Other'
   description?: string
   minAge?: number
   maxAge?: number
-  url: string
+  fileAddress: string
   file?: File
 }
 
 export interface EducationalMaterialCreate {
   title: string
-  type: 'document' | 'image' | 'resource' | 'other'
+  type: 'DOCUMENT' | 'IMAGE' | 'RESOURCE' | 'Other'
   description?: string
   minAge?: number
   maxAge?: number
   file?: File
-  url?: string
+  fileAddress?: string
 }
 
 export interface EducationalMaterialUpdate {
@@ -28,8 +28,8 @@ export interface EducationalMaterialUpdate {
 }
 
 export const materialTypes = [
-  { value: 'document', label: 'Documento' },
-  { value: 'image', label: 'Imagen' },
-  { value: 'resource', label: 'Recurso Web' },
-  { value: 'other', label: 'Otro' },
+  { value: 'DOCUMENT', label: 'Documento' },
+  { value: 'IMAGE', label: 'Imagen' },
+  { value: 'RESOURCE', label: 'Recurso Web' },
+  { value: 'Other', label: 'Otro' },
 ]

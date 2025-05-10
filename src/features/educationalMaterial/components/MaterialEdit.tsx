@@ -119,12 +119,12 @@ const MaterialEdit = ({ material, onClose, setUpdatedMaterials }: MaterialEditPr
       <div className="bg-gray-100 p-3 rounded-md">
         <p className="text-sm font-medium text-gray-700">
           Tipo de material: <span className="font-normal">{
-            material.type === 'document' ? 'Documento' :
-              material.type === 'image' ? 'Imagen' :
-                material.type === 'resource' ? 'Recurso Web' : 'Otro'
+            material.type === 'DOCUMENT' ? 'Documento' :
+              material.type === 'IMAGE' ? 'Imagen' :
+                material.type === 'RESOURCE' ? 'Recurso Web' : 'Otro'
           }</span>
         </p>
-        {material.type === 'resource' ? (
+        {material.type === 'RESOURCE' ? (
           <p className="text-sm font-medium text-gray-700 mt-1">
             URL: <span className="font-normal">{material.fileAddress}</span>
           </p>

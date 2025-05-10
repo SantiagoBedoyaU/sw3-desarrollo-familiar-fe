@@ -11,12 +11,12 @@ const MaterialForm = ({ onClose }: MaterialFormProps) => {
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [formData, setFormData] = useState<EducationalMaterialCreate>({
     title: '',
-    type: 'document',
+    type: 'DOCUMENT',
     description: '',
     minAge: undefined,
     maxAge: undefined,
     file: undefined,
-    url: '',
+    fileAddress: '',
   })
   const [errors, setErrors] = useState<Record<string, string>>({})
   const [fileSize, setFileSize] = useState<number | null>(null)
@@ -64,7 +64,7 @@ const MaterialForm = ({ onClose }: MaterialFormProps) => {
       }
 
       // Validar tipo de archivo según el tipo seleccionado
-      if (formData.type === 'document') {
+      if (formData.type === 'DOCUMENT') {
         const validDocTypes = ['application/pdf', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document']
         if (!validDocTypes.includes(file.type)) {
           setErrors({
@@ -74,7 +74,7 @@ const MaterialForm = ({ onClose }: MaterialFormProps) => {
           e.target.value = ''
           return
         }
-      } else if (formData.type === 'image') {
+      } else if (formData.type === 'IMAGE') {
         if (!file.type.startsWith('image/')) {
           setErrors({
             ...errors,
@@ -83,7 +83,7 @@ const MaterialForm = ({ onClose }: MaterialFormProps) => {
           e.target.value = ''
           return
         }
-      } else if (formData.type === 'other') {
+      } else if (formData.type === 'Other') {
         // Para 'other', permitimos archivos comprimidos y otros
         const validOtherTypes = ['application/zip', 'application/x-zip-compressed']
         if (!validOtherTypes.includes(file.type)) {
@@ -121,10 +121,10 @@ const MaterialForm = ({ onClose }: MaterialFormProps) => {
     }
 
     // Validación de URL o archivo
-    if (formData.type === 'resource') {
-      if (!formData.url) {
+    if (formData.type === 'RESOURCE') {
+      if (!formData.fileAddress) {
         newErrors.url = 'La URL es obligatoria para recursos web'
-      } else if (!/^https?:\/\/.+/.test(formData.url)) {
+      } else if (!/^https?:\/\/.+/.test(formData.fileAddress)) {
         newErrors.url = 'Ingresa una URL válida (debe comenzar con http:// o https://)'
       }
     } else if (!formData.file) {
@@ -188,9 +188,8 @@ const MaterialForm = ({ onClose }: MaterialFormProps) => {
           name="title"
           value={formData.title}
           onChange={handleInputChange}
-          className={`w-full px-3 py-2 border ${
-            errors.title ? 'border-red-500' : 'border-gray-300'
-          } rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500`}
+          className={`w-full px-3 py-2 border ${errors.title ? 'border-red-500' : 'border-gray-300'
+            } rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500`}
           placeholder="Nombre del material educativo"
           required
         />
@@ -207,9 +206,8 @@ const MaterialForm = ({ onClose }: MaterialFormProps) => {
           name="type"
           value={formData.type}
           onChange={handleInputChange}
-          className={`w-full px-3 py-2 border ${
-            errors.type ? 'border-red-500' : 'border-gray-300'
-          } rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500`}
+          className={`w-full px-3 py-2 border ${errors.type ? 'border-red-500' : 'border-gray-300'
+            } rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500`}
           required
         >
           {materialTypes.map((type) => (
@@ -222,7 +220,7 @@ const MaterialForm = ({ onClose }: MaterialFormProps) => {
       </div>
 
       {/* Archivo o URL (según el tipo) */}
-      {formData.type === 'resource' ? (
+      {formData.type === 'RESOURCE' ? (
         <div>
           <label htmlFor="url" className="block text-sm font-medium text-gray-700 mb-1">
             URL <span className="text-red-500">*</span>
@@ -231,11 +229,10 @@ const MaterialForm = ({ onClose }: MaterialFormProps) => {
             type="url"
             id="url"
             name="url"
-            value={formData.url}
+            value={formData.fileAddress}
             onChange={handleInputChange}
-            className={`w-full px-3 py-2 border ${
-              errors.url ? 'border-red-500' : 'border-gray-300'
-            } rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500`}
+            className={`w-full px-3 py-2 border ${errors.url ? 'border-red-500' : 'border-gray-300'
+              } rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500`}
             placeholder="https://ejemplo.com/recurso"
             required
           />
@@ -251,9 +248,8 @@ const MaterialForm = ({ onClose }: MaterialFormProps) => {
             id="file"
             name="file"
             onChange={handleFileChange}
-            className={`w-full px-3 py-2 border ${
-              errors.file ? 'border-red-500' : 'border-gray-300'
-            } rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500`}
+            className={`w-full px-3 py-2 border ${errors.file ? 'border-red-500' : 'border-gray-300'
+              } rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500`}
             required
           />
           {fileSize && (
@@ -311,9 +307,8 @@ const MaterialForm = ({ onClose }: MaterialFormProps) => {
             }}
             min={4}
             max={12}
-            className={`w-full px-3 py-2 border ${
-              errors.minAge ? 'border-red-500' : 'border-gray-300'
-            } rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500`}
+            className={`w-full px-3 py-2 border ${errors.minAge ? 'border-red-500' : 'border-gray-300'
+              } rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500`}
             placeholder="4"
           />
           {errors.minAge && <p className="mt-1 text-sm text-red-500">{errors.minAge}</p>}
@@ -341,9 +336,8 @@ const MaterialForm = ({ onClose }: MaterialFormProps) => {
             }}
             min={4}
             max={12}
-            className={`w-full px-3 py-2 border ${
-              errors.maxAge ? 'border-red-500' : 'border-gray-300'
-            } rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500`}
+            className={`w-full px-3 py-2 border ${errors.maxAge ? 'border-red-500' : 'border-gray-300'
+              } rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500`}
             placeholder="12"
           />
           {errors.maxAge && <p className="mt-1 text-sm text-red-500">{errors.maxAge}</p>}

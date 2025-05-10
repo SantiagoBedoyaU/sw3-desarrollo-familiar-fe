@@ -47,8 +47,8 @@ export class EducationalMaterialService extends ApiService<EducationalMaterial> 
       formData.append('maxAge', data.maxAge.toString())
     }
 
-    if (data.type === 'resource' && data.url) {
-      formData.append('url', data.url)
+    if (data.type === 'RESOURCE' && data.fileAddress) {
+      formData.append('fileAddress', data.fileAddress)
     } else if (data.file) {
       const cleanName = data.file.name
         .normalize('NFD')
@@ -105,13 +105,13 @@ export class EducationalMaterialService extends ApiService<EducationalMaterial> 
   async downloadMaterial(material: EducationalMaterial): Promise<void> {
     try {
       // Si es un recurso web, abrimos la URL en una nueva pestaña
-      if (material.type === 'resource') {
-        window.open(material.url, '_blank')
+      if (material.type === 'RESOURCE') {
+        window.open(material.fileAddress, '_blank')
         return
       }
 
       // Para otros tipos, descargamos el archivo
-      const response = await axios.get(material.url, {
+      const response = await axios.get(material.fileAddress, {
         ...Config.defaultConfig,
         responseType: 'blob',
       })
