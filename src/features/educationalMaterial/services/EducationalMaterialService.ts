@@ -77,9 +77,9 @@ export class EducationalMaterialService extends ApiService<EducationalMaterial> 
       })
 
       if (!response.ok) {
-        const errorData = await response.json()
+        const errorData = (await response.json()) as { message?: string }
         throw new Error(
-          errorData.message || `HTTP error! status: ${String(response.status)}`,
+          errorData.message ?? `HTTP error! status: ${String(response.status)}`,
         )
       }
 
@@ -87,7 +87,7 @@ export class EducationalMaterialService extends ApiService<EducationalMaterial> 
       return material
     } catch (err: unknown) {
       console.error('Error:', err)
-      void Swal.fire({
+      Swal.fire({
         title: 'Error',
         text:
           'Ocurrió un error al subir el material educativo. ' +
@@ -122,13 +122,13 @@ export class EducationalMaterialService extends ApiService<EducationalMaterial> 
 
       // Determinar la extensión basada en el tipo MIME o usar una genérica
       let extension = 'file'
-      const contentType = response.headers['content-type']
+      const contentType = response.headers['content-type'] as string | undefined
 
       if (contentType) {
-        if (contentType.includes('pdf')) extension = 'pdf'
-        else if (contentType.includes('document')) extension = 'docx'
-        else if (contentType.includes('image')) extension = 'jpg'
-        else if (contentType.includes('zip')) extension = 'zip'
+        if (typeof contentType === 'string' && contentType.includes('pdf')) extension = 'pdf'
+        else if (typeof contentType === 'string' && contentType.includes('document')) extension = 'docx'
+        else if (typeof contentType === 'string' && contentType.includes('image')) extension = 'jpg'
+        else if (typeof contentType === 'string' && contentType.includes('zip')) extension = 'zip'
       }
 
       link.setAttribute(

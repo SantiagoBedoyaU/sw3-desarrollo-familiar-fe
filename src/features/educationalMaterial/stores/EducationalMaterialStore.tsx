@@ -138,7 +138,7 @@ export const useEducationalMaterialStore = create<EducationalMaterialState>((set
       await educationalMaterialService.create(material)
       // Refresh materials after successful addition
       await get().refreshMaterials()
-      
+
       void Swal.fire({
         title: 'Éxito',
         text: 'Material educativo agregado correctamente.',
@@ -163,10 +163,10 @@ export const useEducationalMaterialStore = create<EducationalMaterialState>((set
         })
         return false
       })
-      
+
       // Refresh after successful deletion
       await get().refreshMaterials()
-      
+
       void Swal.fire({
         title: 'Éxito',
         text: 'Material educativo eliminado correctamente.',
@@ -192,11 +192,11 @@ export const useEducationalMaterialStore = create<EducationalMaterialState>((set
           })
           return null
         })
-      
+
       if (updated) {
         // Refresh materials after successful update
         await get().refreshMaterials()
-        
+
         void Swal.fire({
           title: 'Éxito',
           text: 'Material educativo actualizado correctamente.',
@@ -205,7 +205,7 @@ export const useEducationalMaterialStore = create<EducationalMaterialState>((set
           confirmButtonColor: '#4B5563',
         })
       }
-      
+
       return updated
     } catch (error) {
       console.error('Error editing educational material:', error)
@@ -222,13 +222,13 @@ export const useEducationalMaterialStore = create<EducationalMaterialState>((set
     })
     const queryString = params.toString()
     set({ isLoadingFilters: true })
-    
+
     educationalMaterialService
       .getFilters(queryString)
       .then((response) => {
         const materials = response.data
         set({ filteredMaterials: materials })
-        
+
         if (materials.length === 0) {
           void Swal.fire({
             title: 'Sin materiales disponibles',
@@ -238,7 +238,7 @@ export const useEducationalMaterialStore = create<EducationalMaterialState>((set
             confirmButtonColor: '#4B5563',
           })
         }
-        
+
         set({ isLoadingFilters: false })
       })
       .catch((error: unknown) => {

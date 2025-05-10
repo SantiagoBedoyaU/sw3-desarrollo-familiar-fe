@@ -148,7 +148,7 @@ const MaterialEdit = ({ material, onClose, setUpdatedMaterials }: MaterialEditPr
           value={formData.title}
           onChange={handleInputChange}
           className={`w-full px-3 py-2 border ${errors.title ? 'border-red-500' : 'border-gray-300'
-            } rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500`}
+          } rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500`}
           placeholder="Nombre del material educativo"
           required
         />
@@ -201,7 +201,7 @@ const MaterialEdit = ({ material, onClose, setUpdatedMaterials }: MaterialEditPr
             min={4}
             max={12}
             className={`w-full px-3 py-2 border ${errors.minAge ? 'border-red-500' : 'border-gray-300'
-              } rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500`}
+            } rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500`}
             placeholder="4"
           />
           {errors.minAge && <p className="mt-1 text-sm text-red-500">{errors.minAge}</p>}
@@ -230,7 +230,7 @@ const MaterialEdit = ({ material, onClose, setUpdatedMaterials }: MaterialEditPr
             min={4}
             max={12}
             className={`w-full px-3 py-2 border ${errors.maxAge ? 'border-red-500' : 'border-gray-300'
-              } rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500`}
+            } rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500`}
             placeholder="12"
           />
           {errors.maxAge && <p className="mt-1 text-sm text-red-500">{errors.maxAge}</p>}

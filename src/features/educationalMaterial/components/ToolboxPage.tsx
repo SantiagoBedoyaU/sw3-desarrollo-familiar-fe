@@ -28,8 +28,9 @@ const ToolboxPage = () => {
   useEffect(() => {
     const signInString = localStorage.getItem('signIn')
     if (signInString) {
-      const signIn = JSON.parse(signInString)
-      setUserRole(signIn?.userRole)
+      interface SignInData { userRole: number }
+      const signIn: SignInData = JSON.parse(signInString) as SignInData
+      setUserRole(signIn.userRole)
     }
   }, [checkAuth])
 

@@ -120,11 +120,6 @@ const MaterialForm = ({ onClose }: MaterialFormProps) => {
       newErrors.title = 'El título es obligatorio'
     }
 
-    // Validación de tipo (requerido)
-    if (!formData.type) {
-      newErrors.type = 'El tipo de material es obligatorio'
-    }
-
     // Validación de URL o archivo
     if (formData.type === 'resource') {
       if (!formData.url) {
@@ -287,7 +282,7 @@ const MaterialForm = ({ onClose }: MaterialFormProps) => {
           maxLength={120}
         />
         <p className="mt-1 text-xs text-gray-500">
-          {formData.description?.length || 0}/120 caracteres
+          {formData.description?.length ?? 0}/120 caracteres
         </p>
       </div>
 
@@ -301,7 +296,7 @@ const MaterialForm = ({ onClose }: MaterialFormProps) => {
             type="number"
             id="minAge"
             name="minAge"
-            value={formData.minAge === undefined ? '' : formData.minAge}
+            value={formData.minAge ?? ''}
             onChange={(e) => {
               const value = e.target.value === '' ? undefined : parseInt(e.target.value)
               setFormData({
@@ -310,7 +305,7 @@ const MaterialForm = ({ onClose }: MaterialFormProps) => {
               })
               // Limpiar errores
               if (errors.minAge || errors.ageRange) {
-                const { minAge, ageRange, ...rest } = errors
+                const { ageRange, ...rest } = errors
                 setErrors(rest)
               }
             }}
