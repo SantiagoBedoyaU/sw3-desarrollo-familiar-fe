@@ -1,6 +1,6 @@
 import { create } from 'zustand'
 import Swal from 'sweetalert2'
-import Article, { ArticleCreate } from '../entities/Article'
+import Article, { ArticleCreate, ArticleUpdate } from '../entities/Article'
 import { articleService } from '../services/ArticlesService'
 import { ResponseEntity } from '../../../shared/types/reactTypes/ResponseEntity'
 // import ArticleMock from '../../../shared/types/mocks/ArticleMock'
@@ -21,7 +21,7 @@ interface ArticleState {
   refreshArticles: () => Promise<void>
   addArticle: (article: Omit<ArticleCreate, '_id'>) => Promise<void>
   deleteArticle: (_id: string) => Promise<void>
-  editArticle: (_id: string, updatedArticle: Article) => Promise<void>
+  editArticle: (_id: string, updatedArticle: ArticleUpdate) => Promise<Article | null>
   filterArticles: (searchFilters: {
     title: string
     authors: string
@@ -175,40 +175,24 @@ export const useArticleStore = create<ArticleState>((set, get) => ({
     }
   },
 
-  editArticle: async (_id: string, updatedArticle: Article) => {
+  editArticle: async (_id: string, updatedArticle: ArticleUpdate): Promise<Article | null> => {
     try {
       // Uncomment this when you're ready to use the actual service
-      // const updated = await articleService.update(_id, updatedArticle).catch((error: unknown) => {
-      //   void Swal.fire({
-      //     title: 'Error',
-      //     text: 'Ocurrió un error al actualizar el artículo.',
-      //     icon: 'error',
-      //     confirmButtonText: 'Cerrar',
-      //     confirmButtonColor: '#4B5563',
-      //   });
-      //   return null;
-      // });
-
-      // Since we're not actually awaiting anything in the current implementation,
-      // this is just a placeholder to satisfy the require-await rule
-      await Promise.resolve()
-
-      // if (updated) {
-      set((state) => ({
-        articles: state.articles.map((article) =>
-          article._id === _id ? { ...updatedArticle } : article,
-        ),
-        // filteredArticles: state.filteredArticles.filter((article) =>
-        //   article._id === _id ? { ...updatedArticle } : article,
-        // ),
-        // Also update in top articles if present
-        topArticles: state.topArticles.map((article) =>
-          article._id === _id ? { ...updatedArticle } : article,
-        ),
-      }))
-      // }
+      const updated = await articleService.update(_id, updatedArticle)
+        .catch(() => {
+          void Swal.fire({
+            title: 'Error',
+            text: 'Ocurrió un error al actualizar el artículo.',
+            icon: 'error',
+            confirmButtonText: 'Cerrar',
+            confirmButtonColor: '#4B5563',
+          })
+          return null
+        })
+      return updated
     } catch (error) {
       console.error('Error editing article:', error)
+      return null // Ensure a return value in the catch block
     }
   },
   // Top articles methods

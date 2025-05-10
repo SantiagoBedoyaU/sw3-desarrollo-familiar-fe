@@ -61,7 +61,7 @@ const Articles = () => {
   return (
     <section className="max-w-4xl mx-auto p-6 bg-white shadow-lg rounded-lg">
       <section className="md:relative md:flex md:items-center md:justify-between mb-4">
-        {userRole && <ArticleForm mode="add" />}
+        {userRole && <ArticleForm />}
         <h2 className="text-2xl font-bold text-center mb-6 text-gray-800">
           Filtrar artículos de investigación
         </h2>

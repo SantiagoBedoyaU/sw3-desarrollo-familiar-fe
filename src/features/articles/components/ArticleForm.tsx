@@ -3,7 +3,7 @@ import { Dialog } from '../../../shared/components/common/dialog/Dialog'
 import { DialogContent } from '../../../shared/components/common/dialog/DialogContent'
 import { DialogHeader } from '../../../shared/components/common/dialog/DialogHeader'
 import { DialogTitle } from '../../../shared/components/common/dialog/DialogTitle'
-import Article, { ArticleCreate } from '../entities/Article'
+import { ArticleCreate } from '../entities/Article'
 import { DialogTrigger } from '../../../shared/components/common/dialog/DialogTrigger'
 import { Plus } from 'lucide-react'
 import { DialogDescription } from '../../../shared/components/common/dialog/DialogDescription'
@@ -27,13 +27,9 @@ const secondaryThematicOptions = thematicOptions.map((option: string) => ({
   value: option,
   key: option + 'secondary_area',
 }))
-interface ArticleFormProps {
-  article?: Article
-  mode: 'add' | 'edit'
-}
-const ArticleForm: React.FC<ArticleFormProps> = ({ article, mode }) => {
+const ArticleForm: React.FC = () => {
   const [isSubmitting, setIsSubmitting] = useState(false)
-  const { addArticle, editArticle } = useArticleStore()
+  const { addArticle } = useArticleStore()
   const [open, onClose] = useState(false)
   const [title, setTitle] = useState('')
   const [year, setYear] = useState(new Date().getFullYear().toString())
@@ -42,11 +38,11 @@ const ArticleForm: React.FC<ArticleFormProps> = ({ article, mode }) => {
   const [keywords, setKeywords] = useState<string[]>([])
   const [file, setFile] = useState<File | null>(null)
   const [fileError, setFileError] = useState(false) // Estado para errores del archivo
-  const [changeableKeywords, setChangeableKeywords] = useState(
-    article?.changeableKeywords ?? [],
+  const [changeableKeywords, setChangeableKeywords] = useState<string[]>(
+    [],
   )
-  const [changeableAuthors, setChangeableAuthors] = useState(
-    article?.changeableAuthors ?? [],
+  const [changeableAuthors, setChangeableAuthors] = useState<string[]>(
+    [],
   )
   const [primaryThematicAxis, setPrimaryThematicAxis] = useState('')
   const [secondaryThematicAxis, setSecondaryThematicAxis] = useState('')
@@ -67,25 +63,6 @@ const ArticleForm: React.FC<ArticleFormProps> = ({ article, mode }) => {
       setPracticeReports(res.data)
     })
   }, [])
-
-  useEffect(() => {
-    if (article && mode === 'edit') {
-      setTitle(article.title)
-      setYear(article.year)
-      setAuthors(article.authors)
-      setSummary(article.summary)
-      setPrimaryThematicAxis(article.primaryThematicAxis)
-      setKeywords(article.keywords)
-      // setFile(article?.file ?? null)
-      setSecondaryThematicAxis(article.secondaryThematicAxis ?? '')
-      setPracticeReportId(article.practiceReport ?? '')
-      setChangeableAuthors(article.changeableAuthors ?? [])
-      setChangeableKeywords(article.changeableKeywords ?? [])
-    } else {
-      // Clear form when opening in add mode
-      resetForm()
-    }
-  }, [article, mode])
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0]
@@ -157,62 +134,34 @@ const ArticleForm: React.FC<ArticleFormProps> = ({ article, mode }) => {
       practiceReport: practiceReportId,
     }
 
-    if (mode === 'add') {
-      if (secondaryThematicAxis) {
-        articleData.secondaryThematicAxis = secondaryThematicAxis
-      }
+    if (secondaryThematicAxis) {
+      articleData.secondaryThematicAxis = secondaryThematicAxis
+    }
 
-      await addArticle(articleData)
-        .then(async () => {
-          await Swal.fire({
-            title: 'Artículo agregado',
-            text: 'El artículo ha sido agregado exitosamente.',
-            icon: 'success',
-            confirmButtonText: 'Aceptar',
-          })
-          setIsSubmitting(false)
-          window.location.reload()
-        })
-        .catch(() => setIsSubmitting(false))
-      onClose(false)
-    } else if (article?._id) {
-      const articleData: Article = {
-        _id: article._id,
-        title: title.trim(),
-        authors: changeableAuthors,
-        year: year.trim(),
-        primaryThematicAxis: primaryThematicAxis,
-        summary: summary.trim(),
-        keywords: changeableKeywords,
-      }
-
-      if (secondaryThematicAxis) {
-        articleData.secondaryThematicAxis = secondaryThematicAxis
-      }
-      if (practiceReportId) {
-        articleData.practiceReport = practiceReportId
-      }
-      void editArticle(article._id, articleData).then(() => {
-        onClose(false)
-        void Swal.fire({
-          title: 'Artículo editado',
-          text: 'El artículo ha sido editado exitosamente.',
+    await addArticle(articleData)
+      .then(async () => {
+        await Swal.fire({
+          title: 'Artículo agregado',
+          text: 'El artículo ha sido agregado exitosamente.',
           icon: 'success',
           confirmButtonText: 'Aceptar',
         })
+        setIsSubmitting(false)
+        window.location.reload()
       })
-    }
+      .catch(() => setIsSubmitting(false))
+    onClose(false)
     setIsSubmitting(false)
     resetForm()
   }
+
   let buttonText = ''
   if (isSubmitting) {
     buttonText = 'Cargando...'
-  } else if (mode === 'add') {
-    buttonText = 'Agregar'
   } else {
-    buttonText = 'Guardar cambios'
+    buttonText = 'Agregar'
   }
+
   return (
     <Dialog
       open={open}
@@ -222,7 +171,7 @@ const ArticleForm: React.FC<ArticleFormProps> = ({ article, mode }) => {
       <DialogTrigger setOpen={onClose} className="w-full">
         <section className="flex w-full md:w-fit items-center justify-center gap-2 p-2 border rounded-lg text-white bg-blue-500 border-gray-50 hover:bg-gray-600 hover:border-gray-800">
           <Plus className="md:mr-2 h-4 w-4" />
-          <p>{mode === 'add' ? 'Agregar' : 'Editar'} articulo</p>
+          <p>Agregar articulo</p>
         </section>
       </DialogTrigger>
       <DialogContent
@@ -232,9 +181,7 @@ const ArticleForm: React.FC<ArticleFormProps> = ({ article, mode }) => {
       >
         <DialogHeader>
           <DialogTitle>
-            {mode === 'add'
-              ? 'Registrar un nuevo artículo de investigación'
-              : 'Edita el artículo'}
+            Registrar un nuevo artículo de investigación
           </DialogTitle>
           <DialogDescription>
             <span>

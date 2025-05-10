@@ -1,5 +1,5 @@
 import axios from 'axios'
-import Article, { ArticleCreate } from '../entities/Article'
+import Article, { ArticleCreate, ArticleUpdate } from '../entities/Article'
 import { ApiService } from '../../../shared/services/ApiService'
 import Config from '../../../app/config/Config'
 import { ResponseEntity } from '../../../shared/types/reactTypes/ResponseEntity'
@@ -135,6 +135,53 @@ export class ArticleService extends ApiService<Article> {
       return response.data as Article
     } catch (error) {
       console.error('Error adding view:', error)
+      throw error
+    }
+  }
+
+  /**
+   * Actualiza un registro existente
+   * @param id - Identificador del registro
+   * @param data - Datos parciales para actualizar
+   * @returns Entidad actualizada
+   */
+  async update(id: string, data: Partial<ArticleUpdate>): Promise<Article> {
+    // const formData = new FormData()
+    // if (data.title) formData.append('title', data.title)
+    // if (data.year) formData.append('year', data.year.toString())
+    // if (data.authors) formData.append('authors', data.authors)
+    // if (data.primaryThematicAxis)
+    //   formData.append('primaryThematicAxis', data.primaryThematicAxis)
+    // if (data.secondaryThematicAxis)
+    //   formData.append('secondaryThematicAxis', data.secondaryThematicAxis)
+    // if (data.keywords) formData.append('keywords', data.keywords)
+    // if (data.summary) formData.append('summary', data.summary)
+    // if (data.practiceReport)
+    //   formData.append('practiceReport', data.practiceReport)
+
+    // if (data.file) {
+    //   const cleanName = data.file.name
+    //     .normalize('NFD')
+    //     .replace(/[\u0300-\u036f]/g, '') // quita acentos
+    //   const safeFileName = cleanName.replace(/[^a-zA-Z0-9-.]/g, '-')
+    //   const renamedFile = new File([data.file], safeFileName, {
+    //     type: data.file.type,
+    //   })
+    //   formData.append('file', renamedFile)
+    // }
+
+    try {
+      const response = await axios.patch(this.getUrl(id), data, {
+        ...Config.defaultConfig,
+        headers: {
+          ...Config.defaultConfig.headers,
+          // 'Content-Type': 'multipart/form-data',
+          Authorization: `Bearer ${localStorage.getItem('token') ?? ''}`,
+        },
+      })
+      return response.data
+    } catch (error) {
+      console.error('Error updating article:', error)
       throw error
     }
   }

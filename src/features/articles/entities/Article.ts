@@ -35,3 +35,22 @@ export interface ArticleCreate {
 
   secondaryThematicAxis?: string
 }
+
+export interface ArticleUpdate {
+  _id: string
+  title: string
+  authors: string
+  year: string
+  summary: string
+  keywords: string
+  primaryThematicAxis: string
+  file?: File
+  fileAddress?: string
+  counter?: number
+  downloadCounter?: number
+
+  secondaryThematicAxis?: string
+  practiceReport?: string
+  changeableKeywords?: string[]
+  changeableAuthors?: string[]
+}

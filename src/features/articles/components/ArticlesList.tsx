@@ -7,6 +7,7 @@ import { useArticleStore } from '../stores/ArticlesStore'
 import downloadArticle from '../utils/AddDownload'
 import useAuthStore from '../../../app/stores/useAuthStore'
 import { SignIn } from '../../users/entities/User'
+import ArticleEdit from './ArticleEdit'
 
 interface ArticlesListProps {
   articles: Article[]
@@ -15,9 +16,10 @@ interface ArticlesListProps {
 function ArticlesList({ articles }: Readonly<ArticlesListProps>) {
   const [isSubmittingDelete, setIsSubmittingDelete] = useState(false)
   const [isSubmittingDownload, setIsSubmittingDownload] = useState(false)
+  const [isEditConfirmOpen, setIsEditConfirmOpen] = useState(false)
   const [isDeleteConfirmOpen, setIsDeleteConfirmOpen] = useState(false)
   const [selectedArticle, setSelectedArticle] = useState<Article | null>(null)
-  const { deleteArticle, editArticle } = useArticleStore()
+  const { deleteArticle } = useArticleStore()
   const [updatedArticles, setUpdatedArticles] = useState(articles)
   const { checkAuth } = useAuthStore()
   const [userRole, setUserRole] = useState(false)
@@ -98,8 +100,10 @@ function ArticlesList({ articles }: Readonly<ArticlesListProps>) {
           <section className="flex flex-col sm:flex-row md:col-span-4 items-center justify-between md:justify-center gap-2">
             <button
               type="button"
-              onClick={() =>
-                article._id && void editArticle(article._id, article)
+              onClick={() => {
+                setSelectedArticle(article)
+                setIsEditConfirmOpen(true)
+              }
               }
               className="w-full md:w-fit flex items-center justify-center bg-blue-500 hover:bg-blue-600 text-white py-1 px-3 rounded text-sm"
             >
@@ -109,7 +113,10 @@ function ArticlesList({ articles }: Readonly<ArticlesListProps>) {
 
             <button
               type="button"
-              onClick={() => setIsDeleteConfirmOpen(true)}
+              onClick={() => {
+                setIsDeleteConfirmOpen(true)
+                setSelectedArticle(article)
+              }}
               className="w-full md:w-fit flex items-center justify-center bg-red-500 hover:bg-red-600 text-white py-1 px-3 rounded text-sm"
             >
               <Trash2 size={16} className="mr-1" />
@@ -164,8 +171,22 @@ function ArticlesList({ articles }: Readonly<ArticlesListProps>) {
           </button>
         </section>
       </section>
+
+      {selectedArticle?._id === article._id && <Modal isOpen={isEditConfirmOpen} onClose={() => setIsEditConfirmOpen(false)}>
+        {isEditConfirmOpen && (
+          <div>
+            <h2 className="text-xl font-semibold mb-4">Editar articulo</h2>
+            <ArticleEdit
+              onClose={() => setIsEditConfirmOpen(false)}
+              article={selectedArticle}
+              setUpdatedArticles={setUpdatedArticles}
+            />
+          </div>
+        )}
+      </Modal>}
+
       {/* Delete Confirmation Modal */}
-      <Modal
+      {selectedArticle?._id === article._id && <Modal
         isOpen={isDeleteConfirmOpen}
         onClose={() => setIsDeleteConfirmOpen(false)}
       >
@@ -206,7 +227,7 @@ function ArticlesList({ articles }: Readonly<ArticlesListProps>) {
             {isSubmittingDelete ? 'Eliminando...' : 'Eliminar'}
           </button>
         </section>
-      </Modal>
+      </Modal>}
     </section>
   ))
 }
