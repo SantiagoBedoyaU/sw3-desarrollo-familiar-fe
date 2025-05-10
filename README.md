@@ -12,8 +12,7 @@
 1. **Clonar el repositorio**
 
    ```bash
-   git clone https://github.com/tu-usuario/frontend-sw3.git
-   cd frontend-sw3
+   git clone https://github.com/SantiagoBedoyaU/sw3-desarrollo-familiar-fe.git
 
    npm install | yarn install
    ```
@@ -59,4 +58,3 @@ React: Biblioteca para la construcción de interfaces de usuario interactivas.
 TypeScript: Superset de JavaScript que agrega tipado estático.
 
 Tailwind CSS: Framework de estilos para un diseño eficiente y moderno.
-
