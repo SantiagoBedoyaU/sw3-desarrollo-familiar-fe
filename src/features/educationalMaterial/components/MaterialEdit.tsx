@@ -14,7 +14,7 @@ const MaterialEdit = ({ material, onClose, setUpdatedMaterials }: MaterialEditPr
   const [formData, setFormData] = useState<EducationalMaterialUpdate>({
     _id: material._id,
     title: material.title,
-    description: material.description || '',
+    description: material.description ?? '',
     minAge: material.minAge?.toString(),
     maxAge: material.maxAge?.toString(),
   })
@@ -111,21 +111,21 @@ const MaterialEdit = ({ material, onClose, setUpdatedMaterials }: MaterialEditPr
 
   const getMaterialTypeLabel = (type: EducationalMaterialType): string => {
     switch (type) {
-      case EducationalMaterialType.Document:
-        return 'Documento'
-      case EducationalMaterialType.Image:
-        return 'Imagen'
-      case EducationalMaterialType.Resource:
-        return 'Recurso Web'
-      case EducationalMaterialType.Other:
-        return 'Otro'
-      default:
-        return 'Desconocido'
+    case EducationalMaterialType.Document:
+      return 'Documento'
+    case EducationalMaterialType.Image:
+      return 'Imagen'
+    case EducationalMaterialType.Resource:
+      return 'Recurso Web'
+    case EducationalMaterialType.Other:
+      return 'Otro'
+    default:
+      return 'Desconocido'
     }
   }
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4">
+    <form onSubmit={(e) => void handleSubmit(e)} className="space-y-4">
       {/* Información del archivo (no editable) */}
       <div className="bg-gray-100 p-3 rounded-md">
         <p className="text-sm font-medium text-gray-700">
@@ -157,7 +157,7 @@ const MaterialEdit = ({ material, onClose, setUpdatedMaterials }: MaterialEditPr
           value={formData.title}
           onChange={handleInputChange}
           className={`w-full px-3 py-2 border ${errors.title ? 'border-red-500' : 'border-gray-300'
-            } rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500`}
+          } rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500`}
           placeholder="Nombre del material educativo"
           required
         />
@@ -180,7 +180,7 @@ const MaterialEdit = ({ material, onClose, setUpdatedMaterials }: MaterialEditPr
           maxLength={120}
         />
         <p className="mt-1 text-xs text-gray-500">
-          {formData.description?.length || 0}/120 caracteres
+          {formData.description?.length ?? 0}/120 caracteres
         </p>
       </div>
 
@@ -194,7 +194,7 @@ const MaterialEdit = ({ material, onClose, setUpdatedMaterials }: MaterialEditPr
             type="number"
             id="minAge"
             name="minAge"
-            value={formData.minAge === undefined ? '' : formData.minAge}
+            value={formData.minAge ?? ''}
             onChange={(e) => {
               const value = e.target.value === '' ? undefined : e.target.value
               setFormData({
@@ -203,14 +203,17 @@ const MaterialEdit = ({ material, onClose, setUpdatedMaterials }: MaterialEditPr
               })
               // Limpiar errores
               if (errors.minAge || errors.ageRange) {
-                const { minAge, ageRange, ...rest } = errors
-                setErrors(rest)
+                setErrors({
+                  ...errors,
+                  minAge: '',
+                  ageRange: '',
+                })
               }
             }}
             min={4}
             max={12}
             className={`w-full px-3 py-2 border ${errors.minAge ? 'border-red-500' : 'border-gray-300'
-              } rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500`}
+            } rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500`}
             placeholder="4"
           />
           {errors.minAge && <p className="mt-1 text-sm text-red-500">{errors.minAge}</p>}
@@ -223,23 +226,28 @@ const MaterialEdit = ({ material, onClose, setUpdatedMaterials }: MaterialEditPr
             type="number"
             id="maxAge"
             name="maxAge"
-            value={formData.maxAge === undefined ? '' : formData.maxAge}
+            value={formData.maxAge ?? ''}
             onChange={(e) => {
-              const value = e.target.value === '' ? undefined : e.target.value
-              setFormData({
-                ...formData,
-                maxAge: value,
-              })
+              const value = e.target.value ? parseInt(e.target.value) : undefined
+              if (value) {
+                setFormData({
+                  ...formData,
+                  maxAge: value.toString(),
+                })
+              }
               // Limpiar errores
               if (errors.maxAge || errors.ageRange) {
-                const { maxAge, ageRange, ...rest } = errors
-                setErrors(rest)
+                setErrors({
+                  ...errors,
+                  maxAge: '',
+                  ageRange: '',
+                })
               }
             }}
             min={4}
             max={12}
             className={`w-full px-3 py-2 border ${errors.maxAge ? 'border-red-500' : 'border-gray-300'
-              } rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500`}
+            } rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500`}
             placeholder="12"
           />
           {errors.maxAge && <p className="mt-1 text-sm text-red-500">{errors.maxAge}</p>}

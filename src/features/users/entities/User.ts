@@ -19,7 +19,3 @@ export interface Login {
   password: string
 }
 
-export interface SignIn {
-  accessToken: string
-  userRole: number
-}

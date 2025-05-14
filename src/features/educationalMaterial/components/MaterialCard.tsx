@@ -6,6 +6,7 @@ import { Modal } from '../../../shared/components/common/modal/Modal'
 import MaterialEdit from './MaterialEdit'
 import { useEducationalMaterialStore } from '../stores/EducationalMaterialStore'
 import useAuthStore from '../../../app/stores/useAuthStore'
+import { getSignIn } from '../../auth/utils/getSignIn'
 
 interface MaterialCardProps {
   material: EducationalMaterial
@@ -22,11 +23,8 @@ const MaterialCard = ({ material, setUpdatedMaterials }: MaterialCardProps) => {
 
   // Obtener el rol del usuario para mostrar/ocultar botones de edición y eliminación
   useEffect(() => {
-    const signInString = localStorage.getItem('signIn')
-    if (signInString) {
-      const signIn: { userRole?: number } = JSON.parse(signInString)
-      setUserRole(signIn.userRole)
-    }
+    const signIn = getSignIn()
+    if (signIn) setUserRole(signIn.userRole)
   }, [checkAuth])
 
   // Determinar si el usuario puede editar y eliminar (admin o docente)
@@ -71,30 +69,30 @@ const MaterialCard = ({ material, setUpdatedMaterials }: MaterialCardProps) => {
   // Obtener iconos según el tipo de material
   const getIcon = () => {
     switch (material.type) {
-      case EducationalMaterialType.Document:
-        return (
-          <svg xmlns="http://www.w3.org/2000/svg" className="h-12 w-12 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-          </svg>
-        )
-      case EducationalMaterialType.Image:
-        return (
-          <svg xmlns="http://www.w3.org/2000/svg" className="h-12 w-12 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-          </svg>
-        )
-      case EducationalMaterialType.Resource:
-        return (
-          <svg xmlns="http://www.w3.org/2000/svg" className="h-12 w-12 text-purple-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" />
-          </svg>
-        )
-      default:
-        return (
-          <svg xmlns="http://www.w3.org/2000/svg" className="h-12 w-12 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4" />
-          </svg>
-        )
+    case EducationalMaterialType.Document:
+      return (
+        <svg xmlns="http://www.w3.org/2000/svg" className="h-12 w-12 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+        </svg>
+      )
+    case EducationalMaterialType.Image:
+      return (
+        <svg xmlns="http://www.w3.org/2000/svg" className="h-12 w-12 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+        </svg>
+      )
+    case EducationalMaterialType.Resource:
+      return (
+        <svg xmlns="http://www.w3.org/2000/svg" className="h-12 w-12 text-purple-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" />
+        </svg>
+      )
+    default:
+      return (
+        <svg xmlns="http://www.w3.org/2000/svg" className="h-12 w-12 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4" />
+        </svg>
+      )
     }
   }
 
@@ -121,9 +119,9 @@ const MaterialCard = ({ material, setUpdatedMaterials }: MaterialCardProps) => {
 
           {material.minAge !== undefined && material.maxAge !== undefined && (
             <span className="inline-block bg-green-100 text-green-800 text-xs px-2 py-1 rounded">
-              {material.minAge === material.maxAge
-                ? `${material.minAge} años`
-                : `${material.minAge}-${material.maxAge} años`}
+              {material.minAge.toString() === material.maxAge.toString()
+                ? `${material.minAge.toString()} años`
+                : `${material.minAge.toString()}-${material.maxAge.toString()} años`}
             </span>
           )}
         </div>
@@ -131,12 +129,12 @@ const MaterialCard = ({ material, setUpdatedMaterials }: MaterialCardProps) => {
         <div className="flex flex-col gap-2">
           {/* Botón de descarga o visita */}
           <button
-            onClick={handleDownload}
+            onClick={() => void handleDownload()}
             disabled={isLoading}
             className={`w-full flex items-center justify-center gap-2 px-4 py-2 rounded ${material.type === EducationalMaterialType.Resource
               ? 'bg-purple-600 hover:bg-purple-700 text-white'
               : 'bg-blue-600 hover:bg-blue-700 text-white'
-              } transition-colors duration-300`}
+            } transition-colors duration-300`}
           >
             {isLoading && (
               <span className="animate-spin rounded-full h-4 w-4 border-t-2 border-b-2 border-white"></span>
@@ -203,7 +201,7 @@ const MaterialCard = ({ material, setUpdatedMaterials }: MaterialCardProps) => {
             Cancelar
           </button>
           <button
-            onClick={handleDelete}
+            onClick={() => void handleDelete()}
             className="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700"
             disabled={isLoading}
           >

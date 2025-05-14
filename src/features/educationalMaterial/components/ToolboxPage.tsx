@@ -5,6 +5,7 @@ import MaterialsList from './MaterialsList'
 import { Modal } from '../../../shared/components/common/modal/Modal'
 import MaterialForm from './MaterialForm'
 import useAuthStore from '../../../app/stores/useAuthStore'
+import { getSignIn } from '../../auth/utils/getSignIn'
 
 const ToolboxPage = () => {
   const {
@@ -26,12 +27,8 @@ const ToolboxPage = () => {
 
   // Obtener el rol del usuario para mostrar/ocultar botón de subida
   useEffect(() => {
-    const signInString = localStorage.getItem('signIn')
-    if (signInString) {
-      interface SignInData { userRole: number }
-      const signIn: SignInData = JSON.parse(signInString) as SignInData
-      setUserRole(signIn.userRole)
-    }
+    const signIn = getSignIn()
+    if (signIn) setUserRole(signIn.userRole)
   }, [checkAuth])
 
   // Determinar si el usuario puede subir material (admin, docente o estudiante)

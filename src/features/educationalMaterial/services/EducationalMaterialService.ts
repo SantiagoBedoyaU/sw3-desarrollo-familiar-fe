@@ -88,7 +88,7 @@ export class EducationalMaterialService extends ApiService<EducationalMaterial> 
       return material
     } catch (err: unknown) {
       console.error('Error:', err)
-      Swal.fire({
+      void Swal.fire({
         title: 'Error',
         text:
           'Ocurrió un error al subir el material educativo. ' +
@@ -146,23 +146,19 @@ export class EducationalMaterialService extends ApiService<EducationalMaterial> 
         ) {
           extension = possibleExtension
         } else {
-          // Fallback para tipos comunes si la extensión no es reconocida
           switch (possibleExtension) {
-            case EducationalMaterialType.Document:
-              extension = 'docx'
-              break
-            case EducationalMaterialType.Image:
-              extension = 'jpg'
-              break
-            case EducationalMaterialType.Other:
-              extension = 'zip'
-              break
-            case 'presentation':
-              extension = 'pptx'
-              break
-            case 'spreadsheet':
-              extension = 'xlsx'
-              break
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-enum-comparison
+          case EducationalMaterialType.Document:
+            extension = 'docx'
+            break
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-enum-comparison
+          case EducationalMaterialType.Image:
+            extension = 'jpg'
+            break
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-enum-comparison
+          case EducationalMaterialType.Other:
+            extension = 'zip'
+            break
           }
         }
       }
@@ -187,7 +183,7 @@ export class EducationalMaterialService extends ApiService<EducationalMaterial> 
   ): Promise<EducationalMaterial> {
     try {
       const response = await axios.patch<EducationalMaterial>(
-        this.getUrl(`${id}`),
+        this.getUrl(id),
         data,
         {
           ...Config.defaultConfig,

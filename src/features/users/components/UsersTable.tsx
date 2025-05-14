@@ -1,9 +1,10 @@
 import { Pencil, Trash2 } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { Modal } from '../../../shared/components/common/modal/Modal'
-import User, { SignIn } from '../entities/User'
+import User from '../entities/User'
 import { userService } from '../../auth/services/UserService'
 import Swal from 'sweetalert2'
+import { getSignIn } from '../../auth/utils/getSignIn'
 
 const headersTable = ['Nombre', 'Email', 'Rol', 'Acciones']
 
@@ -32,10 +33,7 @@ export default function UsersTable() {
   }, [])
 
   const handleDelete = (_id: string) => {
-    const signInString = localStorage.getItem('signIn')
-    const signIn: SignIn | null = signInString
-      ? (JSON.parse(signInString) as SignIn)
-      : null
+    const signIn = getSignIn()
     if (signIn?.userRole === 1) {
       userService
         .delete(_id)

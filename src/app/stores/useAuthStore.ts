@@ -1,4 +1,5 @@
 import { create } from 'zustand'
+import { getLocalStorageToken } from '../../features/auth/utils/verifyLocalToken'
 
 interface AuthStore {
   isAuthenticated: boolean
@@ -11,7 +12,7 @@ const useAuthStore = create<AuthStore>((set) => ({
   isAuthenticated: false,
 
   checkAuth: () => {
-    const token = localStorage.getItem('token')
+    const token = getLocalStorageToken()
     if (token) {
       set({ isAuthenticated: true })
     }
@@ -19,7 +20,7 @@ const useAuthStore = create<AuthStore>((set) => ({
 
   login: () => {
     set({ isAuthenticated: true })
-    const token = localStorage.getItem('token')
+    const token = getLocalStorageToken()
     if (token) {
       // useAuthStore.getState().checkPurchasedCourses(token)
     }

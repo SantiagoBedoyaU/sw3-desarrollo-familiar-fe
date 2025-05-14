@@ -8,7 +8,7 @@ interface MaterialsListProps {
 }
 
 const MaterialsList = ({ materials }: MaterialsListProps) => {
-  const [currentPage, setCurrentPage] = useState(1)
+  const [currentPage] = useState(1)
   const [updatedMaterials, setUpdatedMaterials] = useState<EducationalMaterial[]>(materials)
   const itemsPerPage = 20 // Según los requerimientos
 
@@ -19,9 +19,9 @@ const MaterialsList = ({ materials }: MaterialsListProps) => {
   const totalPages = Math.ceil(updatedMaterials.length / itemsPerPage)
 
   // Cambiar de página
-  const handlePageChange = (pageNumber: number) => {
-    setCurrentPage(pageNumber)
-  }
+  // const handlePageChange = (pageNumber: number) => {
+  //   setCurrentPage(pageNumber)
+  // }
 
   if (updatedMaterials.length === 0) {
     return (

@@ -6,7 +6,7 @@ import { useEffect, useState } from 'react'
 import { usePracticeReportStore } from '../stores/PracticeReportsStore'
 import downloadPracticeReport from '../utils/AddDownload'
 import useAuthStore from '../../../app/stores/useAuthStore'
-import { SignIn } from '../../users/entities/User'
+import { getSignIn } from '../../auth/utils/getSignIn'
 
 interface PracticeReportsListProps {
   practiceReports: PracticeReport[]
@@ -23,11 +23,8 @@ function PracticeReportsList({ practiceReports }: Readonly<PracticeReportsListPr
   const [userRole, setUserRole] = useState(false)
 
   useEffect(() => {
-    const signInString = localStorage.getItem('signIn')
-    const signIn: SignIn | null = signInString
-      ? (JSON.parse(signInString) as SignIn)
-      : null
-    setUserRole(signIn?.userRole === 1 || signIn?.userRole === 2)
+    const signIn = getSignIn()
+    if (signIn) setUserRole(signIn.userRole === 1 || signIn.userRole === 2)
   }, [checkAuth])
 
   const fromListDownload = async (report: PracticeReport) => {

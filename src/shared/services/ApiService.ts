@@ -187,9 +187,9 @@ export class ApiService<T> {
     limit?: number
   }): Promise<ResponseEntity<T>> {
     try {
-      const { page = 1, limit = 10 } = params || {}
+      const { page = 1, limit = 10 } = params ?? {}
       // Use page and limit in the request if needed, e.g., as query parameters
-      const queryParams = `?page=${page}&limit=${limit}`
+      const queryParams = `?page=${page.toString()}&limit=${limit.toString()}`
       return await this.handleResponse<ResponseEntity<T>>(
         axios.get(
           this.getUrl(queryParams),

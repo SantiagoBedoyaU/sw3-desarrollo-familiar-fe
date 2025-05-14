@@ -176,7 +176,7 @@ const MaterialForm = ({ onClose }: MaterialFormProps) => {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4">
+    <form onSubmit={(e) => void handleSubmit(e)} className="space-y-4">
       {/* Título */}
       <div>
         <label htmlFor="title" className="block text-sm font-medium text-gray-700 mb-1">
@@ -189,7 +189,7 @@ const MaterialForm = ({ onClose }: MaterialFormProps) => {
           value={formData.title}
           onChange={handleInputChange}
           className={`w-full px-3 py-2 border ${errors.title ? 'border-red-500' : 'border-gray-300'
-            } rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500`}
+          } rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500`}
           placeholder="Nombre del material educativo"
           required
         />
@@ -207,7 +207,7 @@ const MaterialForm = ({ onClose }: MaterialFormProps) => {
           value={formData.type}
           onChange={handleInputChange}
           className={`w-full px-3 py-2 border ${errors.type ? 'border-red-500' : 'border-gray-300'
-            } rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500`}
+          } rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500`}
           required
         >
           {materialTypes.map((type) => (
@@ -229,10 +229,10 @@ const MaterialForm = ({ onClose }: MaterialFormProps) => {
             type="url"
             id="fileAddress"
             name="fileAddress"
-            value={formData.fileAddress !== undefined ? formData.fileAddress : ''}
+            value={formData.fileAddress ?? ''}
             onChange={handleInputChange}
             className={`w-full px-3 py-2 border ${errors.fileAddress ? 'border-red-500' : 'border-gray-300'
-              } rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500`}
+            } rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500`}
             placeholder="https://ejemplo.com/recurso"
             required
           />
@@ -249,7 +249,7 @@ const MaterialForm = ({ onClose }: MaterialFormProps) => {
             name="file"
             onChange={handleFileChange}
             className={`w-full px-3 py-2 border ${errors.file ? 'border-red-500' : 'border-gray-300'
-              } rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500`}
+            } rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500`}
             required
           />
           {fileSize && (
@@ -301,14 +301,17 @@ const MaterialForm = ({ onClose }: MaterialFormProps) => {
               })
               // Limpiar errores
               if (errors.minAge || errors.ageRange) {
-                const { ageRange, ...rest } = errors
-                setErrors(rest)
+                setErrors({
+                  ...errors,
+                  minAge: '',
+                  ageRange: '',
+                })
               }
             }}
             min={4}
             max={12}
             className={`w-full px-3 py-2 border ${errors.minAge ? 'border-red-500' : 'border-gray-300'
-              } rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500`}
+            } rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500`}
             placeholder="4"
           />
           {errors.minAge && <p className="mt-1 text-sm text-red-500">{errors.minAge}</p>}
@@ -321,23 +324,27 @@ const MaterialForm = ({ onClose }: MaterialFormProps) => {
             type="number"
             id="maxAge"
             name="maxAge"
-            value={formData.maxAge === undefined ? '' : formData.maxAge}
+            value={formData.maxAge ?? ''}
             onChange={(e) => {
-              const value = e.target.value === '' ? undefined : parseInt(e.target.value)
+              const value = e.target.value ? parseInt(e.target.value) : undefined
               setFormData({
                 ...formData,
                 maxAge: value,
               })
+
               // Limpiar errores
               if (errors.maxAge || errors.ageRange) {
-                const { maxAge, ageRange, ...rest } = errors
-                setErrors(rest)
+                setErrors({
+                  ...errors,
+                  maxAge: '',
+                  ageRange: '',
+                })
               }
             }}
             min={4}
             max={12}
             className={`w-full px-3 py-2 border ${errors.maxAge ? 'border-red-500' : 'border-gray-300'
-              } rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500`}
+            } rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500`}
             placeholder="12"
           />
           {errors.maxAge && <p className="mt-1 text-sm text-red-500">{errors.maxAge}</p>}

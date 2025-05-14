@@ -9,7 +9,9 @@ import { educationalMaterialService } from '../services/EducationalMaterialServi
  * @param material El material educativo a descargar o abrir
  * @returns Una promesa que se resuelve cuando la operación se completa
  */
-const downloadMaterial = async (material: EducationalMaterial): Promise<void> => {
+const downloadMaterial = async (
+  material: EducationalMaterial,
+): Promise<void> => {
   try {
     await educationalMaterialService.downloadMaterial(material)
   } catch (error) {
