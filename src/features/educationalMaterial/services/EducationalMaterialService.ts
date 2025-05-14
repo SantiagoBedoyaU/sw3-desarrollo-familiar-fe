@@ -129,30 +129,24 @@ export class EducationalMaterialService extends ApiService<EducationalMaterial> 
       const possibleExtension =
         filePathParts.length > 1 ? filePathParts.pop()?.toLowerCase() : null
 
-      if (possibleExtension) {
-        if (
-          [
-            'pdf',
-            'doc',
-            'docx',
-            'jpg',
-            'jpeg',
-            'png',
-            'zip',
-            'xlsx',
-            'ppt',
-            'pptx',
-          ].includes(possibleExtension)
-        ) {
-          extension = possibleExtension
-        }
-        if (possibleExtension === EducationalMaterialType.Document)
-          extension = 'docx'
-        if (possibleExtension === EducationalMaterialType.Image)
-          extension = 'jpg'
-        if (possibleExtension === EducationalMaterialType.Other)
-          extension = 'zip'
+      if (
+        possibleExtension &&
+        [
+          'pdf',
+          'doc',
+          'docx',
+          'jpg',
+          'jpeg',
+          'png',
+          'zip',
+          'xlsx',
+          'ppt',
+          'pptx',
+        ].includes(possibleExtension)
+      ) {
+        extension = possibleExtension
       }
+
       link.setAttribute('target', '_blank')
       link.setAttribute(
         'download',
