@@ -145,22 +145,13 @@ export class EducationalMaterialService extends ApiService<EducationalMaterial> 
           ].includes(possibleExtension)
         ) {
           extension = possibleExtension
-        } else {
-          switch (possibleExtension) {
-              // eslint-disable-next-line @typescript-eslint/no-unsafe-enum-comparison
-            case EducationalMaterialType.Document:
-              extension = 'docx'
-              break
-              // eslint-disable-next-line @typescript-eslint/no-unsafe-enum-comparison
-            case EducationalMaterialType.Image:
-              extension = 'jpg'
-              break
-              // eslint-disable-next-line @typescript-eslint/no-unsafe-enum-comparison
-            case EducationalMaterialType.Other:
-              extension = 'zip'
-              break
-          }
         }
+        if (possibleExtension === EducationalMaterialType.Document)
+          extension = 'docx'
+        if (possibleExtension === EducationalMaterialType.Image)
+          extension = 'jpg'
+        if (possibleExtension === EducationalMaterialType.Other)
+          extension = 'zip'
       }
       link.setAttribute('target', '_blank')
       link.setAttribute(
