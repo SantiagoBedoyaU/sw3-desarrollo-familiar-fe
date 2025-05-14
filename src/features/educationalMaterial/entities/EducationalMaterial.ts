@@ -1,7 +1,7 @@
 export default interface EducationalMaterial {
   _id: string
   title: string
-  type: 'DOCUMENT' | 'IMAGE' | 'RESOURCE' | 'Other'
+  type: EducationalMaterialType
   description?: string
   minAge?: number
   maxAge?: number
@@ -11,7 +11,7 @@ export default interface EducationalMaterial {
 
 export interface EducationalMaterialCreate {
   title: string
-  type: 'DOCUMENT' | 'IMAGE' | 'RESOURCE' | 'Other'
+  type: EducationalMaterialType
   description?: string
   minAge?: number
   maxAge?: number
@@ -27,9 +27,16 @@ export interface EducationalMaterialUpdate {
   maxAge?: number
 }
 
+export enum EducationalMaterialType {
+  Document = 'DOCUMENT',
+  Image = 'IMAGE',
+  Resource = 'RESOURCE',
+  Other = 'Other',
+}
+
 export const materialTypes = [
-  { value: 'DOCUMENT', label: 'Documento' },
-  { value: 'IMAGE', label: 'Imagen' },
-  { value: 'RESOURCE', label: 'Recurso Web' },
-  { value: 'Other', label: 'Otro' },
+  { value: EducationalMaterialType.Document, label: 'Documento' },
+  { value: EducationalMaterialType.Image, label: 'Imagen' },
+  { value: EducationalMaterialType.Resource, label: 'Recurso Web' },
+  { value: EducationalMaterialType.Other, label: 'Otro' },
 ]

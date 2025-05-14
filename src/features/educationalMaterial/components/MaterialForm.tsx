@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { EducationalMaterialCreate, materialTypes } from '../entities/EducationalMaterial'
+import { EducationalMaterialCreate, EducationalMaterialType, materialTypes } from '../entities/EducationalMaterial'
 import { useEducationalMaterialStore } from '../stores/EducationalMaterialStore'
 
 interface MaterialFormProps {
@@ -11,7 +11,7 @@ const MaterialForm = ({ onClose }: MaterialFormProps) => {
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [formData, setFormData] = useState<EducationalMaterialCreate>({
     title: '',
-    type: 'DOCUMENT',
+    type: EducationalMaterialType.Document,
     description: '',
     minAge: undefined,
     maxAge: undefined,
@@ -64,7 +64,7 @@ const MaterialForm = ({ onClose }: MaterialFormProps) => {
       }
 
       // Validar tipo de archivo según el tipo seleccionado
-      if (formData.type === 'DOCUMENT') {
+      if (formData.type === EducationalMaterialType.Document) {
         const validDocTypes = ['application/pdf', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document']
         if (!validDocTypes.includes(file.type)) {
           setErrors({
@@ -74,7 +74,7 @@ const MaterialForm = ({ onClose }: MaterialFormProps) => {
           e.target.value = ''
           return
         }
-      } else if (formData.type === 'IMAGE') {
+      } else if (formData.type === EducationalMaterialType.Image) {
         if (!file.type.startsWith('image/')) {
           setErrors({
             ...errors,
@@ -83,7 +83,7 @@ const MaterialForm = ({ onClose }: MaterialFormProps) => {
           e.target.value = ''
           return
         }
-      } else if (formData.type === 'Other') {
+      } else if (formData.type === EducationalMaterialType.Other) {
         // Para 'other', permitimos archivos comprimidos y otros
         const validOtherTypes = ['application/zip', 'application/x-zip-compressed']
         if (!validOtherTypes.includes(file.type)) {
@@ -121,7 +121,7 @@ const MaterialForm = ({ onClose }: MaterialFormProps) => {
     }
 
     // Validación de URL o archivo
-    if (formData.type === 'RESOURCE') {
+    if (formData.type === EducationalMaterialType.Resource) {
       if (!formData.fileAddress) {
         newErrors.url = 'La URL es obligatoria para recursos web'
       } else if (!/^https?:\/\/.+/.test(formData.fileAddress)) {
@@ -220,23 +220,23 @@ const MaterialForm = ({ onClose }: MaterialFormProps) => {
       </div>
 
       {/* Archivo o URL (según el tipo) */}
-      {formData.type === 'RESOURCE' ? (
+      {formData.type === EducationalMaterialType.Resource ? (
         <div>
-          <label htmlFor="url" className="block text-sm font-medium text-gray-700 mb-1">
+          <label htmlFor="fileAddress" className="block text-sm font-medium text-gray-700 mb-1">
             URL <span className="text-red-500">*</span>
           </label>
           <input
             type="url"
-            id="url"
-            name="url"
-            value={formData.fileAddress}
+            id="fileAddress"
+            name="fileAddress"
+            value={formData.fileAddress !== undefined ? formData.fileAddress : ''}
             onChange={handleInputChange}
-            className={`w-full px-3 py-2 border ${errors.url ? 'border-red-500' : 'border-gray-300'
+            className={`w-full px-3 py-2 border ${errors.fileAddress ? 'border-red-500' : 'border-gray-300'
               } rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500`}
             placeholder="https://ejemplo.com/recurso"
             required
           />
-          {errors.url && <p className="mt-1 text-sm text-red-500">{errors.url}</p>}
+          {errors.fileAddress && <p className="mt-1 text-sm text-red-500">{errors.fileAddress}</p>}
         </div>
       ) : (
         <div>

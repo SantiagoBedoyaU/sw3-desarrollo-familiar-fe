@@ -1,6 +1,7 @@
 import axios from 'axios'
 import EducationalMaterial, {
   EducationalMaterialCreate,
+  EducationalMaterialType,
   EducationalMaterialUpdate,
 } from '../entities/EducationalMaterial'
 import { ApiService } from '../../../shared/services/ApiService'
@@ -47,7 +48,7 @@ export class EducationalMaterialService extends ApiService<EducationalMaterial> 
       formData.append('maxAge', data.maxAge.toString())
     }
 
-    if (data.type === 'RESOURCE' && data.fileAddress) {
+    if (data.type === EducationalMaterialType.Resource && data.fileAddress) {
       formData.append('fileAddress', data.fileAddress)
     } else if (data.file) {
       const cleanName = data.file.name
@@ -105,32 +106,67 @@ export class EducationalMaterialService extends ApiService<EducationalMaterial> 
   async downloadMaterial(material: EducationalMaterial): Promise<void> {
     try {
       // Si es un recurso web, abrimos la URL en una nueva pestaña
-      if (material.type === 'RESOURCE') {
+      if (material.type === EducationalMaterialType.Resource) {
         window.open(material.fileAddress, '_blank')
         return
       }
 
       // Para otros tipos, descargamos el archivo
-      const response = await axios.get(material.fileAddress, {
-        ...Config.defaultConfig,
-        responseType: 'blob',
-      })
+      const response = await axios.get(
+        this.getUrl() + '/' + material._id + '/download',
+        {
+          ...Config.defaultConfig,
+          responseType: 'blob',
+        },
+      )
 
       const url = window.URL.createObjectURL(new Blob([response.data]))
       const link = document.createElement('a')
       link.href = url
 
-      // Determinar la extensión basada en el tipo MIME o usar una genérica
       let extension = 'file'
-      const contentType = response.headers['content-type'] as string | undefined
+      const filePathParts = material.fileAddress.split('.')
+      const possibleExtension =
+        filePathParts.length > 1 ? filePathParts.pop()?.toLowerCase() : null
 
-      if (contentType) {
-        if (typeof contentType === 'string' && contentType.includes('pdf')) extension = 'pdf'
-        else if (typeof contentType === 'string' && contentType.includes('document')) extension = 'docx'
-        else if (typeof contentType === 'string' && contentType.includes('image')) extension = 'jpg'
-        else if (typeof contentType === 'string' && contentType.includes('zip')) extension = 'zip'
+      if (possibleExtension) {
+        if (
+          [
+            'pdf',
+            'doc',
+            'docx',
+            'jpg',
+            'jpeg',
+            'png',
+            'zip',
+            'xlsx',
+            'ppt',
+            'pptx',
+          ].includes(possibleExtension)
+        ) {
+          extension = possibleExtension
+        } else {
+          // Fallback para tipos comunes si la extensión no es reconocida
+          switch (possibleExtension) {
+            case EducationalMaterialType.Document:
+              extension = 'docx'
+              break
+            case EducationalMaterialType.Image:
+              extension = 'jpg'
+              break
+            case EducationalMaterialType.Other:
+              extension = 'zip'
+              break
+            case 'presentation':
+              extension = 'pptx'
+              break
+            case 'spreadsheet':
+              extension = 'xlsx'
+              break
+          }
+        }
       }
-
+      link.setAttribute('target', '_blank')
       link.setAttribute(
         'download',
         `${material.title.replace(/[^a-zA-Z0-9-.]/g, '-')}.${extension}`,

@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import EducationalMaterial, { EducationalMaterialUpdate } from '../entities/EducationalMaterial'
+import EducationalMaterial, { EducationalMaterialType, EducationalMaterialUpdate } from '../entities/EducationalMaterial'
 import { useEducationalMaterialStore } from '../stores/EducationalMaterialStore'
 
 interface MaterialEditProps {
@@ -119,12 +119,12 @@ const MaterialEdit = ({ material, onClose, setUpdatedMaterials }: MaterialEditPr
       <div className="bg-gray-100 p-3 rounded-md">
         <p className="text-sm font-medium text-gray-700">
           Tipo de material: <span className="font-normal">{
-            material.type === 'DOCUMENT' ? 'Documento' :
-              material.type === 'IMAGE' ? 'Imagen' :
-                material.type === 'RESOURCE' ? 'Recurso Web' : 'Otro'
+            material.type === EducationalMaterialType.Document ? 'Documento' :
+              material.type === EducationalMaterialType.Image ? 'Imagen' :
+                material.type === EducationalMaterialType.Resource ? 'Recurso Web' : 'Otro'
           }</span>
         </p>
-        {material.type === 'RESOURCE' ? (
+        {material.type === EducationalMaterialType.Resource ? (
           <p className="text-sm font-medium text-gray-700 mt-1">
             URL: <span className="font-normal">{material.fileAddress}</span>
           </p>

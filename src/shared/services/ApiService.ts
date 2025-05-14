@@ -182,10 +182,23 @@ export class ApiService<T> {
    * Obtiene todos los registros
    * @returns Lista paginada de entidades
    */
-  async getAll(): Promise<ResponseEntity<T>> {
+  async getAll(params?: {
+    page?: number
+    limit?: number
+  }): Promise<ResponseEntity<T>> {
     try {
+      const { page = 1, limit = 10 } = params || {}
+      // Use page and limit in the request if needed, e.g., as query parameters
+      const queryParams = `?page=${page}&limit=${limit}`
       return await this.handleResponse<ResponseEntity<T>>(
-        axios.get(this.getUrl(), DEFAULT_CONFIG),
+        axios.get(
+          this.getUrl(queryParams),
+          Object.assign(DEFAULT_CONFIG, {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem('token') ?? ''}`,
+            },
+          }),
+        ),
       )
     } catch (error) {
       return this.handleError(error, `Error al obtener ${this.entityName}`)
