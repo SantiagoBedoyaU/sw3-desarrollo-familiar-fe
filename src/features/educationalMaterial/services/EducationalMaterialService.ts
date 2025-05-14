@@ -147,18 +147,18 @@ export class EducationalMaterialService extends ApiService<EducationalMaterial> 
           extension = possibleExtension
         } else {
           switch (possibleExtension) {
-          // eslint-disable-next-line @typescript-eslint/no-unsafe-enum-comparison
-          case EducationalMaterialType.Document:
-            extension = 'docx'
-            break
             // eslint-disable-next-line @typescript-eslint/no-unsafe-enum-comparison
-          case EducationalMaterialType.Image:
-            extension = 'jpg'
-            break
+            case EducationalMaterialType.Document:
+              extension = 'docx'
+              break
             // eslint-disable-next-line @typescript-eslint/no-unsafe-enum-comparison
-          case EducationalMaterialType.Other:
-            extension = 'zip'
-            break
+            case EducationalMaterialType.Image:
+              extension = 'jpg'
+              break
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-enum-comparison
+            case EducationalMaterialType.Other:
+              extension = 'zip'
+              break
           }
         }
       }
