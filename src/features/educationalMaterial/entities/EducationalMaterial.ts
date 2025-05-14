@@ -23,8 +23,8 @@ export interface EducationalMaterialUpdate {
   _id: string
   title: string
   description?: string
-  minAge?: number
-  maxAge?: number
+  minAge?: string
+  maxAge?: string
 }
 
 export enum EducationalMaterialType {

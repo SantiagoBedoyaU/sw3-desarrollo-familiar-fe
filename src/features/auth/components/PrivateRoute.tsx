@@ -8,19 +8,25 @@ interface PrivateRouteProps {
   readonly requiredRoles?: number[] // Array de roles permitidos
 }
 
+const verifyToken = () => {
+  return localStorage.getItem('token')
+}
+
+const getSignIn = () => {
+  let signInString = localStorage.getItem('signIn')
+  let signIn: SignIn | null = signInString
+    ? (JSON.parse(signInString) as SignIn)
+    : null
+  return signIn
+}
+
 function PrivateRoute({ element, requiredRoles }: PrivateRouteProps) {
+  let token = verifyToken()
+  let signIn = getSignIn()
   const [redirect, setRedirect] = useState(false)
   const alertShown = useRef(false)
 
-  // Verificamos el token y opcionalmente obtenemos el usuario
-  const token = localStorage.getItem('token')
-  const signInSring = localStorage.getItem('signIn')
-  const signIn: SignIn | null = signInSring
-    ? (JSON.parse(signInSring) as SignIn)
-    : null
-
-  useEffect(() => {
-    // Verificamos si no hay token
+  const validateAccessToken = () => {
     if (!token && !alertShown.current) {
       void Swal.fire({
         title: 'No estás autenticado',
@@ -30,14 +36,12 @@ function PrivateRoute({ element, requiredRoles }: PrivateRouteProps) {
       })
       alertShown.current = true
       setRedirect(true)
-      return
     }
+  }
 
-    // Verificamos si se requieren roles específicos
+  const validatePermissions = () => {
     if (requiredRoles && requiredRoles.length > 0 && signIn) {
-      // Comprobamos si el rol del usuario está en el array de roles permitidos
       const hasPermission = requiredRoles.includes(signIn.userRole)
-
       if (!hasPermission) {
         void Swal.fire({
           title: 'Acceso denegado',
@@ -49,10 +53,16 @@ function PrivateRoute({ element, requiredRoles }: PrivateRouteProps) {
         setRedirect(true)
       }
     }
+  }
+
+  useEffect(() => {
+    token = verifyToken()
+    signIn = getSignIn()
+    validateAccessToken()
+    validatePermissions()
   }, [token, signIn, requiredRoles])
 
   if (redirect) return <Navigate to="/login" />
-
   return element
 }
 

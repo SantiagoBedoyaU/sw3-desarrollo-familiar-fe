@@ -35,7 +35,7 @@ const AppRoutes = () => {
       />
       <Route
         path="/caja-de-herramientas"
-        element={<PrivateRoute element={<ToolboxPage />} requiredRoles={[1]} />}
+        element={<ToolboxPage />}
       />
       <Route path="/registrarse" element={<Register />} />
       <Route path="/login" element={<Login />} />

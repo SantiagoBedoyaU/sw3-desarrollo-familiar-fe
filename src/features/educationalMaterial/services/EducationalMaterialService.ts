@@ -186,13 +186,17 @@ export class EducationalMaterialService extends ApiService<EducationalMaterial> 
     data: EducationalMaterialUpdate,
   ): Promise<EducationalMaterial> {
     try {
-      const response = await axios.put(this.getUrl(`/${id}`), data, {
-        ...Config.defaultConfig,
-        headers: {
-          ...Config.defaultConfig.headers,
-          Authorization: `Bearer ${localStorage.getItem('token') ?? ''}`,
+      const response = await axios.patch<EducationalMaterial>(
+        this.getUrl(`${id}`),
+        data,
+        {
+          ...Config.defaultConfig,
+          headers: {
+            ...Config.defaultConfig.headers,
+            Authorization: `Bearer ${localStorage.getItem('token') ?? ''}`,
+          },
         },
-      })
+      )
       return response.data
     } catch (error) {
       console.error('Error updating educational material:', error)

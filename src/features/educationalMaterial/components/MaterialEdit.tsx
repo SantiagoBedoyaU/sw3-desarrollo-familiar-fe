@@ -15,8 +15,8 @@ const MaterialEdit = ({ material, onClose, setUpdatedMaterials }: MaterialEditPr
     _id: material._id,
     title: material.title,
     description: material.description || '',
-    minAge: material.minAge,
-    maxAge: material.maxAge,
+    minAge: material.minAge?.toString(),
+    maxAge: material.maxAge?.toString(),
   })
   const [errors, setErrors] = useState<Record<string, string>>({})
 
@@ -58,16 +58,16 @@ const MaterialEdit = ({ material, onClose, setUpdatedMaterials }: MaterialEditPr
     if (
       formData.minAge !== undefined &&
       formData.maxAge !== undefined &&
-      formData.minAge > 0 &&
-      formData.maxAge > 0
+      parseInt(formData.minAge) > 0 &&
+      parseInt(formData.maxAge) > 0
     ) {
-      if (formData.minAge < 4 || formData.minAge > 12) {
+      if (parseInt(formData.minAge) < 4 || parseInt(formData.minAge) > 12) {
         newErrors.minAge = 'La edad mínima debe estar entre 4 y 12 años'
       }
-      if (formData.maxAge < 4 || formData.maxAge > 12) {
+      if (parseInt(formData.maxAge) < 4 || parseInt(formData.maxAge) > 12) {
         newErrors.maxAge = 'La edad máxima debe estar entre 4 y 12 años'
       }
-      if (formData.minAge > formData.maxAge) {
+      if (parseInt(formData.minAge) > parseInt(formData.maxAge)) {
         newErrors.ageRange = 'La edad mínima no puede ser mayor que la edad máxima'
       }
     }
@@ -79,21 +79,18 @@ const MaterialEdit = ({ material, onClose, setUpdatedMaterials }: MaterialEditPr
   // Manejo del envío del formulario
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-
     if (!validateForm()) {
       return
     }
-
     try {
       setIsSubmitting(true)
 
-      // Convertir edades a números si están definidas
+      // Asegurarse de que minAge y maxAge sean strings o undefined
       const materialData: EducationalMaterialUpdate = {
         ...formData,
-        minAge: formData.minAge !== undefined ? Number(formData.minAge) : undefined,
-        maxAge: formData.maxAge !== undefined ? Number(formData.maxAge) : undefined,
+        minAge: formData.minAge !== undefined ? String(formData.minAge) : undefined,
+        maxAge: formData.maxAge !== undefined ? String(formData.maxAge) : undefined,
       }
-
       const updatedMaterial = await editMaterial(material._id, materialData)
 
       // Actualizar la lista local si se proporciona la función setUpdatedMaterials
@@ -104,7 +101,6 @@ const MaterialEdit = ({ material, onClose, setUpdatedMaterials }: MaterialEditPr
           )
         )
       }
-
       onClose()
     } catch (error) {
       console.error('Error updating material:', error)
@@ -113,16 +109,29 @@ const MaterialEdit = ({ material, onClose, setUpdatedMaterials }: MaterialEditPr
     }
   }
 
+  const getMaterialTypeLabel = (type: EducationalMaterialType): string => {
+    switch (type) {
+      case EducationalMaterialType.Document:
+        return 'Documento'
+      case EducationalMaterialType.Image:
+        return 'Imagen'
+      case EducationalMaterialType.Resource:
+        return 'Recurso Web'
+      case EducationalMaterialType.Other:
+        return 'Otro'
+      default:
+        return 'Desconocido'
+    }
+  }
+
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
       {/* Información del archivo (no editable) */}
       <div className="bg-gray-100 p-3 rounded-md">
         <p className="text-sm font-medium text-gray-700">
-          Tipo de material: <span className="font-normal">{
-            material.type === EducationalMaterialType.Document ? 'Documento' :
-              material.type === EducationalMaterialType.Image ? 'Imagen' :
-                material.type === EducationalMaterialType.Resource ? 'Recurso Web' : 'Otro'
-          }</span>
+          Tipo de material: <span className="font-normal">
+            {getMaterialTypeLabel(material.type)}
+          </span>
         </p>
         {material.type === EducationalMaterialType.Resource ? (
           <p className="text-sm font-medium text-gray-700 mt-1">
@@ -148,7 +157,7 @@ const MaterialEdit = ({ material, onClose, setUpdatedMaterials }: MaterialEditPr
           value={formData.title}
           onChange={handleInputChange}
           className={`w-full px-3 py-2 border ${errors.title ? 'border-red-500' : 'border-gray-300'
-          } rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500`}
+            } rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500`}
           placeholder="Nombre del material educativo"
           required
         />
@@ -187,7 +196,7 @@ const MaterialEdit = ({ material, onClose, setUpdatedMaterials }: MaterialEditPr
             name="minAge"
             value={formData.minAge === undefined ? '' : formData.minAge}
             onChange={(e) => {
-              const value = e.target.value === '' ? undefined : parseInt(e.target.value)
+              const value = e.target.value === '' ? undefined : e.target.value
               setFormData({
                 ...formData,
                 minAge: value,
@@ -201,7 +210,7 @@ const MaterialEdit = ({ material, onClose, setUpdatedMaterials }: MaterialEditPr
             min={4}
             max={12}
             className={`w-full px-3 py-2 border ${errors.minAge ? 'border-red-500' : 'border-gray-300'
-            } rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500`}
+              } rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500`}
             placeholder="4"
           />
           {errors.minAge && <p className="mt-1 text-sm text-red-500">{errors.minAge}</p>}
@@ -216,7 +225,7 @@ const MaterialEdit = ({ material, onClose, setUpdatedMaterials }: MaterialEditPr
             name="maxAge"
             value={formData.maxAge === undefined ? '' : formData.maxAge}
             onChange={(e) => {
-              const value = e.target.value === '' ? undefined : parseInt(e.target.value)
+              const value = e.target.value === '' ? undefined : e.target.value
               setFormData({
                 ...formData,
                 maxAge: value,
@@ -230,7 +239,7 @@ const MaterialEdit = ({ material, onClose, setUpdatedMaterials }: MaterialEditPr
             min={4}
             max={12}
             className={`w-full px-3 py-2 border ${errors.maxAge ? 'border-red-500' : 'border-gray-300'
-            } rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500`}
+              } rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500`}
             placeholder="12"
           />
           {errors.maxAge && <p className="mt-1 text-sm text-red-500">{errors.maxAge}</p>}

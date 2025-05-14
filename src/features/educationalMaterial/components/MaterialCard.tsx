@@ -5,7 +5,7 @@ import { educationalMaterialService } from '../services/EducationalMaterialServi
 import { Modal } from '../../../shared/components/common/modal/Modal'
 import MaterialEdit from './MaterialEdit'
 import { useEducationalMaterialStore } from '../stores/EducationalMaterialStore'
-// import useAuthStore from '../../../app/stores/useAuthStore'
+import useAuthStore from '../../../app/stores/useAuthStore'
 
 interface MaterialCardProps {
   material: EducationalMaterial
@@ -17,7 +17,7 @@ const MaterialCard = ({ material, setUpdatedMaterials }: MaterialCardProps) => {
   const [isEditModalOpen, setIsEditModalOpen] = useState(false)
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
   const { deleteMaterial } = useEducationalMaterialStore()
-  // const { checkAuth } = useAuthStore()
+  const { checkAuth } = useAuthStore()
   const [userRole, setUserRole] = useState<number | undefined>(undefined)
 
   // Obtener el rol del usuario para mostrar/ocultar botones de edición y eliminación
@@ -27,7 +27,7 @@ const MaterialCard = ({ material, setUpdatedMaterials }: MaterialCardProps) => {
       const signIn: { userRole?: number } = JSON.parse(signInString)
       setUserRole(signIn.userRole)
     }
-  }, [])
+  }, [checkAuth])
 
   // Determinar si el usuario puede editar y eliminar (admin o docente)
   const canEditDelete = userRole === 1 || userRole === 2 // 1: admin, 2: docente
@@ -138,9 +138,10 @@ const MaterialCard = ({ material, setUpdatedMaterials }: MaterialCardProps) => {
               : 'bg-blue-600 hover:bg-blue-700 text-white'
               } transition-colors duration-300`}
           >
-            {isLoading ? (
+            {isLoading && (
               <span className="animate-spin rounded-full h-4 w-4 border-t-2 border-b-2 border-white"></span>
-            ) : material.type === EducationalMaterialType.Resource ? (
+            )}
+            {!isLoading && material.type === EducationalMaterialType.Resource ? (
               <>
                 <ExternalLink size={16} />
                 <span>Ir al sitio</span>
@@ -163,7 +164,6 @@ const MaterialCard = ({ material, setUpdatedMaterials }: MaterialCardProps) => {
                 <Edit2 size={14} />
                 <span>Editar</span>
               </button>
-
               <button
                 onClick={() => setIsDeleteModalOpen(true)}
                 className="flex-1 flex items-center justify-center gap-1 px-3 py-1.5 bg-red-500 hover:bg-red-600 text-white rounded transition-colors duration-300"

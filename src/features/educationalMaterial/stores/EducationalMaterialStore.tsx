@@ -23,6 +23,8 @@ interface EducationalMaterialState {
     minAge?: number
     maxAge?: number
     title?: string
+    page?: number
+    limit?: number
   }) => void
   clearFilters: () => void
 }
@@ -41,7 +43,10 @@ export const useEducationalMaterialStore = create<EducationalMaterialState>((set
       set({ isLoading: true })
 
       const response: ResponseEntity<EducationalMaterial> | null =
-        await educationalMaterialService.getAll().catch((error: unknown) => {
+        await educationalMaterialService.getAll({
+          page: 1,
+          limit: 20,
+        }).catch((error: unknown) => {
           void Swal.fire({
             title: 'Error',
             text: 'Ocurrió un error al obtener los materiales educativos.',

@@ -73,7 +73,6 @@ const ToolboxPage = () => {
         <MaterialsList materials={materialsToShow} />
       )}
 
-      {/* Modal para subir material */}
       <Modal isOpen={isUploadModalOpen} onClose={() => setIsUploadModalOpen(false)}>
         <h2 className="text-xl font-semibold mb-4">Subir Material Educativo</h2>
         <MaterialForm onClose={() => setIsUploadModalOpen(false)} />
