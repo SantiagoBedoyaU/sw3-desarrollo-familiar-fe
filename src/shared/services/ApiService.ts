@@ -262,4 +262,14 @@ export class ApiService<T> {
       this.handleError(error, `Error al eliminar ${this.entityName} #${id}`)
     }
   }
+
+  async getAllCustom(path = ''): Promise<ResponseEntity<T>> {
+    try {
+      return await this.handleResponse<ResponseEntity<T>>(
+        axios.get(`${API_BASE_URL}${this.endpoint}${path}`, DEFAULT_CONFIG),
+      )
+    } catch (error) {
+      return this.handleError(error, `Error al obtener ${this.entityName}`)
+    }
+  }
 }
