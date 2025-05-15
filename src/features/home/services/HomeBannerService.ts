@@ -11,6 +11,6 @@ interface PostBanner {
 const postService = new ApiService<PostBanner>('posts')
 
 export const getVisibleBanners = async (): Promise<PostBanner[]> => {
-  const response = await postService.getAllCustom('/public')
+  const response = await postService.getAllCustom('/public?limit=10&page=1')
   return response.data
 }
