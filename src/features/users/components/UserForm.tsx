@@ -58,7 +58,7 @@ const UserForm: React.FC<UserFormProps> = ({ close }) => {
       name: !formData.name.trim(),
       email:
         !formData.email.trim() ||
-        !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email),
+        !/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(formData.email),
       // password: !formData.password.trim() || formData.password.length < 6,
     }
 

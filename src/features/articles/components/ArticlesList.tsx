@@ -6,8 +6,8 @@ import { useEffect, useState } from 'react'
 import { useArticleStore } from '../stores/ArticlesStore'
 import downloadArticle from '../utils/AddDownload'
 import useAuthStore from '../../../app/stores/useAuthStore'
-import { SignIn } from '../../users/entities/User'
 import ArticleEdit from './ArticleEdit'
+import { getSignIn } from '../../auth/utils/getSignIn'
 
 interface ArticlesListProps {
   articles: Article[]
@@ -24,10 +24,7 @@ function ArticlesList({ articles }: Readonly<ArticlesListProps>) {
   const { checkAuth } = useAuthStore()
   const [userRole, setUserRole] = useState(false)
   useEffect(() => {
-    const signInString = localStorage.getItem('signIn')
-    const signIn: SignIn | null = signInString
-      ? (JSON.parse(signInString) as SignIn)
-      : null
+    const signIn = getSignIn()
     setUserRole(signIn?.userRole === 1 || signIn?.userRole === 2)
   }, [checkAuth])
 
