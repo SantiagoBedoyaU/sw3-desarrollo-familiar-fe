@@ -19,7 +19,7 @@ const InstitutionsList = ({ institutions }: Props) => {
 
   useEffect(() => {
     const signIn = getSignIn()
-    if (signIn?.userRole) setUserRole(signIn?.userRole)
+    if (signIn?.userRole) setUserRole(signIn.userRole)
   }, [checkAuth])
 
   const canManage = userRole === 1 || userRole === 2 // 1: admin, 2: docente
