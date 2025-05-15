@@ -26,7 +26,7 @@ const HomeBanner = () => {
         console.error('Error cargando banners:', err)
       }
     }
-    fetchBanners()
+    void fetchBanners()
   }, [])
 
   useEffect(() => {
