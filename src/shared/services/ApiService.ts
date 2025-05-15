@@ -262,6 +262,20 @@ export class ApiService<T> {
       this.handleError(error, `Error al eliminar ${this.entityName} #${id}`)
     }
   }
+  async post<R = T>(path = '', data: T): Promise<R> {
+    try {
+      const headers = Object.assign(DEFAULT_CONFIG.headers ?? {}, {
+        Authorization: `Bearer ${localStorage.getItem('token') ?? ''}`,
+      })
+
+      return await this.handleResponse<R>(
+        axios.post(this.getUrl(path), data, { headers }),
+        `${this.entityName} creado correctamente`,
+      )
+    } catch (error) {
+      return this.handleError(error, `Error al crear ${this.entityName}`)
+    }
+  }
 
   async getAllCustom(path = ''): Promise<ResponseEntity<T>> {
     try {

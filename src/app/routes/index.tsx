@@ -10,9 +10,12 @@ import Users from '../../features/users'
 import Dashboard from '../../features/dashboard'
 import Institutions from '../../features/institutions'
 import PracticeReports from '../../features/practiceReports'
-// import BannerCreate from '../../features/banner/pages/CreateBanner'
-// import BannerHistory from '../../features/banner/pages/BannerHistory'
 import { ToolboxPage } from '../../features/educationalMaterial'
+
+// Módulo de banners
+import BannerCreate from '../../features/banners' // index.tsx con formulario
+// import BannerHistory from '../../features/banners/pages/BannerHistory' (a futuro)
+
 const AppRoutes = () => {
   return (
     <Routes>
@@ -34,22 +37,21 @@ const AppRoutes = () => {
         element={<PrivateRoute element={<Dashboard />} requiredRoles={[1]} />}
       />
 
-      {/* <Route
+      {/* Rutas para publicaciones en el banner */}
+      <Route
         path="/banners/create"
         element={
           <PrivateRoute element={<BannerCreate />} requiredRoles={[0, 1, 2]} />
         }
-      /> */}
+      />
       {/* <Route
         path="/banners/history"
         element={
           <PrivateRoute element={<BannerHistory />} requiredRoles={[0, 1, 2]} />
         }
       /> */}
-      <Route
-        path="/caja-de-herramientas"
-        element={<ToolboxPage />}
-      />
+
+      <Route path="/caja-de-herramientas" element={<ToolboxPage />} />
       <Route path="/registrarse" element={<Register />} />
       <Route path="/login" element={<Login />} />
       <Route path="*" element={<NotFound />} />
