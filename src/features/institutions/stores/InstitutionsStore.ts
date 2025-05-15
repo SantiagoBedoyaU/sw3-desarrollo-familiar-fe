@@ -9,6 +9,7 @@ interface InstitutionState {
   fetchInstitutions: () => Promise<void>
   addInstitution: (data: InstitutionCreate) => Promise<void>
   deleteInstitution: (_id: string) => Promise<void>
+  editInstitution: (data: Institution) => Promise<void>
 }
 
 export const useInstitutionStore = create<InstitutionState>((set) => ({
@@ -77,6 +78,27 @@ export const useInstitutionStore = create<InstitutionState>((set) => ({
         title: 'Error',
         text: 'No se pudo eliminar la institución.',
       })
+    }
+  },
+
+  editInstitution: async (data) => {
+    try {
+      const updatedInstitution =
+        await institutionService.updateInstitution(data)
+      set((state) => ({
+        institutions: state.institutions.map((i) =>
+          i._id === updatedInstitution._id ? updatedInstitution : i,
+        ),
+      }))
+    } catch (error: unknown) {
+      console.error('Error updating institution:', error)
+      const errorMessage = 'No se pudo actualizar la institución.'
+      await Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: errorMessage,
+      })
+      throw error
     }
   },
 }))
