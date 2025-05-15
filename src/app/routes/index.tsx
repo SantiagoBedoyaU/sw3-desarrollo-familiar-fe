@@ -10,6 +10,7 @@ import Users from '../../features/users'
 import Dashboard from '../../features/dashboard'
 import Institutions from '../../features/institutions'
 import PracticeReports from '../../features/practiceReports'
+import { ToolboxPage } from '../../features/educationalMaterial'
 
 const AppRoutes = () => {
   return (
@@ -31,6 +32,10 @@ const AppRoutes = () => {
       <Route
         path="/dashboard"
         element={<PrivateRoute element={<Dashboard />} requiredRoles={[1]} />}
+      />
+      <Route
+        path="/caja-de-herramientas"
+        element={<ToolboxPage />}
       />
       <Route path="/registrarse" element={<Register />} />
       <Route path="/login" element={<Login />} />
