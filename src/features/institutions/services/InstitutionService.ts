@@ -20,8 +20,21 @@ export class InstitutionService extends ApiService<Institution> {
     )
   }
 
-  // (Opcional) puedes sobreescribir delete si deseas personalizarlo
-  // pero el heredado de ApiService ya incluye el token correctamente
+  async updateInstitution(data: Institution): Promise<Institution> {
+    return this.handleResponse(
+      axios.patch(
+        this.getUrl(data._id),
+        { name: data.name },
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${localStorage.getItem('token') ?? ''}`,
+          },
+        },
+      ),
+      'Institución actualizada correctamente',
+    )
+  }
 }
 
 export const institutionService = new InstitutionService()
