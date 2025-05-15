@@ -10,6 +10,8 @@ import Users from '../../features/users'
 import Dashboard from '../../features/dashboard'
 import Institutions from '../../features/institutions'
 import PracticeReports from '../../features/practiceReports'
+// import BannerCreate from '../../features/banner/pages/CreateBanner'
+// import BannerHistory from '../../features/banner/pages/BannerHistory'
 
 const AppRoutes = () => {
   return (
@@ -23,7 +25,6 @@ const AppRoutes = () => {
           <PrivateRoute element={<Institutions />} requiredRoles={[1]} />
         }
       />
-
       <Route
         path="/usuarios"
         element={<PrivateRoute element={<Users />} requiredRoles={[1]} />}
@@ -32,6 +33,18 @@ const AppRoutes = () => {
         path="/dashboard"
         element={<PrivateRoute element={<Dashboard />} requiredRoles={[1]} />}
       />
+      {/* <Route
+        path="/banners/create"
+        element={
+          <PrivateRoute element={<BannerCreate />} requiredRoles={[0, 1, 2]} />
+        }
+      /> */}
+      {/* <Route
+        path="/banners/history"
+        element={
+          <PrivateRoute element={<BannerHistory />} requiredRoles={[0, 1, 2]} />
+        }
+      /> */}
       <Route path="/registrarse" element={<Register />} />
       <Route path="/login" element={<Login />} />
       <Route path="*" element={<NotFound />} />
