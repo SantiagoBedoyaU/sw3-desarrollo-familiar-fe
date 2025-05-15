@@ -90,13 +90,37 @@ export const useInstitutionStore = create<InstitutionState>((set) => ({
           i._id === updatedInstitution._id ? updatedInstitution : i,
         ),
       }))
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error('Error updating institution:', error)
       let errorMessage = 'No se pudo actualizar la institución.'
-
-      // Manejar mensajes específicos según el error del servidor
-      if (error.response?.data?.message) {
-        const serverError = error.response.data.message
+      if (
+        typeof error === 'object' &&
+        error !== null &&
+        'response' in error &&
+        typeof (error as { response?: unknown }).response === 'object' &&
+        (error as { response?: { data?: unknown } }).response !== null &&
+        'data' in (error as { response?: { data?: unknown } }).response! &&
+        typeof (
+          (error as { response?: { data?: unknown } }).response as {
+            data?: unknown
+          }
+        ).data === 'object' &&
+        (
+          (error as { response?: { data?: { message?: unknown } } })
+            .response as { data?: { message?: unknown } }
+        ).data !== null &&
+        'message' in
+          (
+            (error as { response?: { data?: { message?: unknown } } })
+              .response as { data?: { message?: unknown } }
+          ).data!
+      ) {
+        const serverError = String(
+          (
+            (error as { response?: { data?: { message?: unknown } } })
+              .response as { data?: { message?: unknown } }
+          ).data!.message,
+        )
 
         if (serverError.includes('ya existe')) {
           errorMessage = 'Ya existe una institución con este nombre.'

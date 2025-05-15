@@ -1,9 +1,10 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import Institution from '../entities/Institution'
 import { useInstitutionStore } from '../stores/InstitutionsStore'
 import { Modal } from '../../../shared/components/common/modal/Modal'
 import InstitutionEditForm from './InstitutionEditForm'
 import useAuthStore from '../../../app/stores/useAuthStore'
+import { getSignIn } from '../../auth/utils/getSignIn'
 
 interface Props {
   institutions: Institution[]
@@ -16,16 +17,11 @@ const InstitutionsList = ({ institutions }: Props) => {
   const { checkAuth } = useAuthStore()
   const [userRole, setUserRole] = useState<number | undefined>(undefined)
 
-  // Verificar el rol del usuario para controlar permisos
-  useState(() => {
-    const signInString = localStorage.getItem('signIn')
-    if (signInString) {
-      const signIn = JSON.parse(signInString)
-      setUserRole(signIn?.userRole)
-    }
-  })
+  useEffect(() => {
+    const signIn = getSignIn()
+    if (signIn?.userRole) setUserRole(signIn?.userRole)
+  }, [checkAuth])
 
-  // Determinar si el usuario puede editar/eliminar (admin o docente)
   const canManage = userRole === 1 || userRole === 2 // 1: admin, 2: docente
 
   const handleEditClick = (institution: Institution) => {
@@ -74,12 +70,11 @@ const InstitutionsList = ({ institutions }: Props) => {
         )}
       </section>
 
-      {/* Modal de edición */}
       {selectedInstitution && (
         <Modal isOpen={isEditModalOpen} onClose={() => setIsEditModalOpen(false)}>
-          <InstitutionEditForm 
-            institution={selectedInstitution} 
-            onClose={() => setIsEditModalOpen(false)} 
+          <InstitutionEditForm
+            institution={selectedInstitution}
+            onClose={() => setIsEditModalOpen(false)}
           />
         </Modal>
       )}
