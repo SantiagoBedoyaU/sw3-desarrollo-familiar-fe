@@ -1,7 +1,8 @@
 import { useState, useEffect, useRef, JSX } from 'react'
 import { Navigate } from 'react-router-dom'
-import { SignIn } from '../../users/entities/User'
 import Swal from 'sweetalert2'
+import { getLocalStorageToken } from '../utils/verifyLocalToken'
+import { getSignIn } from '../utils/getSignIn'
 
 interface PrivateRouteProps {
   readonly element: JSX.Element
@@ -9,18 +10,12 @@ interface PrivateRouteProps {
 }
 
 function PrivateRoute({ element, requiredRoles }: PrivateRouteProps) {
+  let token = getLocalStorageToken()
+  let signIn = getSignIn()
   const [redirect, setRedirect] = useState(false)
   const alertShown = useRef(false)
 
-  // Verificamos el token y opcionalmente obtenemos el usuario
-  const token = localStorage.getItem('token')
-  const signInSring = localStorage.getItem('signIn')
-  const signIn: SignIn | null = signInSring
-    ? (JSON.parse(signInSring) as SignIn)
-    : null
-
-  useEffect(() => {
-    // Verificamos si no hay token
+  const validateAccessToken = () => {
     if (!token && !alertShown.current) {
       void Swal.fire({
         title: 'No estás autenticado',
@@ -30,14 +25,12 @@ function PrivateRoute({ element, requiredRoles }: PrivateRouteProps) {
       })
       alertShown.current = true
       setRedirect(true)
-      return
     }
+  }
 
-    // Verificamos si se requieren roles específicos
+  const validatePermissions = () => {
     if (requiredRoles && requiredRoles.length > 0 && signIn) {
-      // Comprobamos si el rol del usuario está en el array de roles permitidos
-      const hasPermission = requiredRoles.includes(signIn.userRole)
-
+      const hasPermission = signIn.userRole !== undefined && requiredRoles.includes(signIn.userRole)
       if (!hasPermission) {
         void Swal.fire({
           title: 'Acceso denegado',
@@ -49,10 +42,16 @@ function PrivateRoute({ element, requiredRoles }: PrivateRouteProps) {
         setRedirect(true)
       }
     }
+  }
+
+  useEffect(() => {
+    token = getLocalStorageToken()
+    signIn = getSignIn()
+    validateAccessToken()
+    validatePermissions()
   }, [token, signIn, requiredRoles])
 
   if (redirect) return <Navigate to="/login" />
-
   return element
 }
 

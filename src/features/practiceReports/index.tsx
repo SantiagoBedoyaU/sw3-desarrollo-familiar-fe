@@ -5,7 +5,7 @@ import PracticeReportsTop from './components/PracticeReportsTop'
 import PracticeReportsAllList from './components/PracticeReportsAllList'
 import PracticeReportsFilterList from './components/PracticeReportsFilterList'
 import useAuthStore from '../../app/stores/useAuthStore'
-import { SignIn } from '../users/entities/User'
+import { getSignIn } from '../auth/utils/getSignIn'
 // import { usePracticeReportStore } from './stores/PracticeReportsStore'
 
 const PracticeReports = () => {
@@ -26,11 +26,8 @@ const PracticeReports = () => {
   const [countFilters, setCountFilters] = useState(0)
 
   useEffect(() => {
-    const signInString = localStorage.getItem('signIn')
-    const signIn: SignIn | null = signInString
-      ? (JSON.parse(signInString) as SignIn)
-      : null
-    setUserRole(signIn?.userRole === 1 || signIn?.userRole === 2)
+    const signIn = getSignIn()
+    if (signIn) setUserRole(signIn.userRole === 1 || signIn.userRole === 2)
   }, [checkAuth])
 
   const manageCount = useCallback(() => {

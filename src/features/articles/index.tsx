@@ -5,12 +5,9 @@ import ArticlesTop from './components/ArticlesTop'
 import ArticlesAllList from './components/ArticlesAllList'
 import ArticlesFilterList from './components/ArticlesFilterList'
 import useAuthStore from '../../app/stores/useAuthStore'
-import { SignIn } from '../users/entities/User'
-// import { useArticleStore } from './stores/ArticlesStore'
+import { getSignIn } from '../auth/utils/getSignIn'
 
 const Articles = () => {
-  // const { filteredArticles } = useArticleStore()
-  // Estado para los filtros de búsqueda
   const { checkAuth } = useAuthStore()
   const [userRole, setUserRole] = useState(false)
   const [searchFilters, setSearchFilters] = useState({
@@ -24,10 +21,7 @@ const Articles = () => {
   const [countFilters, setCountFilters] = useState(0)
 
   useEffect(() => {
-    const signInString = localStorage.getItem('signIn')
-    const signIn: SignIn | null = signInString
-      ? (JSON.parse(signInString) as SignIn)
-      : null
+    const signIn = getSignIn()
     setUserRole(signIn?.userRole === 1 || signIn?.userRole === 2)
   }, [checkAuth])
 

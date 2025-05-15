@@ -12,7 +12,7 @@ import Institutions from '../../features/institutions'
 import PracticeReports from '../../features/practiceReports'
 // import BannerCreate from '../../features/banner/pages/CreateBanner'
 // import BannerHistory from '../../features/banner/pages/BannerHistory'
-
+import { ToolboxPage } from '../../features/educationalMaterial'
 const AppRoutes = () => {
   return (
     <Routes>
@@ -33,6 +33,7 @@ const AppRoutes = () => {
         path="/dashboard"
         element={<PrivateRoute element={<Dashboard />} requiredRoles={[1]} />}
       />
+
       {/* <Route
         path="/banners/create"
         element={
@@ -45,6 +46,10 @@ const AppRoutes = () => {
           <PrivateRoute element={<BannerHistory />} requiredRoles={[0, 1, 2]} />
         }
       /> */}
+      <Route
+        path="/caja-de-herramientas"
+        element={<ToolboxPage />}
+      />
       <Route path="/registrarse" element={<Register />} />
       <Route path="/login" element={<Login />} />
       <Route path="*" element={<NotFound />} />

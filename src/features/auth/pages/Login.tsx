@@ -1,9 +1,9 @@
 import { useState } from 'react'
 // import bcrypt from "bcryptjs"
 import { userService } from '../services/UserService'
-import { SignIn } from '../../users/entities/User'
 import Swal from 'sweetalert2'
 import useAuthStore from '../../../app/stores/useAuthStore'
+import { SignIn } from '../entities/SingIn'
 
 function Login() {
   const { checkAuth } = useAuthStore()
@@ -49,7 +49,7 @@ function Login() {
       .signIn(credentials)
       .then((data: SignIn) => {
         localStorage.setItem('signIn', JSON.stringify(data))
-        localStorage.setItem('token', data.accessToken)
+        if (data.accessToken) localStorage.setItem('token', data.accessToken)
         checkAuth()
         window.location.href = '/'
       })
