@@ -10,6 +10,8 @@ import Swal from 'sweetalert2'
 import { articleService } from '../services/ArticlesService'
 import downloadArticle from '../utils/AddDownload'
 import { practiceService } from '../../practiceReports/services/PraticeReportService'
+// import PracticeReport from '../../practiceReports/entities/PracticeReport'
+// import ShowWithReport from './ShowWithReport'
 
 interface ArticleViewProps {
   article: Article
@@ -21,8 +23,23 @@ const ArticleView: React.FC<ArticleViewProps> = ({
   setUpdatedArticles,
 }) => {
   const [isSubmittingArticle, setIsSubmittingArticle] = useState(false)
-  const [isSubmittingPractice, setIsSubmittingPractice] = useState(false)
   const [open, onClose] = useState(false)
+  const [isSubmittingPractice, setIsSubmittingPractice] = useState(false)
+  // const [associatedPracticeReport, setAssociatedPracticeReport] = useState<PracticeReport | null>(null)
+  // useEffect(() => {
+  //   if (article.practiceReport && open) {
+  //     // Obtener los datos del informe de práctica asociado
+  //     void practiceService.getById(article.practiceReport)
+  //       .then((response) => {
+  //         setAssociatedPracticeReport(response)
+  //       })
+  //       .catch((error) => {
+  //         console.error('Error obteniendo informe de práctica:', error)
+  //         setAssociatedPracticeReport(null)
+  //       })
+  //   }
+  // }, [article.practiceReport, open])
+
   const viewDownload = async () => {
     await downloadArticle(article)
     const id = article._id

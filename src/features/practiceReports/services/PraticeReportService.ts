@@ -1,6 +1,7 @@
 import axios from 'axios'
 import PracticeReport, {
   PracticeReportCreate,
+  PracticeReportUpdate,
 } from '../entities/PracticeReport'
 import { ApiService } from '../../../shared/services/ApiService'
 import Config from '../../../app/config/Config'
@@ -84,6 +85,65 @@ export class PracticeReportService extends ApiService<PracticeReport> {
     }
   }
 
+  async update(
+    id: string,
+    data: PracticeReportUpdate,
+    // file?: File,
+  ): Promise<PracticeReport> {
+    // const formData = new FormData()
+    // formData.append('title', data.title)
+    // formData.append('yearSemester', data.period)
+    // formData.append('institutionId', data.institutionId)
+    // formData.append('authors', data.authors)
+    // formData.append('mainAxis', data.primaryThematicAxis)
+    // formData.append('keywords', data.keywords)
+    // if (data.secondaryThematicAxis) {
+    //   formData.append('secondaryAxis', data.secondaryThematicAxis)
+    // }
+    // if (data.researchArticle) {
+    //   formData.append('articleId', data.researchArticle)
+    // }
+    // if (data.summary) {
+    //   formData.append('summary', data.summary)
+    // }
+    // if (file) {
+    //   const cleanName = file.name.normalize('NFD').replace(/[̀-ͯ]/g, '') // quita acentos
+    //   const safeFileName = cleanName.replace(/[^a-zA-Z0-9-.]/g, '-')
+    //   const renamedFile = new File([file], safeFileName, {
+    //     type: file.type,
+    //   })
+    //   formData.append('file', renamedFile)
+    // }
+
+    try {
+      const response = await axios.patch(this.getUrl(id), data, {
+        ...Config.defaultConfig,
+        headers: {
+          ...Config.defaultConfig.headers,
+          // 'Content-Type': 'multipart/form-data',
+          Authorization: `Bearer ${localStorage.getItem('token') ?? ''}`,
+        },
+      })
+      if (response.status !== 200) {
+        void Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: 'No se pudo actualizar el informe de práctica',
+        })
+        throw new Error('Failed to update the practice report')
+      }
+      return response.data as PracticeReport
+    } catch (error) {
+      console.error('Error updating article:', error)
+      void Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: 'No se pudo actualizar el informe de práctica',
+      })
+      throw error
+    }
+  }
+
   async create(
     data: Omit<PracticeReportCreate, '_id'>,
   ): Promise<PracticeReport> {
@@ -96,7 +156,6 @@ export class PracticeReportService extends ApiService<PracticeReport> {
     formData.append('primaryThematicAxis', data.primaryThematicAxis)
     formData.append('secondaryThematicAxis', data.secondaryThematicAxis ?? '')
     formData.append('keywords', data.keywords.join(','))
-    formData.append('summary', data.summary)
 
     if (data.researchArticle) {
       formData.append('researchArticle', data.researchArticle)
