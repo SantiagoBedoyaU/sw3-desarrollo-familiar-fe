@@ -71,7 +71,9 @@ const CreateBanner = () => {
 
           <Box
             component="form"
-            onSubmit={handleSubmit(onSubmit)}
+            onSubmit={(e) => {
+              void handleSubmit(onSubmit)(e)
+            }}
             noValidate
             sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}
           >
@@ -90,7 +92,7 @@ const CreateBanner = () => {
               variant="outlined"
               fullWidth
               {...register('eventDate')}
-              InputLabelProps={{ shrink: true }}
+              slotProps={{ inputLabel: { shrink: true } }}
               error={!!errors.eventDate}
               helperText={errors.eventDate?.message}
             />
