@@ -18,7 +18,7 @@ interface PracticeReportState {
   refreshPracticeReports: () => Promise<void>
   addPracticeReport: (practiceReport: Omit<PracticeReportCreate, '_id'>) => Promise<void>
   deletePracticeReport: (_id: string) => Promise<void>
-  editPracticeReport: (_id: string, updatedPracticeReport: PracticeReport) => Promise<void>
+  editPracticeReport: (_id: string, updatedPracticeReport: PracticeReport, file?: File) => Promise<PracticeReport>
   filterPracticeReports: (searchFilters: {
     title: string
     authors: string
@@ -162,19 +162,39 @@ export const usePracticeReportStore = create<PracticeReportState>((set, get) => 
     }
   },
 
-  editPracticeReport: async (_id: string, updatedPracticeReport: PracticeReport) => {
+  editPracticeReport: async (_id: string, updatedPracticeReport: PracticeReport,
+    // file?: File
+  ) => {
     try {
-      await Promise.resolve()
+      const reportData = {
+        _id,
+        title: updatedPracticeReport.title,
+        authors: Array.isArray(updatedPracticeReport.authors) ? updatedPracticeReport.authors.join(',') : updatedPracticeReport.authors,
+        period: updatedPracticeReport.period,
+        keywords: Array.isArray(updatedPracticeReport.keywords) ? updatedPracticeReport.keywords.join(',') : updatedPracticeReport.keywords,
+        institutionId: updatedPracticeReport.institution,
+        primaryThematicAxis: updatedPracticeReport.primaryThematicAxis,
+        secondaryThematicAxis: updatedPracticeReport.secondaryThematicAxis,
+        researchArticle: updatedPracticeReport.researchArticle,
+      }
+
+      const updated = await practiceService.update(_id, reportData,
+        // file
+      )
+
       set((state) => ({
         practiceReports: state.practiceReports.map((report) =>
-          report._id === _id ? { ...updatedPracticeReport } : report,
+          report._id === _id ? { ...updated } : report,
         ),
         topPracticeReports: state.topPracticeReports.map((report) =>
-          report._id === _id ? { ...updatedPracticeReport } : report,
+          report._id === _id ? { ...updated } : report,
         ),
       }))
+
+      return updated
     } catch (error) {
       console.error('Error editing practice report:', error)
+      throw error
     }
   },
 

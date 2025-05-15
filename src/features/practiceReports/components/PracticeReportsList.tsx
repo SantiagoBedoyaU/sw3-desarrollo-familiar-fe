@@ -1,12 +1,13 @@
-import { Download, Edit2, Trash2 } from 'lucide-react'
+import { useEffect, useState } from 'react'
+import { Download, Edit2, FileText, Trash2 } from 'lucide-react'
 import PracticeReport from '../entities/PracticeReport'
 import PracticeReportView from './PracticeReportView'
 import { Modal } from '../../../shared/components/common/modal/Modal'
-import { useEffect, useState } from 'react'
 import { usePracticeReportStore } from '../stores/PracticeReportsStore'
 import downloadPracticeReport from '../utils/AddDownload'
 import useAuthStore from '../../../app/stores/useAuthStore'
 import { getSignIn } from '../../auth/utils/getSignIn'
+import PracticeReportEdit from './PracticeReportEdit'
 
 interface PracticeReportsListProps {
   practiceReports: PracticeReport[]
@@ -16,8 +17,9 @@ function PracticeReportsList({ practiceReports }: Readonly<PracticeReportsListPr
   const [isSubmittingDelete, setIsSubmittingDelete] = useState(false)
   const [isSubmittingDownload, setIsSubmittingDownload] = useState(false)
   const [isDeleteConfirmOpen, setIsDeleteConfirmOpen] = useState(false)
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false)
   const [selectedPracticeReport, setSelectedPracticeReport] = useState<PracticeReport | null>(null)
-  const { deletePracticeReport, editPracticeReport } = usePracticeReportStore()
+  const { deletePracticeReport } = usePracticeReportStore()
   const [updatedPracticeReports, setUpdatedPracticeReports] = useState(practiceReports)
   const { checkAuth } = useAuthStore()
   const [userRole, setUserRole] = useState(false)
@@ -45,8 +47,18 @@ function PracticeReportsList({ practiceReports }: Readonly<PracticeReportsListPr
       className="grid col-span-1 sm:col-span-2 md:col-span-4 md:grid-flow-col justify-center items-center gap-2 sm:gap-6 md:gap-10 border border-blue-200 rounded-lg p-2 sm:p-4 bg-blue-50 h-fit"
     >
       <section className="flex flex-col items-center gap-2 md:gap-4 sm:col-span-2 md:col-span-4">
-        <h3 className="h-fit flex items-center justify-center font-bold text-blue-800 sm:col-span-2 underline text-center text-lg md:text-xl">
-          {report.title}
+        <h3 className="h-fit flex flex-col gap-2 items-center justify-center font-bold text-blue-800 sm:col-span-2 underline text-center text-lg md:text-xl">
+          <span>{report.title}</span>
+          {report.researchArticle && (
+            <span>
+              <span
+                className="ml-2 text-green-600 inline-flex items-center"
+                title="Tiene informe de práctica asociado"
+              >
+                <FileText size={16} />
+              </span>
+            </span>
+          )}
         </h3>
       </section>
 
@@ -82,7 +94,7 @@ function PracticeReportsList({ practiceReports }: Readonly<PracticeReportsListPr
         </section>
       )}
 
-      <section className="grid grid-cols-1 col-span-1 sm:col-span-2 sm:grid-cols-2 justify-center gap-4 text-sm text-gray-600 md:mr-4">
+      <section className="grid grid-cols-1 col-span-1 sm:col-span-2 sm:grid-cols-2 justify-center gap-4 text-sm text-gray-600 md:mr-4 px-4">
         <section className="flex flex-col sm:flex-row md:col-span-4 items-center justify-between md:justify-center gap-2">
           <p>
             {report.counter} vista{report.counter === 1 ? '' : 's'}{' '}
@@ -97,9 +109,10 @@ function PracticeReportsList({ practiceReports }: Readonly<PracticeReportsListPr
           <section className="flex flex-col sm:flex-row md:col-span-4 items-center justify-between md:justify-center gap-2">
             <button
               type="button"
-              onClick={() =>
-                report._id && void editPracticeReport(report._id, report)
-              }
+              onClick={() => {
+                setSelectedPracticeReport(report)
+                setIsEditModalOpen(true)
+              }}
               className="w-full md:w-fit flex items-center justify-center bg-blue-500 hover:bg-blue-600 text-white py-1 px-3 rounded text-sm"
             >
               <Edit2 size={16} className="mr-1" />
@@ -163,6 +176,22 @@ function PracticeReportsList({ practiceReports }: Readonly<PracticeReportsListPr
           </button>
         </section>
       </section>
+
+      {isEditModalOpen && selectedPracticeReport?._id === report._id && (
+        <Modal isOpen={isEditModalOpen} onClose={() => setIsEditModalOpen(false)}>
+          <div className="bg-white rounded-lg p-4 w-full max-w-4xl max-h-screen">
+            <h2 className="text-xl font-bold mb-4">Editar Informe de Práctica</h2>
+            <PracticeReportEdit
+              practiceReport={selectedPracticeReport}
+              onClose={() => {
+                setIsEditModalOpen(false)
+                setSelectedPracticeReport(null)
+              }}
+              setUpdatedPracticeReports={setUpdatedPracticeReports}
+            />
+          </div>
+        </Modal>
+      )}
 
       {/* Delete Confirmation Modal */}
       <Modal

@@ -10,7 +10,6 @@ import { DialogDescription } from '../../../shared/components/common/dialog/Dial
 import Input from '../../../shared/components/common/Input'
 import Label from '../../../shared/components/common/Label'
 import Select from '../../../shared/components/common/Select'
-import TextArea from '../../../shared/components/common/TextArea'
 import { thematicOptions } from '../../../shared/constants/cts'
 import Swal from 'sweetalert2'
 import { usePracticeReportStore } from '../stores/PracticeReportsStore'
@@ -35,7 +34,6 @@ const DEFAULT_ERRORS = {
   period: false,
   authors: false,
   primaryThematicAxis: false,
-  summary: false,
   keywords: false,
   institution: false,
 }
@@ -100,7 +98,6 @@ const PracticeReportForm: React.FC<PracticeReportFormProps> = ({ practiceReport,
       setPeriod(practiceReport.period)
       setChangeableAuthors(practiceReport.authors)
       setChangeableKeywords(practiceReport.keywords)
-      setSummary(practiceReport.summary)
       setPrimaryThematicAxis(practiceReport.primaryThematicAxis)
       setSecondaryThematicAxis(practiceReport.secondaryThematicAxis ?? '')
       setArticleId(practiceReport.researchArticle ?? '')
@@ -170,7 +167,6 @@ const PracticeReportForm: React.FC<PracticeReportFormProps> = ({ practiceReport,
       title: title.trim(),
       period: year.trim(),
       primaryThematicAxis: primaryThematicAxis.trim(),
-      summary: summary.trim(),
       keywords: changeableKeywords,
       authors: changeableAuthors,
       file: file,
@@ -404,20 +400,6 @@ const PracticeReportForm: React.FC<PracticeReportFormProps> = ({ practiceReport,
                 {k} <span className="text-red-500">x</span>
               </button>
             ))}
-          </section>
-
-          <section className="md:space-x-4">
-            <Label htmlFor="summary" error={formErrors.summary} text="Resumen*" />
-            <TextArea
-              required
-              error={formErrors.summary}
-              errorString="El resumen es requerido"
-              placeholder="Ingrese el resumen del informe"
-              id="summary"
-              name="summary"
-              value={summary}
-              onChange={e => setSummary(e.target.value)}
-            />
           </section>
 
           <section className="md:flex md:items-center md:justify-between md:space-x-4">

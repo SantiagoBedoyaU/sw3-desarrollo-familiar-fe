@@ -3,7 +3,6 @@ export default interface PracticeReport {
   title: string
   authors: string[]
   period: string
-  summary: string
   keywords: string[]
   institution: string
   primaryThematicAxis: string
@@ -18,12 +17,23 @@ export default interface PracticeReport {
   changeableAuthors?: string[]
 }
 
+export interface PracticeReportUpdate {
+  _id: string
+  title: string
+  authors: string
+  period: string
+  keywords: string
+  institutionId: string
+  primaryThematicAxis: string
+  secondaryThematicAxis?: string
+  researchArticle?: string
+}
+
 export interface PracticeReportCreate {
   _id?: string
   title: string
   authors: string[]
   period: string
-  summary: string
   keywords: string[]
   institutionId: string
   primaryThematicAxis: string
