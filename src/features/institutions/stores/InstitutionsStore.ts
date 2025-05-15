@@ -92,7 +92,7 @@ export const useInstitutionStore = create<InstitutionState>((set) => ({
       }))
     } catch (error: unknown) {
       console.error('Error updating institution:', error)
-      let errorMessage = 'No se pudo actualizar la institución.'
+      const errorMessage = 'No se pudo actualizar la institución.'
       await Swal.fire({
         icon: 'error',
         title: 'Error',
