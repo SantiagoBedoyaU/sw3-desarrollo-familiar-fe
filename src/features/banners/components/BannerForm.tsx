@@ -1,4 +1,4 @@
-import { useForm } from 'react-hook-form'
+import { useForm, SubmitHandler } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { BannerCreate } from '../entities/Banner'
 import { bannerService } from '../services/BannerService'
@@ -14,7 +14,7 @@ import {
 import * as yup from 'yup'
 import { useState } from 'react'
 
-const schema = yup.object().shape({
+const schema: yup.ObjectSchema<BannerCreate> = yup.object().shape({
   imageUrl: yup
     .string()
     .url('Debe ser una URL válida')
@@ -42,7 +42,7 @@ const CreateBanner = () => {
     resolver: yupResolver(schema),
   })
 
-  const onSubmit = async (data: BannerCreate) => {
+  const onSubmit: SubmitHandler<BannerCreate> = async (data) => {
     try {
       console.log('Enviando datos:', data)
       await bannerService.createBanner(data)
