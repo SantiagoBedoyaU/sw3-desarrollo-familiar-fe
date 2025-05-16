@@ -6,6 +6,7 @@ import PracticeReportsAllList from './components/PracticeReportsAllList'
 import PracticeReportsFilterList from './components/PracticeReportsFilterList'
 import useAuthStore from '../../app/stores/useAuthStore'
 import { getSignIn } from '../auth/utils/getSignIn'
+import { ADMIN_ROLE, TEACHER_ROLE } from '../../shared/constants/cts'
 // import { usePracticeReportStore } from './stores/PracticeReportsStore'
 
 const PracticeReports = () => {
@@ -27,7 +28,7 @@ const PracticeReports = () => {
 
   useEffect(() => {
     const signIn = getSignIn()
-    if (signIn) setUserRole(signIn.userRole === 1 || signIn.userRole === 2)
+    if (signIn) setUserRole(signIn.userRole === ADMIN_ROLE || signIn.userRole === TEACHER_ROLE)
   }, [checkAuth])
 
   const manageCount = useCallback(() => {

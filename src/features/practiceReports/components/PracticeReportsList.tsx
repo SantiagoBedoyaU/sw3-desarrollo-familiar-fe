@@ -8,6 +8,7 @@ import downloadPracticeReport from '../utils/AddDownload'
 import useAuthStore from '../../../app/stores/useAuthStore'
 import { getSignIn } from '../../auth/utils/getSignIn'
 import PracticeReportEdit from './PracticeReportEdit'
+import { ADMIN_ROLE, TEACHER_ROLE } from '../../../shared/constants/cts'
 
 interface PracticeReportsListProps {
   practiceReports: PracticeReport[]
@@ -26,7 +27,7 @@ function PracticeReportsList({ practiceReports }: Readonly<PracticeReportsListPr
 
   useEffect(() => {
     const signIn = getSignIn()
-    if (signIn) setUserRole(signIn.userRole === 1 || signIn.userRole === 2)
+    if (signIn) setUserRole(signIn.userRole === ADMIN_ROLE || signIn.userRole === TEACHER_ROLE)
   }, [checkAuth])
 
   const fromListDownload = async (report: PracticeReport) => {

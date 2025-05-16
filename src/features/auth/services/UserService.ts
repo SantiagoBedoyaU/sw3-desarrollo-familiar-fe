@@ -31,5 +31,20 @@ export class UserService extends ApiService<User> {
     })
     return response.data
   }
+
+  async update(id: string, user: User): Promise<User> {
+    const headers = {
+      ...Config.defaultConfig.headers,
+      Authorization: `Bearer ${localStorage.getItem('token') ?? ''}`,
+    }
+    console.log('====================================')
+    console.log('headers', headers)
+    console.log('====================================')
+
+    const response = await axios.patch<User>(`${this.getUrl()}/${id}`, user, {
+      headers,
+    })
+    return response.data
+  }
 }
 export const userService = new UserService()

@@ -6,6 +6,7 @@ import { Modal } from '../../../shared/components/common/modal/Modal'
 import MaterialForm from './MaterialForm'
 import useAuthStore from '../../../app/stores/useAuthStore'
 import { getSignIn } from '../../auth/utils/getSignIn'
+import { ADMIN_ROLE, STUDENT_ROLE, TEACHER_ROLE } from '../../../shared/constants/cts'
 
 const ToolboxPage = () => {
   const {
@@ -32,7 +33,7 @@ const ToolboxPage = () => {
   }, [checkAuth])
 
   // Determinar si el usuario puede subir material (admin, docente o estudiante)
-  const canUpload = userRole === 1 || userRole === 2 || userRole === 3 // 1: admin, 2: docente, 3: estudiante
+  const canUpload = userRole === ADMIN_ROLE || userRole === TEACHER_ROLE || userRole === STUDENT_ROLE
 
   // Determinar qué materiales mostrar (filtrados o todos)
   const materialsToShow = filteredMaterials.length > 0 ? filteredMaterials : materials

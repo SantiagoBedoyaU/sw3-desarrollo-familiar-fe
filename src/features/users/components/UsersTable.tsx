@@ -5,6 +5,9 @@ import User from '../entities/User'
 import { userService } from '../../auth/services/UserService'
 import Swal from 'sweetalert2'
 import { getSignIn } from '../../auth/utils/getSignIn'
+import useAuthStore from '../../../app/stores/useAuthStore'
+import EditUserForm from './EditUserForm'
+import { ADMIN_ROLE } from '../../../shared/constants/cts'
 
 const headersTable = ['Nombre', 'Email', 'Rol', 'Acciones']
 
@@ -18,23 +21,33 @@ const fetchUsers = async () => {
 export default function UsersTable() {
   const [selectedUser, setSelectedUser] = useState<User>({} as User)
   const [users, setUsers] = useState<User[]>([])
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false)
   const [isDeleteConfirmOpen, setIsDeleteConfirmOpen] = useState(false)
+  const [userRole, setUserRole] = useState(false)
+  const { checkAuth } = useAuthStore()
 
   useEffect(() => {
-    fetchUsers()
-      .then((data) => {
-        setUsers(data)
-      })
-      .catch((error: unknown) => {
-        console.error('Error al cargar los usuarios', error)
-        setUsers([])
-        alert('Error al cargar los usuarios')
-      })
-  }, [])
+    const signIn = getSignIn()
+    setUserRole(signIn?.userRole === ADMIN_ROLE)
+  }, [checkAuth])
+
+  useEffect(() => {
+    if (userRole) {
+      fetchUsers()
+        .then((data) => {
+          setUsers(data)
+        })
+        .catch((error: unknown) => {
+          console.error('Error al cargar los usuarios', error)
+          setUsers([])
+          alert('Error al cargar los usuarios')
+        })
+    }
+  }, [userRole, setUserRole])
 
   const handleDelete = (_id: string) => {
     const signIn = getSignIn()
-    if (signIn?.userRole === 1) {
+    if (signIn?.userRole === ADMIN_ROLE) {
       userService
         .delete(_id)
         .then(() => {
@@ -82,7 +95,12 @@ export default function UsersTable() {
               <td className="px-6 py-4 whitespace-nowrap">{user.role}</td>
               {/* Dropdown Menu for Actions */}
               <td className="px-6 py-4 whitespace-nowrap flex md:flex-row items-center justify-center gap-2">
-                <button className="w-full md:w-fit flex items-center justify-center bg-blue-500 hover:bg-blue-600 text-white py-1 px-3 rounded text-sm">
+                <button className="w-full md:w-fit flex items-center justify-center bg-blue-500 hover:bg-blue-600 text-white py-1 px-3 rounded text-sm"
+                  onClick={() => {
+                    setIsEditModalOpen(true)
+                    setSelectedUser(user)
+                  }}
+                >
                   <Pencil className="mr-2 h-4 w-4" />
                   <p>Editar</p>
                 </button>
@@ -98,6 +116,14 @@ export default function UsersTable() {
           ))}
         </tbody>
       </table>
+      <Modal isOpen={isEditModalOpen} onClose={() => setIsEditModalOpen(false)}>
+        <h2 className="text-xl font-semibold mb-4">Editar Usuario</h2>
+        <EditUserForm
+          user={selectedUser}
+          signIn={getSignIn()}
+          close={setIsEditModalOpen}
+        />
+      </Modal>
       {/* Delete Confirmation Modal */}
       <Modal
         isOpen={isDeleteConfirmOpen}

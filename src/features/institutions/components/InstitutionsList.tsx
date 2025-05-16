@@ -5,6 +5,7 @@ import { Modal } from '../../../shared/components/common/modal/Modal'
 import InstitutionEditForm from './InstitutionEditForm'
 import useAuthStore from '../../../app/stores/useAuthStore'
 import { getSignIn } from '../../auth/utils/getSignIn'
+import { ADMIN_ROLE, TEACHER_ROLE } from '../../../shared/constants/cts'
 
 interface Props {
   institutions: Institution[]
@@ -22,7 +23,7 @@ const InstitutionsList = ({ institutions }: Props) => {
     if (signIn?.userRole) setUserRole(signIn.userRole)
   }, [checkAuth])
 
-  const canManage = userRole === 1 || userRole === 2 // 1: admin, 2: docente
+  const canManage = userRole === ADMIN_ROLE || userRole === TEACHER_ROLE
 
   const handleEditClick = (institution: Institution) => {
     setSelectedInstitution(institution)

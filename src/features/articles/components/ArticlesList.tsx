@@ -8,6 +8,7 @@ import downloadArticle from '../utils/AddDownload'
 import useAuthStore from '../../../app/stores/useAuthStore'
 import ArticleEdit from './ArticleEdit'
 import { getSignIn } from '../../auth/utils/getSignIn'
+import { ADMIN_ROLE, TEACHER_ROLE } from '../../../shared/constants/cts'
 
 interface ArticlesListProps {
   articles: Article[]
@@ -25,7 +26,7 @@ function ArticlesList({ articles }: Readonly<ArticlesListProps>) {
   const [userRole, setUserRole] = useState(false)
   useEffect(() => {
     const signIn = getSignIn()
-    setUserRole(signIn?.userRole === 1 || signIn?.userRole === 2)
+    setUserRole(signIn?.userRole === ADMIN_ROLE || signIn?.userRole === TEACHER_ROLE)
   }, [checkAuth])
 
   const fromListDownload = async (article: Article) => {

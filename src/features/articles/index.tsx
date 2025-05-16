@@ -6,6 +6,7 @@ import ArticlesAllList from './components/ArticlesAllList'
 import ArticlesFilterList from './components/ArticlesFilterList'
 import useAuthStore from '../../app/stores/useAuthStore'
 import { getSignIn } from '../auth/utils/getSignIn'
+import { ADMIN_ROLE, TEACHER_ROLE } from '../../shared/constants/cts'
 
 const Articles = () => {
   const { checkAuth } = useAuthStore()
@@ -22,7 +23,7 @@ const Articles = () => {
 
   useEffect(() => {
     const signIn = getSignIn()
-    setUserRole(signIn?.userRole === 1 || signIn?.userRole === 2)
+    setUserRole(signIn?.userRole === ADMIN_ROLE || signIn?.userRole === TEACHER_ROLE)
   }, [checkAuth])
 
   // Memoiza manageCount para evitar warning en useEffect

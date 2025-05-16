@@ -15,6 +15,7 @@ import Article from '../../articles/entities/Article'
 import PracticeReportEdit from './PracticeReportEdit'
 import { Modal } from '../../../shared/components/common/modal/Modal'
 import { getSignIn } from '../../auth/utils/getSignIn'
+import { ADMIN_ROLE, TEACHER_ROLE } from '../../../shared/constants/cts'
 
 interface PracticeReportViewProps {
   practiceReport: PracticeReport
@@ -106,7 +107,7 @@ const PracticeReportView: React.FC<PracticeReportViewProps> = ({
   }
 
   // Verifica si el usuario puede editar (administrador o docente)
-  const canEdit = userRole === 1 || userRole === 2
+  const canEdit = userRole === ADMIN_ROLE || userRole === TEACHER_ROLE
 
   return (
     <>

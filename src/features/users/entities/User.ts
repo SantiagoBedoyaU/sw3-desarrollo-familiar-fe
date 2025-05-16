@@ -4,6 +4,7 @@ export default interface User {
   email: string
   password: string
   role: number
+  status?: number
   __v: number
 }
 
