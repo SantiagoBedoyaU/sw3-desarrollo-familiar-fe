@@ -32,11 +32,9 @@ const EditUserForm: React.FC<EditUserFormProps> = ({ user, signIn, close }) => {
 
 
   useEffect(() => {
-    if (user) {
-      setFormData({
-        ...user
-      })
-    }
+    setFormData({
+      ...user
+    })
   }, [user])
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -213,11 +211,6 @@ const EditUserForm: React.FC<EditUserFormProps> = ({ user, signIn, close }) => {
         </section>
         <section className="pt-4">
           <button
-            onClick={() => {
-              console.log('====================================');
-              console.log("entro");
-              console.log('====================================');
-            }}
             type="submit"
             className="w-full py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
             disabled={isSubmitting}

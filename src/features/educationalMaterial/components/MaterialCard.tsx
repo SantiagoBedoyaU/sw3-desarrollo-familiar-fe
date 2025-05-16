@@ -123,14 +123,11 @@ const MaterialCard = ({ material, setUpdatedMaterials }: MaterialCardProps) => {
         </div>
 
         <div className="flex flex-col gap-2">
-          {/* Botón de descarga o visita */}
           <button
             onClick={() => void handleDownload()}
             disabled={isLoading}
-            className={`w-full flex items-center justify-center gap-2 px-4 py-2 rounded ${material.type === EducationalMaterialType.Resource
-              ? 'bg-purple-600 hover:bg-purple-700 text-white'
-              : 'bg-blue-600 hover:bg-blue-700 text-white'
-              } transition-colors duration-300`}
+            className={`w-full flex items-center justify-center gap-2 px-4 py-2 rounded
+              ${material.type === EducationalMaterialType.Resource ? 'bg-purple-600 hover:bg-purple-700 text-white' : 'bg-blue-600 hover:bg-blue-700 text-white'} transition-colors duration-300`}
           >
             {isLoading && (
               <span className="animate-spin rounded-full h-4 w-4 border-t-2 border-b-2 border-white"></span>
