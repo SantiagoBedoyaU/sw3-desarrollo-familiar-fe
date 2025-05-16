@@ -114,7 +114,7 @@ function Login() {
                 <input
                   autoComplete="current-password"
                   minLength={8}
-                  pattern="[a-zA-Z0-9!@#$%^&*]{8,20}"
+                  pattern="*"
                   title="La contraseña debe tener entre 8 y 20 caracteres y puede incluir letras, números y símbolos especiales."
                   value={formData.password}
                   onChange={handleChangeForm}
