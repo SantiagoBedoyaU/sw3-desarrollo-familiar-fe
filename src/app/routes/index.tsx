@@ -11,17 +11,16 @@ import Institutions from '../../features/institutions'
 import PracticeReports from '../../features/practiceReports'
 import { ToolboxPage } from '../../features/educationalMaterial'
 
-// Módulo de banners
-import BannerCreate from '../../features/banners'
-import HistoricPublicView from '../../features/banners/pages/HistoricPublicView'
-import HistoricAdminView from '../../features/banners/pages/HistoricAdminView'
-// import HistoricPrivateView from '../../features/banners/pages/HistoricPrivateView' // (próximamente)
-
 import {
   ADMIN_ROLE,
   STUDENT_ROLE,
   TEACHER_ROLE,
 } from '../../shared/constants/cts'
+
+import BannerCreate from '../../features/banners'
+import HistoricPublicView from '../../features/banners/pages/HistoricPublicView'
+import HistoricAdminView from '../../features/banners/pages/HistoricAdminView'
+import { RecoveryPasswordForm, ResetPasswordForm } from '../../features/auth'
 
 const AppRoutes = () => {
   return (
@@ -40,9 +39,8 @@ const AppRoutes = () => {
       />
       <Route
         path="/usuarios"
-        element={
-          <PrivateRoute element={<Users />} requiredRoles={[ADMIN_ROLE]} />
-        }
+
+        element={<PrivateRoute element={<Users />} requiredRoles={[ADMIN_ROLE, TEACHER_ROLE]} />}
       />
       <Route
         path="/dashboard"
@@ -76,6 +74,8 @@ const AppRoutes = () => {
 
       <Route path="/caja-de-herramientas" element={<ToolboxPage />} />
       <Route path="/login" element={<Login />} />
+      <Route path="/recuperar-contraseña" element={<RecoveryPasswordForm />} />
+      <Route path="/restablecer-contraseña" element={<ResetPasswordForm />} />
       <Route path="*" element={<NotFound />} />
     </Routes>
   )
