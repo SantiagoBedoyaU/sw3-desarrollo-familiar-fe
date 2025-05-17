@@ -127,16 +127,19 @@ function Login() {
                 />
               </section>
               {/* <section className="flex items-center justify-between">
-                  <section className="flex items-start">
-                    <section className="flex items-center h-5">
-                      <input id="remember" aria-describedby="remember" type="checkbox" className="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-primary-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-primary-600 dark:ring-offset-gray-800" required />
-                    </section>
-                    <section className="ml-3 text-sm">
-                      <label htmlFor="remember" className="text-gray-500 dark:text-gray-300">Remember me</label>
-                    </section>
+                <section className="flex items-start">
+                  <section className="flex items-center h-5">
+                    <input id="remember" aria-describedby="remember" type="checkbox" className="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-primary-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-primary-600 dark:ring-offset-gray-800" required />
                   </section>
-                  <a href="#" className="text-sm font-medium text-primary-600 hover:underline dark:text-primary-500">¿Olvidaste tu contraseña?</a>
-                </section> */}
+                  <section className="ml-3 text-sm">
+                    <label htmlFor="remember" className="text-gray-500 dark:text-gray-300">Remember me</label>
+                  </section>
+                </section>
+              </section> */}
+
+              <section className="flex items-center justify-between">
+                <a href="recuperar-contraseña" className="text-sm font-medium text-primary-600 hover:underline dark:text-primary-500">¿Olvidaste tu contraseña?</a>
+              </section>
               <button
                 type="submit"
                 className="w-full  bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center p-4 bg-gray-800 dark:bg-blue-600 hover:bg-gray-700 dark:hover:bg-blue-500 text-white  uppercase  cursor-pointer transition dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
@@ -155,6 +158,9 @@ function Login() {
                   )}
                 </p>
               </button>
+              <section className="flex items-center justify-between">
+                <a href="/restablecer-contraseña" className="text-sm font-medium text-primary-600 hover:underline dark:text-primary-500">Restablece tu contraseña con el código enviado a tu correo</a>
+              </section>
               <p className="text-sm font-normal text-gray-500 dark:text-gray-400">
                 ¿Eres nuevo?{' '}
                 <a href="/registrarse" className="text-blue-600 underline">
