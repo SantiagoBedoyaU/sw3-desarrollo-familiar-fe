@@ -86,13 +86,6 @@ const NavbarMobile: React.FC<NavbarMobileProps> = ({ open, setOpen }) => {
               <LogIn className="h-5 w-5" />
               Iniciar Sesión
             </a>
-            <a
-              href="/registrarse"
-              className="flex items-center gap-2 px-2 py-2 text-sm hover:bg-[#dceffc]"
-            >
-              <CircleUserRound className="h-5 w-5" />
-              Registrarse
-            </a>
           </>
         )}
       </section>

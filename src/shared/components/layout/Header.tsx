@@ -36,7 +36,7 @@ function Header() {
         {/* Auth options */}
         <section className="hidden md:flex items-center gap-3 ">
           {isAuthenticated ? (
-            <section className='flex items-center gap-3'>
+            <section className="flex items-center gap-3">
               <a
                 href="/perfil"
                 className="flex items-center gap-1 hover:underline"
@@ -61,13 +61,6 @@ function Header() {
               >
                 <LogIn className="h-5 w-5" />
                 Iniciar Sesión
-              </a>
-              <a
-                href="/registrarse"
-                className="flex items-center gap-1 hover:underline"
-              >
-                <CircleUserRound className="h-5 w-5" />
-                Registrarse
               </a>
             </section>
           )}

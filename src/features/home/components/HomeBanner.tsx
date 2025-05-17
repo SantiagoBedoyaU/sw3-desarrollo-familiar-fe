@@ -11,9 +11,15 @@ interface Banner {
   externalLink?: string
 }
 
+interface SignInData {
+  userRole: number
+  // otros campos si los necesitas
+}
+
 const HomeBanner = () => {
   const [banners, setBanners] = useState<Banner[]>([])
   const [currentIndex, setCurrentIndex] = useState(0)
+  const [userRole, setUserRole] = useState<number | null>(null)
   const { isAuthenticated } = useAuthStore()
   const sliderRef = useRef<HTMLDivElement>(null)
 
@@ -27,6 +33,19 @@ const HomeBanner = () => {
       }
     }
     void fetchBanners()
+  }, [])
+
+  useEffect(() => {
+    const signInString = localStorage.getItem('signIn')
+    try {
+      const signIn: SignInData | null = signInString
+        ? (JSON.parse(signInString) as SignInData)
+        : null
+      setUserRole(signIn?.userRole ?? null)
+    } catch (error) {
+      console.error('Error al parsear el signIn:', error)
+      setUserRole(null)
+    }
   }, [])
 
   useEffect(() => {
@@ -102,12 +121,14 @@ const HomeBanner = () => {
         {banners.length > 1 && (
           <>
             <button
+              type="button"
               onClick={handlePrev}
               className="absolute top-1/2 left-3 transform -translate-y-1/2 bg-white shadow p-1 rounded-full hover:bg-gray-100"
             >
               <ChevronLeft size={24} />
             </button>
             <button
+              type="button"
               onClick={handleNext}
               className="absolute top-1/2 right-3 transform -translate-y-1/2 bg-white shadow p-1 rounded-full hover:bg-gray-100"
             >
@@ -120,6 +141,7 @@ const HomeBanner = () => {
       <div className="flex justify-center gap-4 mt-6 flex-wrap">
         {isAuthenticated && (
           <Button
+            type="button"
             onClick={() => (window.location.href = '/banners/create')}
             className="bg-[#5395c1]"
           >
@@ -127,7 +149,13 @@ const HomeBanner = () => {
           </Button>
         )}
         <Button
-          onClick={() => (window.location.href = '/banners/history')}
+          type="button"
+          onClick={() =>
+            (window.location.href =
+              userRole === 1 || userRole === 2
+                ? '/banners/history'
+                : '/banners/history_public')
+          }
           className="bg-[#5395c1]"
         >
           Ver histórico
