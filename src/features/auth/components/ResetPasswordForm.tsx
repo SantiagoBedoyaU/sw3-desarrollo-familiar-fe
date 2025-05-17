@@ -18,7 +18,6 @@ const ResetPasswordForm: React.FC = () => {
   const [isSuccess, setIsSuccess] = useState(false)
   const [error, setError] = useState('')
   const [seePassword, setSeePassword] = useState(false)
-  const [seeConfirmPassword, setSeeConfirmPassword] = useState(false)
   const navigate = useNavigate()
 
   const password = watch('newPassword')
