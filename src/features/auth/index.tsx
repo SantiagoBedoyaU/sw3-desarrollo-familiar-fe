@@ -1,6 +1,5 @@
 // Pages
 export { default as Login } from './pages/Login'
-export { default as Register } from './pages/Register'
 export { default as RecoveryPassword } from './pages/RecoveryPassword'
 export { default as ResetPassword } from './pages/ResetPassword'
 
