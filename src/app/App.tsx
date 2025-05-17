@@ -21,9 +21,9 @@ function App() {
         {isAuthPage ? (
           <AppRoutes />
         ) : (
-          <section className="flex flex-col min-h-screen w-screen">
+          <section className="bg-blue-50 flex flex-col min-h-screen w-screen">
             <Header />
-            <main className="flex-1">
+            <main className="flex-1 py-2">
               <AppRoutes />
             </main>
             <footer className="bg-blue-200 h-10">

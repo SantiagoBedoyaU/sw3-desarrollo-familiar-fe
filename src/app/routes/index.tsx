@@ -15,6 +15,7 @@ import { ToolboxPage } from '../../features/educationalMaterial'
 // Módulo de banners
 import BannerCreate from '../../features/banners' // index.tsx con formulario
 import { ADMIN_ROLE, TEACHER_ROLE } from '../../shared/constants/cts'
+import { RecoveryPasswordForm, ResetPasswordForm } from '../../features/auth'
 // import BannerHistory from '../../features/banners/pages/BannerHistory' (a futuro)
 
 const AppRoutes = () => {
@@ -31,7 +32,7 @@ const AppRoutes = () => {
       />
       <Route
         path="/usuarios"
-        element={<PrivateRoute element={<Users />} requiredRoles={[ADMIN_ROLE]} />}
+        element={<PrivateRoute element={<Users />} requiredRoles={[ADMIN_ROLE, TEACHER_ROLE]} />}
       />
       <Route
         path="/dashboard"
@@ -55,6 +56,8 @@ const AppRoutes = () => {
       <Route path="/caja-de-herramientas" element={<ToolboxPage />} />
       <Route path="/registrarse" element={<Register />} />
       <Route path="/login" element={<Login />} />
+      <Route path="/recuperar-contraseña" element={<RecoveryPasswordForm />} />
+      <Route path="/restablecer-contraseña" element={<ResetPasswordForm />} />
       <Route path="*" element={<NotFound />} />
     </Routes>
   )
