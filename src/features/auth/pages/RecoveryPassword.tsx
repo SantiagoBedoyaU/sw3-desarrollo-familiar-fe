@@ -1,5 +1,5 @@
-import React from 'react';
-import RecoveryPasswordForm from '../components/RecoveryPasswordForm';
+import React from 'react'
+import RecoveryPasswordForm from '../components/RecoveryPasswordForm'
 
 const RecoveryPassword: React.FC = () => {
   return (
@@ -8,7 +8,7 @@ const RecoveryPassword: React.FC = () => {
         <RecoveryPasswordForm />
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default RecoveryPassword;
+export default RecoveryPassword

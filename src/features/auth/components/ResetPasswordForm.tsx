@@ -1,54 +1,57 @@
-import React, { useState } from 'react';
-import { useForm, SubmitHandler } from 'react-hook-form';
-import { authService } from '../services/AuthService';
-import Swal from 'sweetalert2';
-import { useNavigate } from 'react-router-dom';
+import React, { useState } from 'react'
+import { useForm, SubmitHandler } from 'react-hook-form'
+import { authService } from '../services/AuthService'
+import Swal from 'sweetalert2'
+import { useNavigate } from 'react-router-dom'
+import { checkBackendMessage } from '../utils/checkBackendMessage'
+import { EyeIcon, LockIcon } from 'lucide-react'
 
-type ResetPasswordFormInputs = {
+interface ResetPasswordFormInputs {
   code: string;
   newPassword: string;
   confirmPassword: string;
-};
+}
 
 const ResetPasswordForm: React.FC = () => {
-  const { register, handleSubmit, formState: { errors }, watch } = useForm<ResetPasswordFormInputs>();
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [isSuccess, setIsSuccess] = useState(false);
-  const [error, setError] = useState('');
-  let navigate = useNavigate();
+  const { register, handleSubmit, formState: { errors }, watch } = useForm<ResetPasswordFormInputs>()
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [isSuccess, setIsSuccess] = useState(false)
+  const [error, setError] = useState('')
+  const [seePassword, setSeePassword] = useState(false)
+  const [seeConfirmPassword, setSeeConfirmPassword] = useState(false)
+  const navigate = useNavigate()
 
-  const password = watch('newPassword');
+  const password = watch('newPassword')
 
   const onSubmit: SubmitHandler<ResetPasswordFormInputs> = async (data) => {
-    setIsSubmitting(true);
-    setError('');
+    setIsSubmitting(true)
+    setError('')
 
     try {
       await authService.resetPassword({
         code: data.code,
         newPassword: data.newPassword
-      });
-      setIsSuccess(true);
-      navigate('/login');
+      })
+      setIsSuccess(true)
+      await navigate('/login')
     } catch (err: unknown) {
-      if (err instanceof Error && err.message) {
-        setError(`Ha ocurrido un error: ${err.message}`);
+      const backendMessage = checkBackendMessage(err)
+      if (backendMessage) {
+        setError(`Ha ocurrido un error: ${backendMessage}`)
         void Swal.fire({
           icon: 'error',
           title: 'Error',
-          text: err.message,
+          text: backendMessage,
           confirmButtonText: 'Aceptar',
-        });
+        })
       } else {
-        setError('Ha ocurrido un error al restablecer la contraseña. Por favor, inténtalo de nuevo.');
+        setError('Ha ocurrido un error al restablecer la contraseña. Por favor, inténtalo de nuevo.')
       }
-      console.error('Error al restablecer la contraseña:', err);
-
-      navigate('/login');
+      console.error('Error al restablecer la contraseña:', err)
     } finally {
       setIsSubmitting(false)
     }
-  };
+  }
 
   if (isSuccess) {
     return (
@@ -65,7 +68,7 @@ const ResetPasswordForm: React.FC = () => {
           Ir al inicio de sesión
         </a>
       </div>
-    );
+    )
   }
 
   return (
@@ -81,7 +84,10 @@ const ResetPasswordForm: React.FC = () => {
         </div>
       )}
 
-      <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+      <form
+        onSubmit={(e) => { void handleSubmit(onSubmit)(e) }}
+        className="space-y-6"
+      >
         <div>
           <label htmlFor="code" className="block text-sm font-medium text-gray-700 mb-1">
             Código de verificación
@@ -107,12 +113,22 @@ const ResetPasswordForm: React.FC = () => {
         </div>
 
         <div>
-          <label htmlFor="newPassword" className="block text-sm font-medium text-gray-700 mb-1">
-            Nueva contraseña
+          <label htmlFor="newPassword" className="relative block text-sm font-medium text-gray-700 mb-1">
+            <span>
+              Nueva contraseña
+            </span>
+            <button
+              type="button"
+              onClick={() => setSeePassword(!seePassword)}
+              className="absolute right-3 top-1/2 transform -translate-y-1/2"
+            >
+              {seePassword ? <EyeIcon size={20} /> : <LockIcon size={20} />}
+            </button>
+
           </label>
           <input
             id="newPassword"
-            type="password"
+            type={seePassword ? 'text' : 'password'}
             {...register('newPassword', {
               required: 'La nueva contraseña es obligatoria',
               minLength: {
@@ -131,12 +147,21 @@ const ResetPasswordForm: React.FC = () => {
         </div>
 
         <div>
-          <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-700 mb-1">
-            Confirmar contraseña
+          <label htmlFor="confirmPassword" className="relative block text-sm font-medium text-gray-700 mb-1">
+            <span>
+              Confirmar contraseña
+            </span>
+            <button
+              type="button"
+              onClick={() => setSeePassword(!seePassword)}
+              className="absolute right-3 top-1/2 transform -translate-y-1/2"
+            >
+              {seePassword ? <EyeIcon size={20} /> : <LockIcon size={20} />}
+            </button>
           </label>
           <input
             id="confirmPassword"
-            type="password"
+            type={seePassword ? 'text' : 'password'}
             {...register('confirmPassword', {
               required: 'Debes confirmar la contraseña',
               validate: value => value === password || 'Las contraseñas no coinciden',
@@ -169,7 +194,7 @@ const ResetPasswordForm: React.FC = () => {
         </div>
       </form>
     </div>
-  );
-};
+  )
+}
 
-export default ResetPasswordForm;
+export default ResetPasswordForm

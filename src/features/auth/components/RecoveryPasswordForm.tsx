@@ -1,75 +1,50 @@
-import React, { useState } from 'react';
-import { useForm, SubmitHandler } from 'react-hook-form';
-import { authService } from '../services/AuthService';
-import Swal from 'sweetalert2';
-import { useNavigate } from 'react-router-dom';
+import React, { useState } from 'react'
+import { useForm, SubmitHandler } from 'react-hook-form'
+import { authService } from '../services/AuthService'
+import Swal from 'sweetalert2'
+import { useNavigate } from 'react-router-dom'
+import { checkBackendMessage } from '../utils/checkBackendMessage'
 
-type RecoveryPasswordFormInputs = {
+interface RecoveryPasswordFormInputs {
   email: string;
-};
-
-const checkBackendMessage = (err: unknown): string | null => {
-  if (
-    typeof err === 'object' &&
-    err !== null &&
-    'response' in err &&
-    typeof err.response === 'object' &&
-    err.response !== null &&
-    'data' in err.response &&
-    typeof err.response.data === 'object' &&
-    err.response.data !== null &&
-    'message' in err.response.data
-  ) {
-    const msg = err.response.data.message;
-    return typeof msg === 'string' ? msg : JSON.stringify(msg);
-  }
-  if (typeof err === 'object' && err !== null && 'message' in err) {
-    const msg = err.message;
-    return typeof msg === 'string' ? msg : JSON.stringify(msg);
-  }
-  if (typeof err === 'string') {
-    return err;
-  }
-  return null;
-};
+}
 
 const RecoveryPasswordForm: React.FC = () => {
-  const { register, handleSubmit, formState: { errors } } = useForm<RecoveryPasswordFormInputs>();
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [isSuccess, setIsSuccess] = useState(false);
-  const [error, setError] = useState('');
-  let navigate = useNavigate();
+  const { register, handleSubmit, formState: { errors } } = useForm<RecoveryPasswordFormInputs>()
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [isSuccess, setIsSuccess] = useState(false)
+  const [error, setError] = useState('')
+  const navigate = useNavigate()
 
 
   const onSubmit: SubmitHandler<RecoveryPasswordFormInputs> = async (data) => {
-    setIsSubmitting(true);
-    setError('');
+    setIsSubmitting(true)
+    setError('')
 
     try {
-      await authService.sendPasswordRecoveryEmail(data.email);
+      await authService.sendPasswordRecoveryEmail(data.email)
 
-      setIsSuccess(true);
-      navigate('/restablecer-contraseña');
+      setIsSuccess(true)
+      await navigate('/restablecer-contraseña')
     } catch (err: unknown) {
-      console.error('Error al enviar el correo de recuperación:', err);
-      const backendMessage = checkBackendMessage(err);
+      console.error('Error al enviar el correo de recuperación:', err)
+      const backendMessage = checkBackendMessage(err)
       if (backendMessage) {
-        setError(`Ha ocurrido un error: ${backendMessage}`);
+        setError(`Ha ocurrido un error: ${backendMessage}`)
         void Swal.fire({
           icon: 'error',
           title: 'Error',
           text: backendMessage,
           confirmButtonText: 'Aceptar',
-        });
+        })
       } else {
-        setError('Ha ocurrido un error inesperado. Por favor, inténtalo de nuevo.');
+        setError('Ha ocurrido un error inesperado. Por favor, inténtalo de nuevo.')
       }
-      navigate('/restablecer-contraseña');
 
     } finally {
-      setIsSubmitting(false);
+      setIsSubmitting(false)
     }
-  };
+  }
 
   if (isSuccess) {
     return (
@@ -86,7 +61,7 @@ const RecoveryPasswordForm: React.FC = () => {
           Volver al inicio de sesión
         </a>
       </div>
-    );
+    )
   }
 
   return (
@@ -102,7 +77,9 @@ const RecoveryPasswordForm: React.FC = () => {
         </div>
       )}
 
-      <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+      <form onSubmit={
+        (e) => { void handleSubmit(onSubmit)(e) }
+      } className="space-y-6">
         <div>
           <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
             Correo Electrónico
@@ -150,7 +127,7 @@ const RecoveryPasswordForm: React.FC = () => {
         </div>
       </form>
     </div>
-  );
-};
+  )
+}
 
-export default RecoveryPasswordForm;
+export default RecoveryPasswordForm

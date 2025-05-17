@@ -1,5 +1,5 @@
-import React from 'react';
-import ResetPasswordForm from '../components/ResetPasswordForm';
+import React from 'react'
+import ResetPasswordForm from '../components/ResetPasswordForm'
 
 const ResetPassword: React.FC = () => {
   return (
@@ -8,7 +8,7 @@ const ResetPassword: React.FC = () => {
         <ResetPasswordForm />
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default ResetPassword;
+export default ResetPassword
