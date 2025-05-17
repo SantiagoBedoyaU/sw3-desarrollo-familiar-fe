@@ -276,6 +276,79 @@ export class ApiService<T> {
       return this.handleError(error, `Error al crear ${this.entityName}`)
     }
   }
+  async getPublic<R>(
+    path: string,
+    queryParams?: Record<string, string | number | boolean>,
+  ): Promise<R> {
+    try {
+      const headers = {
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+      }
+
+      return await this.handleResponse<R>(
+        axios.get(`${Config.LOGIC_URL}${path}`, {
+          headers,
+          params: queryParams,
+        }),
+      )
+    } catch (error) {
+      return this.handleError(error, `Error al obtener ${this.entityName}`)
+    }
+  }
+
+  /**
+   * Obtiene datos protegidos con token
+   * @param path - Ruta relativa (ej. 'posts')
+   * @param queryParams - Parámetros opcionales
+   * @returns Datos obtenidos
+   */
+  async getPrivate<R>(
+    path = '',
+    queryParams?: Record<string, string | number | boolean>,
+  ): Promise<R> {
+    try {
+      const headers = Object.assign(DEFAULT_CONFIG.headers ?? {}, {
+        Authorization: `Bearer ${localStorage.getItem('token') ?? ''}`,
+      })
+
+      return await this.handleResponse<R>(
+        axios.get(
+          path ? this.getUrl(path) : this.getUrl(), // ✅ Corrige path vacío
+          {
+            headers,
+            params: queryParams,
+          },
+        ),
+      )
+    } catch (error) {
+      return this.handleError(error, `Error al obtener ${this.entityName}`)
+    }
+  }
+
+  /**
+   * Actualiza parcialmente un recurso (PATCH)
+   * @param path - Ruta específica del recurso
+   * @param data - Datos parciales a actualizar
+   * @returns Resultado del servidor
+   */
+  async patch<R = { message: string }>(
+    path: string,
+    data: Partial<T>,
+  ): Promise<R> {
+    try {
+      const headers = Object.assign(DEFAULT_CONFIG.headers ?? {}, {
+        Authorization: `Bearer ${localStorage.getItem('token') ?? ''}`,
+      })
+
+      return await this.handleResponse<R>(
+        axios.patch(this.getUrl(path), data, { headers }),
+        `${this.entityName} actualizado correctamente`,
+      )
+    } catch (error) {
+      return this.handleError(error, `Error al actualizar ${this.entityName}`)
+    }
+  }
 
   async getAllCustom(path = ''): Promise<ResponseEntity<T>> {
     try {
