@@ -107,9 +107,7 @@ const RecoveryPasswordForm: React.FC = () => {
         <button
           type="submit"
           className={`w-full py-2 px-4 rounded-md text-white font-medium focus:outline-none focus:ring-2 focus:ring-offset-2
-            ${isSubmitting
-              ? 'bg-blue-400 cursor-not-allowed'
-              : 'bg-blue-600 hover:bg-blue-700 focus:ring-blue-500'}`}
+            ${isSubmitting ? 'bg-blue-400 cursor-not-allowed' : 'bg-blue-600 hover:bg-blue-700 focus:ring-blue-500'}`}
           disabled={isSubmitting}
         >
           {isSubmitting ? 'Enviando...' : 'Enviar código de recuperación'}
